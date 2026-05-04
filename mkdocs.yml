@@ -1,0 +1,67 @@
+site_name: vswarehouse
+site_description: Python and R clients for the vs-warehouse statistical data API
+site_url: https://phildonovan.github.io/vswarehouse-docs
+repo_url: https://github.com/phildonovan/vswarehouse-python
+repo_name: vswarehouse-python
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: blue
+    accent: blue
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - content.code.annotate
+
+nav:
+  - Home: index.md
+  - Getting started: quickstart.md
+  - Python:
+    - Overview: python/index.md
+    - API reference: python/reference.md
+  - R:
+    - Overview: r/index.md
+    - API reference: r/reference.md
+  - Examples: examples/index.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.inlinehilite
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - tables
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/phildonovan/vswarehouse-python
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/vswarehouse/
+  analytics:
+    feedback:
+      title: Was this page helpful?
+      ratings:
+        - icon: material/thumb-up-outline
+          name: Yes
+          data: 1
+          note: Thanks for the feedback!
+        - icon: material/thumb-down-outline
+          name: No
+          data: 0
+          note: Thanks — we'll work on improving this.
+
+extra_css:
+  - stylesheets/extra.css
