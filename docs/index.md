@@ -4,7 +4,7 @@
 
 **Official Python and R clients for the vs-warehouse statistical data API.**
 
-Access {{ series_count }}+ economic, demographic and geospatial time series from {{ sources }} — in two lines of code, returning a data frame ready for analysis.
+Access {{ series_count }}+ economic, demographic and geospatial datasets from {{ sources }} — in two lines of code, returning a data frame ready for analysis.
 
 <div class="badge-row" markdown>
 
