@@ -4,7 +4,7 @@
 
 **Official Python and R clients for the vs-warehouse statistical data API.**
 
-Access 187+ economic and demographic time series from Stats NZ, the ABS, and the OECD — in two lines of code, returning a data frame ready for analysis.
+Access 240+ economic and demographic time series from Stats NZ, the OECD, NZ Treasury, RBNZ, and LINZ — in two lines of code, returning a data frame ready for analysis.
 
 <div class="badge-row" markdown>
 
@@ -29,8 +29,13 @@ Access 187+ economic and demographic time series from Stats NZ, the ABS, and the
     from vswarehouse import Client
 
     client = Client("vs_your_key")
-    df = client.get("nz_cpi", start="2020-01-01")
-    print(df.head())
+
+    # Source-specific helpers
+    df = client.statsnz("nz_cpi", start="2020-01-01")
+    df = client.oecd("nz_gdp")
+
+    # Or plot it instantly
+    df.plot_series()
     ```
 
 === "R"
@@ -43,8 +48,12 @@ Access 187+ economic and demographic time series from Stats NZ, the ABS, and the
     library(vswarehouse)
 
     vs_key("vs_your_key")
-    df <- vs_get("nz_cpi", start = "2020-01-01")
-    plot(df$date, df$value, type = "l")
+
+    # Source-specific helpers
+    df <- vs_get_statsnz("nz_cpi", start = "2020-01-01")
+
+    # One-line chart
+    vs_plot(df)
     ```
 
 ---
@@ -58,13 +67,21 @@ Access 187+ economic and demographic time series from Stats NZ, the ABS, and the
 | Business & Enterprise | Firm counts, births/deaths, industry breakdowns |
 | Population | Resident population by age, sex, ethnicity, region |
 | Justice & Social | Charges, convictions, household expenditure |
+| Fiscal | Government spending, revenue, debt, NZ Super Fund |
+| Geospatial | Land parcels, roads, addresses, territorial authorities |
 
-Data is sourced from **Stats NZ**, the **Australian Bureau of Statistics**, and the **OECD**, updated weekly.
+Data is sourced from **Stats NZ**, the **OECD**, **NZ Treasury**, **RBNZ**, and **LINZ**, updated weekly.
 
 ---
 
 ## Get an API key
 
-Free tier (1 request/day) requires no credit card. [Get your key →](https://api.virtus-solutions.io/#signup)
+Free tier (3 requests/day) requires no credit card. [Get your key →](https://api.virtus-solutions.io/signup)
 
-For unlimited access, [upgrade to Pro](https://api.virtus-solutions.io/#pricing) ($49/month).
+| Plan | Price | Requests |
+|---|---|---|
+| Free | $0 | 3/day |
+| Starter | $10/month | 10/day |
+| Pro | $49/month | Unlimited |
+
+[View pricing →](https://api.virtus-solutions.io/#pricing)
