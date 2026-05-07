@@ -79,7 +79,7 @@ meta = client.info("nz_cpi")
 
 ---
 
-### `client.get(name, start=None, end=None, format="json", engine="pandas", limit=None)`
+### `client.get(name, start=None, end=None, format="json", engine="pandas", limit=None, as_geo=None)`
 
 Fetch dataset rows as a DataFrame. For everyday use prefer the source-specific methods above.
 
@@ -88,6 +88,11 @@ df = client.get("nz_cpi", start="2020-01-01", end="2024-12-31")
 df = client.get("nz_cpi", engine="polars")        # returns polars DataFrame
 df = client.get("nz_addresses", limit=1000)       # first 1000 rows only
 df = client.get("nz_cpi")                         # full dataset (Pro tier)
+
+# Geospatial: returns a geopandas.GeoDataFrame when geopandas is installed
+gdf = client.get("nz_addresses", limit=10)
+gdf.plot()                                        # ready for mapping
+gdf.to_crs("EPSG:2193")                           # reproject to NZTM
 ```
 
 **Parameters**
@@ -100,6 +105,7 @@ df = client.get("nz_cpi")                         # full dataset (Pro tier)
 | `format` | `str` | `"json"` | `"json"` or `"csv"` |
 | `engine` | `str` | `"pandas"` | `"pandas"` or `"polars"` |
 | `limit` | `int \| None` | `None` | Max rows to return. `None` requests the full dataset. Free / Starter plans are capped server-side at 50,000 rows; Pro is unlimited. |
+| `as_geo` | `bool \| None` | `None` | Return a `geopandas.GeoDataFrame` for geospatial datasets. `None` auto-converts when geometry is present and `geopandas` is importable. `True` forces conversion (errors if missing). `False` keeps the raw `geometry_wkt` string column. Install with `pip install vswarehouse[geo]`. |
 
 **Returns:** `VSeries` (pandas) or `polars.DataFrame` when `engine="polars"`  
 **Raises:** `NotFoundError`, `AuthenticationError`, `RateLimitError`

@@ -84,14 +84,19 @@ meta$source  # "Stats NZ"
 
 ## Fetching data
 
-### `vs_get(name, start = NULL, end = NULL, limit = NULL)`
+### `vs_get(name, start = NULL, end = NULL, limit = NULL, as_sf = NULL)`
 
 Generic workhorse. For everyday use prefer the source-specific helpers below.
 
 ```r
-df <- vs_get("nz_cpi", start = "2020-01-01", end = "2024-12-31")
-df <- vs_get("nz_addresses", limit = 1000)   # first 1000 rows
-df <- vs_get("nz_cpi")                       # full dataset (Pro tier)
+df  <- vs_get("nz_cpi", start = "2020-01-01", end = "2024-12-31")
+df  <- vs_get("nz_addresses", limit = 1000)   # first 1000 rows
+df  <- vs_get("nz_cpi")                       # full dataset (Pro tier)
+
+# Geospatial: returns an sf object when the sf package is installed
+gdf <- vs_get("nz_addresses", limit = 10)
+plot(gdf["full_address"])                     # ready for mapping
+sf::st_transform(gdf, 2193)                   # reproject to NZTM
 ```
 
 **Arguments**
@@ -102,8 +107,9 @@ df <- vs_get("nz_cpi")                       # full dataset (Pro tier)
 | `start` | character \| NULL | `NULL` | ISO date lower bound, e.g. `"2020-01-01"` |
 | `end` | character \| NULL | `NULL` | ISO date upper bound |
 | `limit` | integer \| NULL | `NULL` | Max rows. `NULL` requests the full dataset. Free / Starter plans are capped server-side at 50,000 rows; Pro is unlimited. |
+| `as_sf` | logical \| NULL | `NULL` | Return an `sf` object for geospatial datasets. `NULL` auto-converts when geometry is present and the `sf` package is installed. `TRUE` forces conversion (errors if missing). `FALSE` keeps the raw `geometry_wkt` string column. Install with `install.packages("sf")`. |
 
-**Returns:** `vs_series` data frame with `date` coerced to `Date`.
+**Returns:** `vs_series` data frame, or an `sf` object when geometry is present and conversion is enabled.
 
 ---
 
@@ -113,16 +119,16 @@ Each is a named wrapper over `vs_get()` that tags the result with the source lab
 
 | Function | Source |
 |---|---|
-| `vs_get_statsnz(name, start, end, limit)` | Stats NZ |
-| `vs_get_oecd(name, start, end, limit)` | OECD |
-| `vs_get_rbnz(name, start, end, limit)` | RBNZ |
-| `vs_get_treasury(name, start, end, limit)` | NZ Treasury |
-| `vs_get_linz(name, start, end, limit)` | LINZ |
-| `vs_get_statsnz_geo(name, start, end, limit)` | Stats NZ Geospatial |
-| `vs_get_mbie(name, start, end, limit)` | MBIE |
-| `vs_get_nzta(name, start, end, limit)` | Waka Kotahi (NZTA) |
-| `vs_get_msd(name, start, end, limit)` | MSD |
-| `vs_get_police(name, start, end, limit)` | NZ Police / MoJ |
+| `vs_get_statsnz(name, start, end, limit, as_sf)` | Stats NZ |
+| `vs_get_oecd(name, start, end, limit, as_sf)` | OECD |
+| `vs_get_rbnz(name, start, end, limit, as_sf)` | RBNZ |
+| `vs_get_treasury(name, start, end, limit, as_sf)` | NZ Treasury |
+| `vs_get_linz(name, start, end, limit, as_sf)` | LINZ |
+| `vs_get_statsnz_geo(name, start, end, limit, as_sf)` | Stats NZ Geospatial |
+| `vs_get_mbie(name, start, end, limit, as_sf)` | MBIE |
+| `vs_get_nzta(name, start, end, limit, as_sf)` | Waka Kotahi (NZTA) |
+| `vs_get_msd(name, start, end, limit, as_sf)` | MSD |
+| `vs_get_police(name, start, end, limit, as_sf)` | NZ Police / MoJ |
 
 ```r
 df <- vs_get_statsnz("nz_cpi", start = "2015-01-01")
