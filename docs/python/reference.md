@@ -27,6 +27,11 @@ All source methods accept the same parameters as `client.get()` and return a `VS
 | `client.rbnz(name, **kwargs)` | RBNZ |
 | `client.treasury(name, **kwargs)` | NZ Treasury |
 | `client.linz(name, **kwargs)` | LINZ |
+| `client.statsnz_geo(name, **kwargs)` | Stats NZ Geospatial |
+| `client.mbie(name, **kwargs)` | MBIE |
+| `client.nzta(name, **kwargs)` | Waka Kotahi (NZTA) |
+| `client.msd(name, **kwargs)` | MSD |
+| `client.police(name, **kwargs)` | NZ Police / MoJ |
 
 ```python
 df = client.statsnz("nz_cpi", start="2020-01-01")
@@ -74,24 +79,27 @@ meta = client.info("nz_cpi")
 
 ---
 
-### `client.get(name, start=None, end=None, format="json", engine="pandas")`
+### `client.get(name, start=None, end=None, format="json", engine="pandas", limit=None)`
 
-Fetch time-series data. For everyday use prefer the source-specific methods above.
+Fetch dataset rows as a DataFrame. For everyday use prefer the source-specific methods above.
 
 ```python
 df = client.get("nz_cpi", start="2020-01-01", end="2024-12-31")
-df = client.get("nz_cpi", engine="polars")   # returns polars DataFrame
+df = client.get("nz_cpi", engine="polars")        # returns polars DataFrame
+df = client.get("nz_addresses", limit=1000)       # first 1000 rows only
+df = client.get("nz_cpi")                         # full dataset (Pro tier)
 ```
 
 **Parameters**
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `name` | `str` | — | Series identifier |
+| `name` | `str` | — | Dataset identifier |
 | `start` | `str \| None` | `None` | ISO date lower bound, e.g. `"2020-01-01"` |
 | `end` | `str \| None` | `None` | ISO date upper bound |
 | `format` | `str` | `"json"` | `"json"` or `"csv"` |
 | `engine` | `str` | `"pandas"` | `"pandas"` or `"polars"` |
+| `limit` | `int \| None` | `None` | Max rows to return. `None` requests the full dataset. Free / Starter plans are capped server-side at 50,000 rows; Pro is unlimited. |
 
 **Returns:** `VSeries` (pandas) or `polars.DataFrame` when `engine="polars"`  
 **Raises:** `NotFoundError`, `AuthenticationError`, `RateLimitError`

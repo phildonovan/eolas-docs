@@ -53,6 +53,11 @@ Convenience wrappers over `vs_list(source = ...)`.
 | `vs_list_rbnz()` | `vs_list("RBNZ")` |
 | `vs_list_treasury()` | `vs_list("NZ Treasury")` |
 | `vs_list_linz()` | `vs_list("LINZ")` |
+| `vs_list_statsnz_geo()` | `vs_list("Stats NZ Geospatial")` |
+| `vs_list_mbie()` | `vs_list("MBIE")` |
+| `vs_list_nzta()` | `vs_list("Waka Kotahi")` |
+| `vs_list_msd()` | `vs_list("MSD")` |
+| `vs_list_police()` | `vs_list("NZ Police / MoJ")` |
 
 ---
 
@@ -79,21 +84,24 @@ meta$source  # "Stats NZ"
 
 ## Fetching data
 
-### `vs_get(name, start = NULL, end = NULL)`
+### `vs_get(name, start = NULL, end = NULL, limit = NULL)`
 
 Generic workhorse. For everyday use prefer the source-specific helpers below.
 
 ```r
 df <- vs_get("nz_cpi", start = "2020-01-01", end = "2024-12-31")
+df <- vs_get("nz_addresses", limit = 1000)   # first 1000 rows
+df <- vs_get("nz_cpi")                       # full dataset (Pro tier)
 ```
 
 **Arguments**
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `name` | character | — | Series identifier |
+| `name` | character | — | Dataset identifier |
 | `start` | character \| NULL | `NULL` | ISO date lower bound, e.g. `"2020-01-01"` |
 | `end` | character \| NULL | `NULL` | ISO date upper bound |
+| `limit` | integer \| NULL | `NULL` | Max rows. `NULL` requests the full dataset. Free / Starter plans are capped server-side at 50,000 rows; Pro is unlimited. |
 
 **Returns:** `vs_series` data frame with `date` coerced to `Date`.
 
@@ -105,11 +113,16 @@ Each is a named wrapper over `vs_get()` that tags the result with the source lab
 
 | Function | Source |
 |---|---|
-| `vs_get_statsnz(name, start, end)` | Stats NZ |
-| `vs_get_oecd(name, start, end)` | OECD |
-| `vs_get_rbnz(name, start, end)` | RBNZ |
-| `vs_get_treasury(name, start, end)` | NZ Treasury |
-| `vs_get_linz(name, start, end)` | LINZ |
+| `vs_get_statsnz(name, start, end, limit)` | Stats NZ |
+| `vs_get_oecd(name, start, end, limit)` | OECD |
+| `vs_get_rbnz(name, start, end, limit)` | RBNZ |
+| `vs_get_treasury(name, start, end, limit)` | NZ Treasury |
+| `vs_get_linz(name, start, end, limit)` | LINZ |
+| `vs_get_statsnz_geo(name, start, end, limit)` | Stats NZ Geospatial |
+| `vs_get_mbie(name, start, end, limit)` | MBIE |
+| `vs_get_nzta(name, start, end, limit)` | Waka Kotahi (NZTA) |
+| `vs_get_msd(name, start, end, limit)` | MSD |
+| `vs_get_police(name, start, end, limit)` | NZ Police / MoJ |
 
 ```r
 df <- vs_get_statsnz("nz_cpi", start = "2015-01-01")
