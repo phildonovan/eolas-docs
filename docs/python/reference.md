@@ -35,6 +35,7 @@ All source methods accept the same parameters as `client.get()` and return a `Da
 | `client.immigration(name, **kwargs)` | Immigration NZ |
 | `client.lris(name, **kwargs)` | Manaaki Whenua / LRIS |
 | `client.geonet(name, **kwargs)` | GeoNet |
+| `client.doc(name, **kwargs)` | DOC (Department of Conservation) |
 
 ```python
 df = client.statsnz("nz_cpi", start="2020-01-01")
