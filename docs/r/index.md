@@ -16,13 +16,13 @@ Requires R 4.1+ and `httr2` 1.0+.
 library(eolas)
 
 # Set for the session
-eolas_key("vs_your_key")
+eolas_key("your_eolas_key")
 ```
 
 Or add to `.Renviron` for permanent, session-free access:
 
 ```
-EOLAS_API_KEY=vs_your_key
+EOLAS_API_KEY=your_eolas_key
 ```
 
 ## Source-specific helpers

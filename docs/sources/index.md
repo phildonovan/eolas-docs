@@ -8,11 +8,11 @@ This section has a per-source guide for the most-queried agencies — covering w
 
 | Source | Datasets | Refresh | Guide |
 |---|---|---|---|
-| [Stats NZ](statsnz.md) | 415 | Weekly Wed AM NZT | Macro indicators, business demography, population, justice, productivity, geospatial boundaries |
+| [Stats NZ](statsnz.md) | 415 | Weekly Wed AM NZT | Macro indicators, business demography, population, justice, productivity, **plus ~230 geospatial / census boundary datasets** |
 | [RBNZ](rbnz.md) | 33 | Weekly | Interest rates, exchange rates, money supply, mortgages, BoP, financial-stability indicators |
 | [NZ Treasury](treasury.md) | 5 | Monthly | Fiscal spending, revenue, debt, NZSF, GDP estimates |
 | [MBIE](mbie.md) | 12 | Weekly | Fuel prices, gas stats, rental bonds, GETS tender awards, science funding |
-| [Waka Kotahi / NZTA](#) | 5 | Weekly | CAS crashes, driver licences, EV charging, TMS daily traffic, traffic monitoring sites |
+| [Waka Kotahi / NZTA](nzta.md) | 5 | Weekly | CAS crashes, driver licences, EV charging, TMS daily traffic, traffic monitoring sites |
 | [Immigration NZ](immigration.md) | 16 | Weekly | RDA visa decisions (residence, visitor, work, student), RSE seasonal-worker stats |
 
 ## International + comparative
@@ -26,8 +26,9 @@ This section has a per-source guide for the most-queried agencies — covering w
 | Source | Datasets | Refresh | Guide |
 |---|---|---|---|
 | [LINZ](linz.md) | 106 | Weekly | Parcels, addresses, road centrelines, suburbs, geodetic marks, place names, Antarctic + offshore |
-| [Stats NZ Geospatial](#) | 233 | Weekly | Census meshblocks (2013/2018/2023), SA1/SA2/SA3, TLAs, regional councils, urban areas, wards |
-| [Manaaki Whenua / LRIS](#) | 20 | Weekly | Land cover (LCDB v6), soil, protected areas, land use |
+| [Manaaki Whenua / LRIS](lris.md) | 20 | Weekly | Land cover (LCDB v6 + older vintages), NZ Land Use Map, Protected Areas Network |
+
+Stats NZ also publishes ~230 census + boundary geospatial datasets — meshblocks, SA1/2/3, TLAs, regional councils, urban areas, wards across 2013 / 2018 / 2023 vintages. Those live in the [Stats NZ guide](statsnz.md#geospatial-boundaries-census).
 
 ## Council + regional
 
@@ -38,7 +39,7 @@ This section has a per-source guide for the most-queried agencies — covering w
 | [Bay of Plenty](#) | 46 | Weekly | BoP regional + Kawerau, Opotiki, Rotorua, Tauranga, Western Bay councils |
 | [Canterbury / ECan](#) | 85 | Weekly | ECan regional + Ashburton, Christchurch, Hurunui, Selwyn, Timaru, Waimakariri, Waimate councils |
 | Co-Lab Waikato | 79 | Weekly | Hamilton, Hauraki, Matamata-Piako, Otorohanga, Rotorua-Lakes, South Waikato, Taupo, Waikato, Waipa, Waitomo |
-| [DOC](#) | 10 | Weekly | Campsites, freedom-camping sites, huts, marine reserves, tracks, walking experiences, public conservation land |
+| [DOC](doc.md) | 10 | Weekly | Campsites, freedom-camping sites, huts, marine reserves, tracks, walking experiences, public conservation land |
 | GeoNet | 3 | Weekly | Recent quakes, strong-motion sensors, volcanic alert levels |
 | Hawke's Bay | 33 | Weekly | HBRC + CHBDC councils |
 | Manawatū-Whanganui | 46 | Weekly | Horizons regional + Horowhenua, Manawatū, Palmerston North, Rangitīkei, Ruapehu, Tararua, Whanganui |

@@ -157,5 +157,5 @@ This is the workflow behind property-search tools (PropertyGuru-style sites) —
 
 ## Related
 
-- [Stats NZ Geospatial source](statsnz.md#geospatial-boundaries) — for census boundaries (meshblocks, SAs, TAs) that complement LINZ's cadastral layers
+- [Stats NZ geospatial boundaries](statsnz.md#geospatial-boundaries-census) — for census boundaries (meshblocks, SAs, TAs) that complement LINZ's cadastral layers
 - [Examples](../examples/index.md#load-a-boundary-and-map-it) — worked geo recipes

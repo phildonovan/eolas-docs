@@ -63,16 +63,50 @@ Iwi affiliation, iwi grouping counts for the Māori-descent population. 20+ data
 df = client.statsnz("iwi18_population_by_iwi")
 ```
 
-### Geospatial boundaries
+### Geospatial boundaries + census
 
-Census meshblocks, statistical areas (SA1/SA2/SA3), territorial authorities, regional councils, wards, urban areas — for 2013, 2018, and 2023 vintages. All available as `sf` / `GeoDataFrame` when the geo extras are installed.
+About **~230 of the 415 Stats NZ datasets are geospatial** — census boundaries at every vintage Stats NZ has published, plus the census + population data already tabulated against those boundaries. All ship with `geometry_wkt` and load as `sf` / `GeoDataFrame` when the geo extras are installed.
+
+The set splits into three layers:
+
+**Boundary geometries.** Pure polygons keyed to a vintage. Used to put data on a map.
+
+| Geography | 2023 vintage | 2018 vintage | 2013 vintage |
+|---|---|---|---|
+| Meshblock (~50k blocks) | `nz_meshblock_2023` | `nz_meshblock_2018` | `nz_meshblock_2013` |
+| SA1 (~30k blocks) | `nz_statistical_area_1_2023` | `nz_statistical_area_1_2018` | — |
+| SA2 (~2k blocks) | `nz_statistical_area_2_2023` | `nz_statistical_area_2_2018` | `nz_statistical_area_2_2013` |
+| SA3 | `nz_statistical_area_3_2023` | — | — |
+| Territorial authority | `nz_territorial_authority_2023` | `nz_territorial_authority_2018` | `nz_territorial_authority_2013` |
+| Regional council | `nz_regional_council_2023` | `nz_regional_council_2018` | — |
+| Urban / rural | `nz_urban_rural_2023` | `nz_urban_rural_2018` | — |
+| Urban area | `nz_urban_area_2023` | `nz_urban_area_2018` | — |
+| Ward | `nz_ward_2025` | `nz_ward_2020` | — |
+| Community board | `nz_community_board_2025` | `nz_community_board_2020` | — |
+| Constituency / iwi / electoral | available per-vintage — search the catalogue | | |
+
+**Census tables, vintaged against boundaries.** The 2023 + 2018 + 2013 censuses each have ~15-20 datasets where the underlying census records have already been aggregated to a boundary geography. Use these for "show me a map of X by SA2" without doing the boundary join yourself.
 
 ```python
-mb = client.statsnz_geo("nz_meshblock_2023", as_sf=True)
-ta = client.statsnz_geo("nz_territorial_authority_2023", as_sf=True)
+# 2023 census usually-resident population, by SA2, ready to map
+pop = client.statsnz("census_2023_pop_sa2", as_sf=True)
+pop.plot(column="usually_resident_2023", legend=True, cmap="viridis")
 ```
 
-Boundary vintages matter — see the [vintaged columns convention](https://github.com/phildonovan/eolas/blob/main/docs/data-conventions.md#13-vintaged-concepts-carry-the-year-in-the-column-name) for joining historical census data to current geographies.
+Common 2018 datasets: `census_2018_dwelling_sa1`, `census_2018_household_sa1`, `census_2018_individual_sa1_p1`/`p2`/`p3a`/`p3b` (individual variables split across four parts due to row width), `census_2018_pop_age_sa2`, `census_2018_rc_urban_accessibility`, `census_2018_electoral_mb_2020`.
+
+2023 has 18 equivalent tables; 2013 has 3 (the older census results are mostly available via SDMX time-series in the existing tables above).
+
+**Population estimates against boundaries (post-census).** Stats NZ publishes Estimated Resident Population (ERP) updates between censuses. The `popes_*` and `poppr_*` tables come pre-tabulated against modern boundaries:
+
+```python
+# Sub-national population estimates by SA2 (current frame)
+sa2_pop = client.statsnz("popes_sub_rc_sa2")
+# Projected population by SA2 to 2048 (2023 base)
+proj = client.statsnz("poppr_sub_sa23_2023")
+```
+
+Boundary vintages matter — see the [vintaged columns convention](https://github.com/phildonovan/eolas/blob/main/docs/data-conventions.md#13-vintaged-concepts-carry-the-year-in-the-column-name) for joining historical census data to current geographies. Don't assume a meshblock or SA code from the 2013 vintage maps cleanly to 2018 or 2023 — Stats NZ redraws boundaries each census, so use the matched vintage on both sides of a join.
 
 ---
 

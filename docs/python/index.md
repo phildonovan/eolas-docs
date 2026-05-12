@@ -23,13 +23,13 @@ Requires Python 3.10+ and pandas 1.5+.
 from eolas_data import Client
 
 # Pass key directly
-client = Client("vs_your_key")
+client = Client("your_eolas_key")
 
 # Read from EOLAS_API_KEY environment variable
 client = Client()
 
 # With in-memory cache (great for notebooks)
-client = Client("vs_your_key", cache=True)
+client = Client("your_eolas_key", cache=True)
 ```
 
 ## Source-specific helpers
@@ -87,7 +87,7 @@ Requires `matplotlib`: `pip install matplotlib`.
 Pass `cache=True` to avoid re-fetching the same series in a notebook session:
 
 ```python
-client = Client("vs_your_key", cache=True)
+client = Client("your_eolas_key", cache=True)
 
 df1 = client.statsnz("nz_cpi")   # hits the API
 df2 = client.statsnz("nz_cpi")   # returned from cache

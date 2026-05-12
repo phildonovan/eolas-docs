@@ -33,6 +33,9 @@ nav:
     - NZ Treasury: sources/treasury.md
     - MBIE: sources/mbie.md
     - Immigration NZ: sources/immigration.md
+    - Waka Kotahi / NZTA: sources/nzta.md
+    - DOC: sources/doc.md
+    - Manaaki Whenua / LRIS: sources/lris.md
   - Python:
     - Overview: python/index.md
     - API reference: python/reference.md
