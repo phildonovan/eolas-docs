@@ -23,6 +23,7 @@ theme:
 nav:
   - Home: index.md
   - Getting started: quickstart.md
+  - Authentication: authentication.md
   - Python:
     - Overview: python/index.md
     - API reference: python/reference.md
