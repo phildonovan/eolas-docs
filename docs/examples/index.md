@@ -5,7 +5,7 @@
 === "Python"
 
     ```python
-    from vswarehouse import Client
+    from eolas_data import Client
 
     client = Client("vs_your_key")
     df = client.statsnz("nz_cpi", start="2010-01-01")
@@ -15,10 +15,10 @@
 === "R"
 
     ```r
-    library(vswarehouse)
+    library(eolas)
 
-    vs_key("vs_your_key")
-    vs_get_statsnz("nz_cpi", start = "2010-01-01") |> vs_plot()
+    eolas_key("vs_your_key")
+    eolas_get_statsnz("nz_cpi", start = "2010-01-01") |> eolas_plot()
     ```
 
 ---
@@ -48,12 +48,12 @@
     ```r
     library(ggplot2)
     library(patchwork)
-    library(vswarehouse)
+    library(eolas)
 
-    vs_key("vs_your_key")
+    eolas_key("vs_your_key")
 
-    p1 <- vs_get_statsnz("nz_cpi",       start = "2015-01-01") |> vs_plot()
-    p2 <- vs_get_oecd("nz_unemployment", start = "2015-01-01") |> vs_plot()
+    p1 <- eolas_get_statsnz("nz_cpi",       start = "2015-01-01") |> eolas_plot()
+    p2 <- eolas_get_oecd("nz_unemployment", start = "2015-01-01") |> eolas_plot()
 
     p1 / p2   # stacked with patchwork
     ```
@@ -78,9 +78,9 @@
 
     ```r
     # Source-specific list helpers
-    statsnz <- vs_list_statsnz()
-    oecd    <- vs_list_oecd()
-    tsy     <- vs_list_treasury()
+    statsnz <- eolas_list_statsnz()
+    oecd    <- eolas_list_oecd()
+    tsy     <- eolas_list_treasury()
 
     cat("Stats NZ:", nrow(statsnz), "series\n")
     cat("OECD:",     nrow(oecd),    "series\n")
@@ -103,10 +103,10 @@
 === "R"
 
     ```r
-    spending <- vs_get_treasury("treasury_fiscal_spending", start = "2000-01-01")
-    debt     <- vs_get_treasury("treasury_fiscal_debt",     start = "2000-01-01")
+    spending <- eolas_get_treasury("treasury_fiscal_spending", start = "2000-01-01")
+    debt     <- eolas_get_treasury("treasury_fiscal_debt",     start = "2000-01-01")
 
-    vs_plot(spending)
+    eolas_plot(spending)
     ```
 
 ---
@@ -123,7 +123,7 @@
 === "R"
 
     ```r
-    df <- vs_get_statsnz("nz_cpi", start = "2020-01-01")
+    df <- eolas_get_statsnz("nz_cpi", start = "2020-01-01")
     write.csv(df, "nz_cpi.csv", row.names = FALSE)
     ```
 
@@ -149,9 +149,9 @@
 
     ````markdown
     ```{r load-data, cache=TRUE}
-    library(vswarehouse)
-    vs_key(Sys.getenv("VS_API_KEY"))
-    df <- vs_get_statsnz("nz_cpi", start = "2015-01-01")
+    library(eolas)
+    eolas_key(Sys.getenv("EOLAS_API_KEY"))
+    df <- eolas_get_statsnz("nz_cpi", start = "2015-01-01")
     ```
     ````
 
@@ -167,20 +167,20 @@ title: "NZ Economic Overview"
 
 ````markdown
 ```{r setup, include=FALSE}
-library(vswarehouse)
+library(eolas)
 library(ggplot2)
-vs_key(Sys.getenv("VS_API_KEY"))
+eolas_key(Sys.getenv("EOLAS_API_KEY"))
 ```
 
 ```{r cpi, fig.cap="NZ Consumer Price Index since 2010"}
-vs_get_statsnz("nz_cpi", start = "2010-01-01") |>
-  vs_plot() +
+eolas_get_statsnz("nz_cpi", start = "2010-01-01") |>
+  eolas_plot() +
   labs(y = "Index (base 1000)")
 ```
 
 ```{r unemployment, fig.cap="NZ Unemployment Rate"}
-vs_get_oecd("nz_unemployment", start = "2010-01-01") |>
-  vs_plot() +
+eolas_get_oecd("nz_unemployment", start = "2010-01-01") |>
+  eolas_plot() +
   labs(y = "Rate (%)")
 ```
 ````

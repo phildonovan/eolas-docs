@@ -162,7 +162,63 @@ Use source-specific helpers so your code is self-documenting:
 
     Output auto-detects piping: rich tables in an interactive terminal, NDJSON / CSV when stdout is redirected. Pass `--json` to force NDJSON.
 
-## 5. Plot it
+## 5. Access regional council data
+
+Each of New Zealand's regional and city/district council groups has a dedicated source helper, making it easy to discover and fetch geospatial planning, hazard, and environmental layers by region.
+
+=== "Python"
+
+    ```python
+    # Auckland
+    gdf = client.akl_council("akc_significant_ecological_areas_overlay")
+    gdf = client.akl_transport("akt_cycle_facility_network")
+
+    # Bay of Plenty
+    gdf = client.bay_of_plenty("boprc_historic_flood_extents")
+
+    # Canterbury
+    gdf = client.ecan_canterbury("ecan_liquefaction_susceptibility_final")
+
+    # Wellington
+    gdf = client.wellington("wcc_flood_hazard_operative")
+
+    # Otago
+    gdf = client.otago("orc_otago_land_use_2024")
+
+    # Discover all datasets in a region
+    client.list("Auckland Council")          # returns list of dicts
+    client.list("Wellington Region Councils")
+    ```
+
+=== "R"
+
+    ```r
+    # Auckland
+    gdf <- eolas_get_akl_council("akc_significant_ecological_areas_overlay")
+    gdf <- eolas_get_akl_transport("akt_cycle_facility_network")
+
+    # Bay of Plenty
+    gdf <- eolas_get_bay_of_plenty("boprc_historic_flood_extents")
+
+    # Canterbury
+    gdf <- eolas_get_ecan_canterbury("ecan_liquefaction_susceptibility_final")
+
+    # Wellington
+    gdf <- eolas_get_wellington("wcc_flood_hazard_operative")
+
+    # Otago
+    gdf <- eolas_get_otago("orc_otago_land_use_2024")
+
+    # Discover all datasets in a region
+    eolas_list_akl_council()
+    eolas_list_wellington()
+    ```
+
+Available regional helpers: `akl_council`, `akl_transport`, `bay_of_plenty`, `charities`, `colab_waikato`, `ecan_canterbury`, `hawkes_bay`, `manawatu_whanganui`, `napier_whanganui`, `northland`, `otago`, `southland`, `taranaki`, `top_of_south`, `wellington`, `west_coast`. See the [Python reference](python/reference.md) or [R reference](r/reference.md) for the full list.
+
+---
+
+## 6. Plot it
 
 === "Python"
 
@@ -178,7 +234,7 @@ Use source-specific helpers so your code is self-documenting:
     eolas_plot(df)   # ggplot2 line chart, returns ggplot object
     ```
 
-## 6. Browse available series
+## 7. Browse available series
 
 === "Python"
 

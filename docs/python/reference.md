@@ -36,6 +36,22 @@ All source methods accept the same parameters as `client.get()` and return a `Da
 | `client.lris(name, **kwargs)` | Manaaki Whenua / LRIS |
 | `client.geonet(name, **kwargs)` | GeoNet |
 | `client.doc(name, **kwargs)` | DOC (Department of Conservation) |
+| `client.akl_council(name, **kwargs)` | Auckland Council |
+| `client.akl_transport(name, **kwargs)` | Auckland Transport |
+| `client.bay_of_plenty(name, **kwargs)` | Bay of Plenty Councils |
+| `client.charities(name, **kwargs)` | Charities Services |
+| `client.colab_waikato(name, **kwargs)` | Co-Lab Waikato |
+| `client.ecan_canterbury(name, **kwargs)` | ECan / Canterbury |
+| `client.hawkes_bay(name, **kwargs)` | Hawke's Bay Councils |
+| `client.manawatu_whanganui(name, **kwargs)` | Manawatū-Whanganui Councils |
+| `client.napier_whanganui(name, **kwargs)` | Napier + Whanganui |
+| `client.northland(name, **kwargs)` | Northland Councils |
+| `client.otago(name, **kwargs)` | Otago Councils |
+| `client.southland(name, **kwargs)` | Southland Councils |
+| `client.taranaki(name, **kwargs)` | Taranaki Councils |
+| `client.top_of_south(name, **kwargs)` | Gisborne / Top of South Councils |
+| `client.wellington(name, **kwargs)` | Wellington Region Councils |
+| `client.west_coast(name, **kwargs)` | West Coast (Te Tai o Poutini) |
 
 ```python
 df = client.statsnz("nz_cpi", start="2020-01-01")

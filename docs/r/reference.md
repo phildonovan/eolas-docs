@@ -62,6 +62,22 @@ Convenience wrappers over `eolas_list(source = ...)`.
 | `eolas_list_lris()` | `eolas_list("Manaaki Whenua / LRIS")` |
 | `eolas_list_geonet()` | `eolas_list("GeoNet")` |
 | `eolas_list_doc()` | `eolas_list("DOC")` |
+| `eolas_list_akl_council()` | `eolas_list("Auckland Council")` |
+| `eolas_list_akl_transport()` | `eolas_list("Auckland Transport")` |
+| `eolas_list_bay_of_plenty()` | `eolas_list("Bay of Plenty Councils")` |
+| `eolas_list_charities()` | `eolas_list("Charities Services")` |
+| `eolas_list_colab_waikato()` | `eolas_list("Co-Lab Waikato")` |
+| `eolas_list_ecan_canterbury()` | `eolas_list("ECan / Canterbury")` |
+| `eolas_list_hawkes_bay()` | `eolas_list("Hawke's Bay Councils")` |
+| `eolas_list_manawatu_whanganui()` | `eolas_list("Manawatū-Whanganui Councils")` |
+| `eolas_list_napier_whanganui()` | `eolas_list("Napier + Whanganui")` |
+| `eolas_list_northland()` | `eolas_list("Northland Councils")` |
+| `eolas_list_otago()` | `eolas_list("Otago Councils")` |
+| `eolas_list_southland()` | `eolas_list("Southland Councils")` |
+| `eolas_list_taranaki()` | `eolas_list("Taranaki Councils")` |
+| `eolas_list_top_of_south()` | `eolas_list("Gisborne / Top of South Councils")` |
+| `eolas_list_wellington()` | `eolas_list("Wellington Region Councils")` |
+| `eolas_list_west_coast()` | `eolas_list("West Coast (Te Tai o Poutini)")` |
 
 ---
 
@@ -137,6 +153,22 @@ Each is a named wrapper over `eolas_get()` that tags the result with the source 
 | `eolas_get_lris(name, start, end, limit, as_sf)` | Manaaki Whenua / LRIS |
 | `eolas_get_geonet(name, start, end, limit, as_sf)` | GeoNet |
 | `eolas_get_doc(name, start, end, limit, as_sf)` | DOC (Department of Conservation) |
+| `eolas_get_akl_council(name, start, end, limit, as_sf)` | Auckland Council |
+| `eolas_get_akl_transport(name, start, end, limit, as_sf)` | Auckland Transport |
+| `eolas_get_bay_of_plenty(name, start, end, limit, as_sf)` | Bay of Plenty Councils |
+| `eolas_get_charities(name, start, end, limit, as_sf)` | Charities Services |
+| `eolas_get_colab_waikato(name, start, end, limit, as_sf)` | Co-Lab Waikato |
+| `eolas_get_ecan_canterbury(name, start, end, limit, as_sf)` | ECan / Canterbury |
+| `eolas_get_hawkes_bay(name, start, end, limit, as_sf)` | Hawke's Bay Councils |
+| `eolas_get_manawatu_whanganui(name, start, end, limit, as_sf)` | Manawatū-Whanganui Councils |
+| `eolas_get_napier_whanganui(name, start, end, limit, as_sf)` | Napier + Whanganui |
+| `eolas_get_northland(name, start, end, limit, as_sf)` | Northland Councils |
+| `eolas_get_otago(name, start, end, limit, as_sf)` | Otago Councils |
+| `eolas_get_southland(name, start, end, limit, as_sf)` | Southland Councils |
+| `eolas_get_taranaki(name, start, end, limit, as_sf)` | Taranaki Councils |
+| `eolas_get_top_of_south(name, start, end, limit, as_sf)` | Gisborne / Top of South Councils |
+| `eolas_get_wellington(name, start, end, limit, as_sf)` | Wellington Region Councils |
+| `eolas_get_west_coast(name, start, end, limit, as_sf)` | West Coast (Te Tai o Poutini) |
 
 ```r
 df <- eolas_get_statsnz("nz_cpi", start = "2015-01-01")

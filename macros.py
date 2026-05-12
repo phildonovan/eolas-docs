@@ -1,16 +1,17 @@
-"""mkdocs-macros hook: fetch live counts from the vs-warehouse API at build time.
+"""mkdocs-macros hook: fetch live counts from the eolas.fyi API at build time.
 
 Variables exposed to markdown templates:
-    {{ series_count }}  rounded-down series count, e.g. "270" when live is 278
-    {{ sources }}       human-readable source list, e.g. "Stats NZ, OECD, RBNZ, ..."
-    {{ source_count }}  number of distinct sources
+    {{ dataset_count }}  rounded-down dataset count, e.g. "710" when live is 717
+    {{ sources }}        human-readable source list, e.g. "Stats NZ, OECD, RBNZ, ..."
+    {{ source_count }}   number of distinct sources
+    {{ series_count }}   alias for dataset_count, kept for back-compat with old docs
 
 Falls back to safe defaults if the API is unreachable so docs builds never break.
 """
 import requests
 
-API = "https://api.virtus-solutions.io/v1/series"
-FALLBACK = {"series_count": 270, "sources": "Stats NZ, OECD, RBNZ, NZ Treasury, LINZ", "source_count": 10}
+API = "https://api.eolas.fyi/v1/datasets"
+FALLBACK = {"dataset_count": 700, "sources": "Stats NZ, OECD, RBNZ, NZ Treasury, LINZ, Stats NZ Geospatial, MBIE, Waka Kotahi, MSD, NZ Police / MoJ, ACC, Education Counts, WorkSafe NZ", "source_count": 13}
 
 
 def _fetch():
@@ -19,7 +20,7 @@ def _fetch():
     data = r.json()
     sources = sorted({s["source"] for s in data})
     return {
-        "series_count": (len(data) // 10) * 10,
+        "dataset_count": (len(data) // 10) * 10,
         "sources": ", ".join(sources),
         "source_count": len(sources),
     }
@@ -33,3 +34,5 @@ def define_env(env):
         values = FALLBACK
     for k, v in values.items():
         env.variables[k] = v
+    # Back-compat alias for any pages that still reference series_count
+    env.variables["series_count"] = values["dataset_count"]

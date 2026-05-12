@@ -1,18 +1,18 @@
 # Python client
 
-The `vswarehouse` Python package provides a `Client` class that wraps the vs-warehouse REST API and returns **`VSeries` objects** — pandas DataFrames with source metadata and a built-in plot method.
+The `eolas-data` Python package provides a `Client` class that wraps the eolas REST API and returns **`Dataset` objects** — pandas DataFrames with source metadata and a built-in plot method.
 
 ## Installation
 
 ```bash
-pip install vswarehouse
+pip install eolas-data
 ```
 
 Optional extras:
 
 ```bash
-pip install vswarehouse[polars]      # polars output support
-pip install vswarehouse[plot]        # matplotlib for plot_series()
+pip install eolas-data[polars]      # polars output support
+pip install eolas-data[plot]        # matplotlib for plot_series()
 ```
 
 Requires Python 3.10+ and pandas 1.5+.
@@ -20,12 +20,12 @@ Requires Python 3.10+ and pandas 1.5+.
 ## Initialisation
 
 ```python
-from vswarehouse import Client
+from eolas_data import Client
 
 # Pass key directly
 client = Client("vs_your_key")
 
-# Read from VS_API_KEY environment variable
+# Read from EOLAS_API_KEY environment variable
 client = Client()
 
 # With in-memory cache (great for notebooks)
@@ -44,7 +44,7 @@ df = client.treasury("treasury_fiscal_spending")      # NZ Treasury
 df = client.linz("nz_parcels")                       # LINZ
 ```
 
-Each returns a `VSeries` tagged with the source label.
+Each returns a `Dataset` tagged with the source label.
 
 ## Discovery
 
@@ -53,22 +53,22 @@ client.list()              # all series — list of dicts
 client.list("Stats NZ")   # filter by source
 ```
 
-## VSeries
+## Dataset
 
-All data-fetching methods return a `VSeries` — a pandas DataFrame subclass with extra metadata:
+All data-fetching methods return a `Dataset` — a pandas DataFrame subclass with extra metadata:
 
 ```python
 df = client.statsnz("nz_cpi", start="2020-01-01")
 
 print(df)
-# VSeries: nz_cpi [Stats NZ]
+# Dataset: nz_cpi [Stats NZ]
 # 20 rows
 #          date  period   value
 # 0  2020-01-01  2020Q1  1010.0
 # ...
 
-df.vs_name    # "nz_cpi"
-df.vs_source  # "Stats NZ"
+df.eolas_name    # "nz_cpi"
+df.eolas_source  # "Stats NZ"
 ```
 
 ### `.plot_series()`
@@ -105,7 +105,7 @@ Requires `polars`: `pip install polars`.
 ## Exceptions
 
 ```python
-from vswarehouse.exceptions import RateLimitError, AuthenticationError, NotFoundError
+from eolas_data.exceptions import RateLimitError, AuthenticationError, NotFoundError
 
 try:
     df = client.statsnz("nz_cpi")
@@ -126,4 +126,4 @@ except NotFoundError:
 
 ## Source
 
-[github.com/phildonovan/vswarehouse-python](https://github.com/phildonovan/vswarehouse-python) · [PyPI](https://pypi.org/project/vswarehouse/)
+[github.com/phildonovan/eolas-data-python](https://github.com/phildonovan/eolas-data-python) · [PyPI](https://pypi.org/project/eolas-data/)
