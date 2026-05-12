@@ -42,7 +42,7 @@ See the [Councils overview](councils.md) for the full coverage model — how clu
 | [Canterbury / ECan](canterbury.md) | 85 | Weekly | ECan + Ashburton, Christchurch, Hurunui, Selwyn, Timaru, Waimakariri, Waimate councils |
 | [Co-Lab Waikato](colab-waikato.md) | 79 | Weekly | Hamilton, Hauraki, Matamata-Piako, Otorohanga, Rotorua-Lakes, South Waikato, Taupō, Waikato, Waipa, Waitomo |
 | [DOC](doc.md) | 10 | Weekly | Campsites, huts, marine reserves, tracks, walking experiences, public conservation land |
-| GeoNet | 3 | Weekly | Recent quakes, strong-motion sensors, volcanic alert levels |
+| [GeoNet](geonet.md) | 3 | Weekly | Recent quakes, strong-motion sensors, volcanic alert levels |
 | [Hawke's Bay](hawkes-bay.md) | 33 | Weekly | HBRC + CHBDC + Hastings councils |
 | [Manawatū-Whanganui](manawatu-whanganui.md) | 46 | Weekly | Horizons + Horowhenua, Manawatū, Palmerston North, Rangitīkei, Ruapehu, Tararua, Whanganui |
 | [Napier + Whanganui](napier-whanganui.md) | 20 | Weekly | NCC + WDC city-council layers |
@@ -58,13 +58,14 @@ See the [Councils overview](councils.md) for the full coverage model — how clu
 
 | Source | Datasets | Refresh | Coverage |
 |---|---|---|---|
-| ACC | 73 | Monthly | Injury claims by activity (sport, work, vehicle, age cohort) |
-| Charities Services | 6 | Monthly | Charitable trust registry, financial returns |
-| Education Counts | 38 | Quarterly | Schools, ECE, tertiary enrolments and outcomes |
-| MSD | 12 | Monthly | Benefit recipients, working-age caseload, corrections |
-| NZ Police / MoJ | 5 | Quarterly | Road policing offences, MoJ charges, criminal court data |
-| WorkSafe NZ | 8 | Monthly | Workplace fatalities, notifiable injuries by sector |
-| EECA | (varies) | Quarterly | Energy use surveys, efficiency programmes |
+| [ACC](acc.md) | 73 | Monthly | Injury claims by activity (sport, work, vehicle, age cohort) |
+| [Charities Services](charities.md) | 6 | Monthly | Charitable trust registry, financial returns |
+| [Education Counts](education-counts.md) | 38 | Quarterly | Schools, ECE, tertiary enrolments and outcomes |
+| [MSD](msd.md) | 12 | Monthly | Benefit recipients, working-age caseload, corrections |
+| [NZ Police / MoJ](police-moj.md) | 5 | Quarterly | Road policing offences, MoJ charges, criminal court data |
+| [PHARMAC](pharmac.md) | 4 | Monthly | Community + hospital medicines schedules with 14-year monthly history |
+| [WorkSafe NZ](worksafe.md) | 8 | Monthly | Workplace fatalities, notifiable injuries by sector |
+| [EECA](eeca.md) | 6 | Quarterly | EV charging infrastructure, EEUD energy end-use, regional heat demand |
 
 ## How sources work in eolas
 

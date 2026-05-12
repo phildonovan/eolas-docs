@@ -36,6 +36,15 @@ nav:
     - Waka Kotahi / NZTA: sources/nzta.md
     - DOC: sources/doc.md
     - Manaaki Whenua / LRIS: sources/lris.md
+    - ACC: sources/acc.md
+    - MSD: sources/msd.md
+    - Education Counts: sources/education-counts.md
+    - NZ Police / MoJ: sources/police-moj.md
+    - WorkSafe NZ: sources/worksafe.md
+    - EECA: sources/eeca.md
+    - Charities Services: sources/charities.md
+    - GeoNet: sources/geonet.md
+    - PHARMAC: sources/pharmac.md
     - Councils:
       - Overview: sources/councils.md
       - Auckland Council: sources/auckland-council.md
