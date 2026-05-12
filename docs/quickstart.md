@@ -110,6 +110,10 @@ Use source-specific helpers so your code is self-documenting:
     # DOC (Department of Conservation — returns a GeoDataFrame when geopandas is installed)
     huts = client.doc("doc_huts")   # 1,429 DOC huts across NZ
 
+    # PHARMAC (NZ pharmaceutical schedule — 840k rows of subsidy history back to 2006)
+    schedule = client.pharmac("pharmac_schedule")          # current month's funded medicines
+    history  = client.pharmac("pharmac_schedule_history")  # 2006-present archive, ~512k rows
+
     print(df)
     # Dataset: nz_cpi [Stats NZ]
     # 20 rows
@@ -138,6 +142,10 @@ Use source-specific helpers so your code is self-documenting:
 
     # DOC (Department of Conservation — returns an sf object when the sf package is installed)
     huts <- eolas_get_doc("doc_huts")   # 1,429 DOC huts across NZ
+
+    # PHARMAC (NZ pharmaceutical schedule — 840k rows of subsidy history back to 2006)
+    schedule <- eolas_get_pharmac("pharmac_schedule")          # current month's funded medicines
+    history  <- eolas_get_pharmac("pharmac_schedule_history")  # 2006-present archive, ~512k rows
 
     df
     # eolas_dataset: nz_cpi [Stats NZ]

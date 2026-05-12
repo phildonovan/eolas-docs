@@ -47,6 +47,7 @@ All source methods accept the same parameters as `client.get()` and return a `Da
 | `client.napier_whanganui(name, **kwargs)` | Napier + Whanganui |
 | `client.northland(name, **kwargs)` | Northland Councils |
 | `client.otago(name, **kwargs)` | Otago Councils |
+| `client.pharmac(name, **kwargs)` | PHARMAC |
 | `client.southland(name, **kwargs)` | Southland Councils |
 | `client.taranaki(name, **kwargs)` | Taranaki Councils |
 | `client.top_of_south(name, **kwargs)` | Gisborne / Top of South Councils |

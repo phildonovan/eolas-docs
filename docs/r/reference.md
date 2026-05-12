@@ -73,6 +73,7 @@ Convenience wrappers over `eolas_list(source = ...)`.
 | `eolas_list_napier_whanganui()` | `eolas_list("Napier + Whanganui")` |
 | `eolas_list_northland()` | `eolas_list("Northland Councils")` |
 | `eolas_list_otago()` | `eolas_list("Otago Councils")` |
+| `eolas_list_pharmac()` | `eolas_list("PHARMAC")` |
 | `eolas_list_southland()` | `eolas_list("Southland Councils")` |
 | `eolas_list_taranaki()` | `eolas_list("Taranaki Councils")` |
 | `eolas_list_top_of_south()` | `eolas_list("Gisborne / Top of South Councils")` |
@@ -164,6 +165,7 @@ Each is a named wrapper over `eolas_get()` that tags the result with the source 
 | `eolas_get_napier_whanganui(name, start, end, limit, as_sf)` | Napier + Whanganui |
 | `eolas_get_northland(name, start, end, limit, as_sf)` | Northland Councils |
 | `eolas_get_otago(name, start, end, limit, as_sf)` | Otago Councils |
+| `eolas_get_pharmac(name, start, end, limit, as_sf)` | PHARMAC |
 | `eolas_get_southland(name, start, end, limit, as_sf)` | Southland Councils |
 | `eolas_get_taranaki(name, start, end, limit, as_sf)` | Taranaki Councils |
 | `eolas_get_top_of_south(name, start, end, limit, as_sf)` | Gisborne / Top of South Councils |
