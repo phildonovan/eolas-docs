@@ -168,11 +168,11 @@ ax.set_ylabel("Index")   # customise further
 
 ## Exceptions
 
-All exceptions inherit from `eolas_data.exceptions.VSWarehouseError`.
+All exceptions inherit from `eolas_data.exceptions.EolasError`.
 
 ```python
 from eolas_data.exceptions import (
-    VSWarehouseError,      # base
+    EolasError,            # base
     AuthenticationError,   # 401 / 403
     RateLimitError,        # 429
     NotFoundError,         # 404
