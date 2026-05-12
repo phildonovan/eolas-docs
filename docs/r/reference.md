@@ -68,6 +68,7 @@ Convenience wrappers over `eolas_list(source = ...)`.
 | `eolas_list_charities()` | `eolas_list("Charities Services")` |
 | `eolas_list_colab_waikato()` | `eolas_list("Co-Lab Waikato")` |
 | `eolas_list_ecan_canterbury()` | `eolas_list("ECan / Canterbury")` |
+| `eolas_list_eeca()` | `eolas_list("EECA")` |
 | `eolas_list_hawkes_bay()` | `eolas_list("Hawke's Bay Councils")` |
 | `eolas_list_manawatu_whanganui()` | `eolas_list("Manawatū-Whanganui Councils")` |
 | `eolas_list_napier_whanganui()` | `eolas_list("Napier + Whanganui")` |
@@ -160,6 +161,7 @@ Each is a named wrapper over `eolas_get()` that tags the result with the source 
 | `eolas_get_charities(name, start, end, limit, as_sf)` | Charities Services |
 | `eolas_get_colab_waikato(name, start, end, limit, as_sf)` | Co-Lab Waikato |
 | `eolas_get_ecan_canterbury(name, start, end, limit, as_sf)` | ECan / Canterbury |
+| `eolas_get_eeca(name, start, end, limit, as_sf)` | EECA (energy use, EV chargers, regional heat demand) |
 | `eolas_get_hawkes_bay(name, start, end, limit, as_sf)` | Hawke's Bay Councils |
 | `eolas_get_manawatu_whanganui(name, start, end, limit, as_sf)` | Manawatū-Whanganui Councils |
 | `eolas_get_napier_whanganui(name, start, end, limit, as_sf)` | Napier + Whanganui |

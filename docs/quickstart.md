@@ -114,6 +114,11 @@ Use source-specific helpers so your code is self-documenting:
     schedule = client.pharmac("pharmac_schedule")          # current month's funded medicines
     history  = client.pharmac("pharmac_schedule_history")  # 2006-present archive, ~512k rows
 
+    # EECA (energy use, EV chargers, regional heat demand)
+    chargers = client.eeca("eeca_ev_chargers_public")      # 2,050 public EV chargers (point geometry)
+    energy   = client.eeca("eeca_energy_end_use")          # NZ energy by sector x fuel x end-use x year
+    ev_ta    = client.eeca("eeca_ev_metrics_district")     # EV penetration by territorial authority
+
     print(df)
     # Dataset: nz_cpi [Stats NZ]
     # 20 rows
@@ -146,6 +151,11 @@ Use source-specific helpers so your code is self-documenting:
     # PHARMAC (NZ pharmaceutical schedule — 840k rows of subsidy history back to 2006)
     schedule <- eolas_get_pharmac("pharmac_schedule")          # current month's funded medicines
     history  <- eolas_get_pharmac("pharmac_schedule_history")  # 2006-present archive, ~512k rows
+
+    # EECA (energy use, EV chargers, regional heat demand)
+    chargers <- eolas_get_eeca("eeca_ev_chargers_public")      # 2,050 public EV chargers (Point geometry)
+    energy   <- eolas_get_eeca("eeca_energy_end_use")          # NZ energy by sector x fuel x end-use x year
+    ev_ta    <- eolas_get_eeca("eeca_ev_metrics_district")     # EV penetration by territorial authority
 
     df
     # eolas_dataset: nz_cpi [Stats NZ]

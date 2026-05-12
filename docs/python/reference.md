@@ -42,6 +42,7 @@ All source methods accept the same parameters as `client.get()` and return a `Da
 | `client.charities(name, **kwargs)` | Charities Services |
 | `client.colab_waikato(name, **kwargs)` | Co-Lab Waikato |
 | `client.ecan_canterbury(name, **kwargs)` | ECan / Canterbury |
+| `client.eeca(name, **kwargs)` | EECA (energy use, EV chargers, regional heat demand) |
 | `client.hawkes_bay(name, **kwargs)` | Hawke's Bay Councils |
 | `client.manawatu_whanganui(name, **kwargs)` | Manawatū-Whanganui Councils |
 | `client.napier_whanganui(name, **kwargs)` | Napier + Whanganui |
