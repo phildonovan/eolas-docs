@@ -157,6 +157,7 @@ If `source_last_modified_at` is newer than `last_refreshed_at`, the source has c
 
 Most likely: missing `EOLAS_API_KEY` in CI. We don't bundle keys, and the env-var lookup is the only auth path that works in headless environments (no OS keyring on a server).
 
+{% raw %}
 ```yaml
 # GitHub Actions example
 - name: Run tests
@@ -164,6 +165,7 @@ Most likely: missing `EOLAS_API_KEY` in CI. We don't bundle keys, and the env-va
     EOLAS_API_KEY: ${{ secrets.EOLAS_API_KEY }}
   run: pytest
 ```
+{% endraw %}
 
 ---
 
