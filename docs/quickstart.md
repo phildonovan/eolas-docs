@@ -232,14 +232,15 @@ Available regional helpers: `akl_council`, `akl_transport`, `bay_of_plenty`, `ch
 
     ```python
     df = client.statsnz("nz_cpi", start="2010-01-01")
-    df.plot_series()   # matplotlib line chart, returns Axes
+    df.plot(x="date", y="value", title="NZ CPI")   # pandas .plot — returns Axes
     ```
 
 === "R"
 
     ```r
+    library(ggplot2)
     df <- eolas_get_statsnz("nz_cpi", start = "2010-01-01")
-    eolas_plot(df)   # ggplot2 line chart, returns ggplot object
+    ggplot(df, aes(date, value)) + geom_line() + labs(title = "NZ CPI")
     ```
 
 ## 7. Browse available series
@@ -275,4 +276,4 @@ You can also browse interactively at [eolas.fyi/datasets](https://eolas.fyi/data
 ---
 
 !!! tip "Rate limits"
-    Free keys allow **10 requests per month**. Starter ($10/month) gives 100/month. [Pro](https://eolas.fyi/#pricing) ($49/month) and Enterprise are unlimited.
+    Free keys allow **100 requests per month** at up to 50,000 rows per request. [Pro](https://eolas.fyi/#pricing) ($49/month) is unlimited requests and unlimited rows. Enterprise adds Snowflake share + connector scaffolding + SLA.
