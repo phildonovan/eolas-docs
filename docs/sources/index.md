@@ -32,25 +32,27 @@ Stats NZ also publishes ~230 census + boundary geospatial datasets — meshblock
 
 ## Council + regional
 
-| Source | Datasets | Refresh | Coverage |
+See the [Councils overview](councils.md) for the full coverage model — how clusters work, what's common across district plans, hazards, mana whenua sites, and where the data comes from.
+
+| Cluster | Datasets | Refresh | Coverage |
 |---|---|---|---|
-| [Auckland Council](#) | 20 | Weekly | District Plan overlays — aircraft noise, heritage, ecology, hazards, water management |
-| [Auckland Transport](#) | 10 | Weekly | Bridges, bus / ferry / train routes, cycle network, park & ride |
-| [Bay of Plenty](#) | 46 | Weekly | BoP regional + Kawerau, Opotiki, Rotorua, Tauranga, Western Bay councils |
-| [Canterbury / ECan](#) | 85 | Weekly | ECan regional + Ashburton, Christchurch, Hurunui, Selwyn, Timaru, Waimakariri, Waimate councils |
-| Co-Lab Waikato | 79 | Weekly | Hamilton, Hauraki, Matamata-Piako, Otorohanga, Rotorua-Lakes, South Waikato, Taupo, Waikato, Waipa, Waitomo |
-| [DOC](doc.md) | 10 | Weekly | Campsites, freedom-camping sites, huts, marine reserves, tracks, walking experiences, public conservation land |
+| [Auckland Council](auckland-council.md) | 20 | Weekly | District Plan overlays — aircraft noise, heritage, ecology, hazards, water management |
+| [Auckland Transport](auckland-transport.md) | 10 | Weekly | Bridges, bus / ferry / train routes, cycle network, park & ride |
+| [Bay of Plenty](bay-of-plenty.md) | 46 | Weekly | BoPRC + Kawerau, Ōpōtiki, Rotorua, Tauranga, Western Bay councils |
+| [Canterbury / ECan](canterbury.md) | 85 | Weekly | ECan + Ashburton, Christchurch, Hurunui, Selwyn, Timaru, Waimakariri, Waimate councils |
+| [Co-Lab Waikato](colab-waikato.md) | 79 | Weekly | Hamilton, Hauraki, Matamata-Piako, Otorohanga, Rotorua-Lakes, South Waikato, Taupō, Waikato, Waipa, Waitomo |
+| [DOC](doc.md) | 10 | Weekly | Campsites, huts, marine reserves, tracks, walking experiences, public conservation land |
 | GeoNet | 3 | Weekly | Recent quakes, strong-motion sensors, volcanic alert levels |
-| Hawke's Bay | 33 | Weekly | HBRC + CHBDC councils |
-| Manawatū-Whanganui | 46 | Weekly | Horizons regional + Horowhenua, Manawatū, Palmerston North, Rangitīkei, Ruapehu, Tararua, Whanganui |
-| Napier + Whanganui | 20 | Weekly | NCC + WDC city-council layers |
-| Northland | 28 | Weekly | NRC regional + Far North, Kaipara, Whangārei councils |
-| Otago | 41 | Weekly | ORC regional + Central Otago, Clutha, Dunedin, Queenstown-Lakes, Waitaki councils |
-| Southland | 48 | Weekly | ES regional + Gore, Invercargill, Southland District councils |
-| Taranaki | 33 | Weekly | TRC regional + New Plymouth, South Taranaki, Stratford councils |
-| Top of South | 45 | Weekly | Gisborne, Marlborough, Nelson, Tasman councils |
-| Wellington | 76 | Weekly | GWRC regional + Carterton, Hutt, Kāpiti, Masterton, Porirua, South Wairarapa, Upper Hutt, Wellington councils |
-| West Coast | 24 | Weekly | WCRC regional + Buller, Grey, Westland councils |
+| [Hawke's Bay](hawkes-bay.md) | 33 | Weekly | HBRC + CHBDC + Hastings councils |
+| [Manawatū-Whanganui](manawatu-whanganui.md) | 46 | Weekly | Horizons + Horowhenua, Manawatū, Palmerston North, Rangitīkei, Ruapehu, Tararua, Whanganui |
+| [Napier + Whanganui](napier-whanganui.md) | 20 | Weekly | NCC + WDC city-council layers |
+| [Northland](northland.md) | 28 | Weekly | NRC + Far North, Kaipara, Whangārei councils |
+| [Otago](otago.md) | 41 | Weekly | ORC + Central Otago, Clutha, Dunedin, Queenstown-Lakes, Waitaki councils |
+| [Southland](southland.md) | 48 | Weekly | ES + Gore, Invercargill, Southland District councils |
+| [Taranaki](taranaki.md) | 33 | Weekly | TRC + New Plymouth, South Taranaki, Stratford councils |
+| [Gisborne / Top of South](top-of-south.md) | 45 | Weekly | Gisborne, Marlborough, Nelson, Tasman councils |
+| [Wellington](wellington.md) | 76 | Weekly | GWRC + Carterton, Hutt, Kāpiti, Masterton, Porirua, South Wairarapa, Upper Hutt, Wellington councils |
+| [West Coast](west-coast.md) | 24 | Weekly | WCRC + Buller, Grey, Westland councils (shared Te Tai o Poutini Plan) |
 
 ## Other
 

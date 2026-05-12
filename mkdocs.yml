@@ -36,6 +36,23 @@ nav:
     - Waka Kotahi / NZTA: sources/nzta.md
     - DOC: sources/doc.md
     - Manaaki Whenua / LRIS: sources/lris.md
+    - Councils:
+      - Overview: sources/councils.md
+      - Auckland Council: sources/auckland-council.md
+      - Auckland Transport: sources/auckland-transport.md
+      - Wellington Region: sources/wellington.md
+      - ECan / Canterbury: sources/canterbury.md
+      - Bay of Plenty: sources/bay-of-plenty.md
+      - Co-Lab Waikato: sources/colab-waikato.md
+      - Otago: sources/otago.md
+      - Hawke's Bay: sources/hawkes-bay.md
+      - Manawatū-Whanganui: sources/manawatu-whanganui.md
+      - Northland: sources/northland.md
+      - Southland: sources/southland.md
+      - Taranaki: sources/taranaki.md
+      - Gisborne / Top of South: sources/top-of-south.md
+      - West Coast: sources/west-coast.md
+      - Napier + Whanganui: sources/napier-whanganui.md
   - Python:
     - Overview: python/index.md
     - API reference: python/reference.md
