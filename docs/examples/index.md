@@ -153,7 +153,7 @@ Spatial datasets auto-return as `GeoDataFrame` (Python) or `sf` (R) when the opt
     ggplot(wellington) + geom_sf() + theme_void()
     ```
 
-> **Heads up**: Meshblock 2023 has ~57k features. Free tier row cap is 50,000 — this dataset will truncate. Filter via the API (`start` / `end` only work on time series; for spatial you need a region/bbox filter — not yet in v1.0). For full coverage, use Pro tier or [download the snapshot](https://eolas.fyi/datasets/nz_meshblock_2023/download).
+> **Heads up**: Meshblock 2023 has ~57k features. Free tier row cap is 50,000 — this dataset will truncate. Filter via the API (`start` / `end` only work on time series; for spatial you need a region/bbox filter — not yet in v1.0). For the **full dataset** use **Pro** (`limit=0`) or the **Enterprise Snowflake share**. *(Free monthly bulk-snapshot file downloads are on the roadmap — not yet available; the dashboard "Download" is a live query and applies the same Free 50k cap.)*
 
 ---
 
