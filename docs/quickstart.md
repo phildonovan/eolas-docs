@@ -96,7 +96,7 @@ Use source-specific helpers so your code is self-documenting:
     df = client.statsnz("nz_cpi", start="2020-01-01")
 
     # OECD
-    df = client.oecd("nz_gdp")
+    df = client.oecd("nz_gdp_growth")
 
     # NZ Treasury
     df = client.treasury("treasury_fiscal_spending")
@@ -134,7 +134,7 @@ Use source-specific helpers so your code is self-documenting:
     df <- eolas_get_statsnz("nz_cpi", start = "2020-01-01")
 
     # OECD
-    df <- eolas_get_oecd("nz_gdp")
+    df <- eolas_get_oecd("nz_gdp_growth")
 
     # NZ Treasury
     df <- eolas_get_treasury("treasury_fiscal_spending")
@@ -175,7 +175,7 @@ Use source-specific helpers so your code is self-documenting:
     eolas get nz_cpi --format json | jq '.[].value'
 
     # Parquet straight to a file
-    eolas get sa2_2023 --format parquet --out sa2.parquet
+    eolas get nz_meshblock_2023 --format parquet --out sa2.parquet
     ```
 
     Output auto-detects piping: rich tables in an interactive terminal, NDJSON / CSV when stdout is redirected. Pass `--json` to force NDJSON.

@@ -46,7 +46,7 @@ If you do data work in NZ — economic, demographic, geospatial, or social — e
 
     # Source-specific helpers
     df = client.statsnz("nz_cpi", start="2020-01-01")
-    df = client.oecd("nz_gdp")
+    df = client.oecd("nz_gdp_growth")
 
     # It's a pandas DataFrame — plot, filter, join as you like
     df.plot(x="date", y="value", title="NZ CPI")
@@ -83,7 +83,7 @@ If you do data work in NZ — economic, demographic, geospatial, or social — e
     eolas datasets list --search cpi
     eolas get nz_cpi --start 2020-01-01 --format csv > cpi.csv
     eolas schedule add nz_cpi --daily --out ~/data/cpi.csv
-    eolas integrate meltano --datasets nz_cpi,nz_gdp    # Enterprise
+    eolas integrate meltano --datasets nz_cpi,nz_gdp_growth    # Enterprise
     ```
 
     Same install on Linux, macOS, and Windows. Pipes cleanly into `jq`, `csvkit`, your spreadsheet, etc.

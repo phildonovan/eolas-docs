@@ -38,10 +38,10 @@ The recommended way to fetch data — the source is encoded in the method name, 
 
 ```python
 df = client.statsnz("nz_cpi", start="2020-01-01")   # Stats NZ
-df = client.oecd("nz_gdp")                           # OECD
-df = client.rbnz("ocr")                              # RBNZ
+df = client.oecd("nz_gdp_growth")                           # OECD
+df = client.rbnz("rbnz_b2_wholesale_rates_monthly")                              # RBNZ
 df = client.treasury("treasury_fiscal_spending")      # NZ Treasury
-df = client.linz("nz_parcels")                       # LINZ
+df = client.linz("nz_parcels", limit=1000)           # LINZ (~3M rows — always limit/filter big geo)
 ```
 
 Each returns a `Dataset` tagged with the source label.

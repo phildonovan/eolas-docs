@@ -34,7 +34,7 @@ Browse the full list: [eolas.fyi/datasets?source=Co-Lab+Waikato](https://eolas.f
 Weekly, Wednesday morning NZ time. The Co-Lab portal updates as each council publishes — typically monthly+ cadence. WRC publishes via its own portal but the schedule is similar.
 
 ```python
-meta = client.info("tcdc_district_plan_zones")
+meta = client.info("tcdc_dp_zones")
 meta["last_refreshed_at"]
 ```
 
@@ -72,8 +72,8 @@ print(pd.DataFrame(zones).fillna(0).astype(int))
 
 ```python
 import geopandas as gpd
-tcdc_coastal = client.colab_waikato("tcdc_coastal_inundation", as_sf=True)
-tcdc_erosion = client.colab_waikato("tcdc_coastal_erosion", as_sf=True)
+tcdc_coastal = client.colab_waikato("tcdc_haz_coastal_inundation", as_sf=True)
+tcdc_erosion = client.colab_waikato("tcdc_dp_coastal_erosion_current", as_sf=True)
 # Combined coastal-risk footprint
 combined_area_km2 = pd.concat([tcdc_coastal, tcdc_erosion]).to_crs("EPSG:2193").area.sum() / 1e6
 print(f"Coastal-risk area in Thames-Coromandel: {combined_area_km2:.0f} km²")

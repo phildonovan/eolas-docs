@@ -28,7 +28,7 @@ The 33 datasets cover RBNZ's statistical-release tables. The naming convention i
 | `rbnz_c5_money_supply` | M1 / M2 / M3 monetary aggregates. |
 | `rbnz_c6_credit_aggregates` | Lending to households, business, agriculture. |
 | `rbnz_c12_registered_banks_balance_sheet` | Aggregate bank balance sheet. |
-| `rbnz_c40_lvr_new_lending` | New mortgage lending by LVR band — useful for housing-market analysis. |
+| `rbnz_c31_new_mortgage_lending` | New mortgage lending by LVR band — useful for housing-market analysis. |
 
 ### Macro + external
 
@@ -108,7 +108,7 @@ The two interest rates every analyst tracks:
 === "Python"
 
     ```python
-    lvr = client.rbnz("rbnz_c40_lvr_new_lending", start="2018-01-01")
+    lvr = client.rbnz("rbnz_c31_new_mortgage_lending", start="2018-01-01")
     # Shows the >80% LVR share — the RBNZ's macroprudential tool target
     high_lvr = lvr[lvr["lvr_band"] == ">80%"]
     high_lvr.plot(x="date", y="value", title="High-LVR share of new mortgage lending (%)")

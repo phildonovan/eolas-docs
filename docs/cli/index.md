@@ -29,7 +29,7 @@ eolas schedule add nz_cpi --daily --out ~/data/cpi.csv
 eolas schedule list
 
 # Generate connector configs (Enterprise plan)
-eolas integrate meltano --datasets nz_cpi,nz_gdp --output ./my-pipeline/
+eolas integrate meltano --datasets nz_cpi,nz_gdp_growth --output ./my-pipeline/
 ```
 
 ---
@@ -84,7 +84,7 @@ Fetch a dataset and write it to stdout or a file.
 eolas get nz_cpi                                       # CSV to stdout
 eolas get nz_cpi --format json                         # JSON to stdout
 eolas get nz_cpi --start 2020-01-01 --end 2024-12-31   # filtered
-eolas get sa2_2023 --format parquet --out sa2.parquet  # Parquet (must specify --out)
+eolas get nz_meshblock_2023 --format parquet --out sa2.parquet  # Parquet (must specify --out)
 eolas get nz_cpi --limit 100                           # cap rows
 ```
 
@@ -124,7 +124,7 @@ eolas schedule add nz_cpi --weekly  --out ~/data/cpi.csv
 eolas schedule add nz_cpi --monthly --out ~/data/cpi.csv
 
 # Custom cron expression (POSIX only)
-eolas schedule add nzd_usd --cron "0 */6 * * *" --out ~/data/fx.csv
+eolas schedule add rbnz_b1_exchange_rates_monthly --cron "0 */6 * * *" --out ~/data/fx.csv
 
 # Preview without installing
 eolas schedule add nz_cpi --daily --out ~/data/cpi.csv --dry-run
@@ -146,9 +146,9 @@ equivalent is the `eolas-<name>` task name prefix.
 Generate ready-to-deploy connector configs for popular data-pipeline tools.
 
 ```bash
-eolas integrate meltano             --datasets nz_cpi,nz_gdp --output ./tap-eolas/
+eolas integrate meltano             --datasets nz_cpi,nz_gdp_growth --output ./tap-eolas/
 eolas integrate fivetran            --datasets nz_cpi
-eolas integrate azure-data-factory  --datasets nz_cpi,nz_gdp
+eolas integrate azure-data-factory  --datasets nz_cpi,nz_gdp_growth
 ```
 
 | Platform | What you get | Status |

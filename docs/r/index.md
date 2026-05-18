@@ -31,10 +31,10 @@ The recommended way to fetch data — the source is encoded in the function name
 
 ```r
 df <- eolas_get_statsnz("nz_cpi", start = "2020-01-01")   # Stats NZ
-df <- eolas_get_oecd("nz_gdp")                            # OECD
-df <- eolas_get_rbnz("ocr")                               # RBNZ
+df <- eolas_get_oecd("nz_gdp_growth")                            # OECD
+df <- eolas_get_rbnz("rbnz_b2_wholesale_rates_monthly")                               # RBNZ
 df <- eolas_get_treasury("treasury_fiscal_spending")       # NZ Treasury
-df <- eolas_get_linz("nz_parcels")                        # LINZ
+df <- eolas_get_linz("nz_parcels", limit = 1000)          # LINZ (~3M rows — always limit/filter big geo)
 ```
 
 Each returns a `eolas_dataset` tagged with the source label.
@@ -90,14 +90,14 @@ Generate ready-to-run connector configs for popular data-pipeline tools:
 
 ```r
 # Inspect the generated files without writing anything
-result <- eolas_integration("meltano", c("nz_cpi", "nz_gdp"))
+result <- eolas_integration("meltano", c("nz_cpi", "nz_gdp_growth"))
 names(result$files)            # "meltano.yml", "README.md", ".env.example"
 cat(result$files$meltano.yml)
 
 # Or write straight to a directory ready for `meltano install`
 eolas_integration(
   "meltano",
-  c("nz_cpi", "nz_gdp"),
+  c("nz_cpi", "nz_gdp_growth"),
   output_dir = "./my-pipeline"
 )
 ```

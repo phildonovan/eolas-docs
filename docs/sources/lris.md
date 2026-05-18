@@ -71,7 +71,7 @@ If you cite LCDB in academic work, Manaaki Whenua publishes a recommended citati
 
     lcdb = client.lris("lcdb_v6_mainland", as_sf=True)
     # Filter to one region (clip against LINZ regional council boundaries)
-    rc = client.linz("nz_regional_councils", as_sf=True)
+    rc = client.linz("nz_regional_council_2023", as_sf=True)
     canterbury = rc[rc["regc2023_v1_00_name"] == "Canterbury"]
     cant_cover = gpd.clip(lcdb, canterbury)
 
@@ -88,7 +88,7 @@ If you cite LCDB in academic work, Manaaki Whenua publishes a recommended citati
     library(dplyr)
 
     lcdb <- eolas_get_lris("lcdb_v6_mainland", as_sf = TRUE)
-    rc   <- eolas_get_linz("nz_regional_councils", as_sf = TRUE)
+    rc   <- eolas_get_linz("nz_regional_council_2023", as_sf = TRUE)
     cant <- rc[rc$regc2023_v1_00_name == "Canterbury", ]
     cant_cover <- st_intersection(lcdb, cant)
 

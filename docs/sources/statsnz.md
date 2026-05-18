@@ -16,7 +16,7 @@ CPI, GDP, unemployment, balance-of-payments. Quarterly series for most. See also
 
 ```python
 df = client.statsnz("nz_cpi", start="2020-01-01")
-df = client.statsnz("nz_gdp_production_annual")
+df = client.statsnz("nz_gdp_growth")
 ```
 
 ### Business demography (BDS)
@@ -33,8 +33,8 @@ df = client.statsnz("bds_geographic_units_births_deaths")
 National + sub-national estimated resident population, projections to 2048, by age / sex / ethnicity / Māori-descent. Prefixed `popes_` (estimates) and `poppr_` (projections).
 
 ```python
-df = client.statsnz("popes_subnational_by_age")
-df = client.statsnz("poppr_national_by_age_sex_to_2048")
+df = client.statsnz("popes_erp_components")
+df = client.statsnz("poppr_eth_national_2023")
 ```
 
 ### Productivity and earnings
@@ -42,8 +42,8 @@ df = client.statsnz("poppr_national_by_age_sex_to_2048")
 Labour productivity, multifactor productivity, LEED (linked employer-employee data), wages by industry / occupation / region.
 
 ```python
-df = client.statsnz("prd_labour_productivity")
-df = client.statsnz("leed_q_earnings_industry")
+df = client.statsnz("prd_labour_productivity_growth")
+df = client.statsnz("leed_q_measures_industry")
 ```
 
 ### Justice and social
@@ -51,8 +51,8 @@ df = client.statsnz("leed_q_earnings_industry")
 Charges, convictions, youth justice, household expenditure, household income. Prefixed `jus_`, `hes_` (household expenditure), `inc_` (income).
 
 ```python
-df = client.statsnz("jus_charges_by_offence_type")
-df = client.statsnz("hes_household_spending_by_category")
+df = client.statsnz("jus_charges_by_offence_fiscal")
+df = client.statsnz("hes_expenditure_category")
 ```
 
 ### Iwi statistics (2018 census)
@@ -60,7 +60,7 @@ df = client.statsnz("hes_household_spending_by_category")
 Iwi affiliation, iwi grouping counts for the Māori-descent population. 20+ datasets prefixed `iwi18_`. Note: 2023 census iwi frame not yet published; 2018 is current.
 
 ```python
-df = client.statsnz("iwi18_population_by_iwi")
+df = client.statsnz("nz_population_estimates")
 ```
 
 ### Geospatial boundaries + census
@@ -89,7 +89,7 @@ The set splits into three layers:
 
 ```python
 # 2023 census usually-resident population, by SA2, ready to map
-pop = client.statsnz("census_2023_pop_sa2", as_sf=True)
+pop = client.statsnz("census_2023_pop_change_sa2", as_sf=True)
 pop.plot(column="usually_resident_2023", legend=True, cmap="viridis")
 ```
 
@@ -165,7 +165,7 @@ The classic geo-demographic pattern: load boundaries, join your own data:
 
     ```python
     # 2023 SA2 boundaries (about 2,000 polygons, fits in Free tier)
-    sa2 = client.statsnz_geo("nz_sa2_2023", as_sf=True)
+    sa2 = client.statsnz_geo("nz_statistical_area_2_2023", as_sf=True)
 
     # Your own analysis data (with sa2_code_2023 column)
     import pandas as pd
@@ -181,7 +181,7 @@ The classic geo-demographic pattern: load boundaries, join your own data:
     library(sf)
     library(ggplot2)
 
-    sa2 <- eolas_get_statsnz_geo("nz_sa2_2023", as_sf = TRUE)
+    sa2 <- eolas_get_statsnz_geo("nz_statistical_area_2_2023", as_sf = TRUE)
     survey <- read.csv("my_survey.csv")
 
     merged <- merge(sa2, survey, by = "sa2_code_2023")

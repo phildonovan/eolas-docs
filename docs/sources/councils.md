@@ -128,7 +128,7 @@ from shapely.geometry import Point
 pt = gpd.GeoSeries([Point(174.7762, -41.2865)], crs="EPSG:4326")
 
 # 2. Which TA contains this point?
-ta = client.linz("nz_territorial_authorities", as_sf=True)
+ta = client.linz("nz_territorial_authority_2023", as_sf=True)
 location_ta = gpd.sjoin(pt.to_frame("geom").set_geometry("geom"), ta, predicate="within")
 ta_name = location_ta["ta_name"].iloc[0]
 

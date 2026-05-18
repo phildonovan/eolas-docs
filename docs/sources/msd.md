@@ -105,7 +105,7 @@ print(top)
 nzs = client.msd("msd_nzs_vp_summary")
 nzs_total = nzs.groupby("date")["count"].sum()
 # Compare to total population from Stats NZ
-pop = client.statsnz("popes_national_total_population")
+pop = client.statsnz("popes_erp_components")
 combined = pop.merge(nzs_total.rename("nzs"), on="date")
 combined["nzs_share"] = combined["nzs"] / combined["population"]
 combined.plot(x="date", y="nzs_share", title="NZS recipients / total population")

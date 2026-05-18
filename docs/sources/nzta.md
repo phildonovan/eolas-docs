@@ -94,7 +94,7 @@ import geopandas as gpd
 
 ev = client.nzta("nzta_ev_charging", as_sf=True)
 # Join to TLA boundaries (LINZ) for coverage analysis
-ta = client.linz("nz_territorial_authorities", as_sf=True)
+ta = client.linz("nz_territorial_authority_2023", as_sf=True)
 ev_by_ta = gpd.sjoin(ev, ta, how="inner", predicate="within")
 coverage = ev_by_ta.groupby("ta_name").size().sort_values(ascending=False).head(15)
 print(coverage)

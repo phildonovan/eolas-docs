@@ -17,7 +17,7 @@ If you're doing Hawke's Bay property research, cyclone-resilience analysis, or a
 ### Standout datasets
 
 - `chbdc_cyclone_affected_properties` — post-Cyclone Gabrielle property impacts (Feb 2023). Critical for property + insurance research.
-- `hbrc_coastal_erosion_likely_66`, `hbrc_coastal_erosion_likely_100`, `hbrc_coastal_erosion_likely_150` — multi-horizon coastal erosion scenarios
+- `hbrc_coastal_erosion_likely_66`, `hbrc_coastal_erosion_likely_66`, `hbrc_coastal_erosion_possible_33` — multi-horizon coastal erosion scenarios
 - `hbrc_chb_hdc_wdc_liquefaction_severity` — liquefaction severity for Central HB + Hastings + Wairoa (combined regional product)
 - `chbdc_haz_flood_full`, `chbdc_haz_flood_risk_areas` — Central HB flood hazards
 - `chbdc_haz_tsunami_inundation` — tsunami inundation modelling (Pacific exposure)
@@ -55,8 +55,8 @@ import geopandas as gpd
 
 scenarios = {
     "66yr":  client.hawkes_bay("hbrc_coastal_erosion_likely_66", as_sf=True),
-    "100yr": client.hawkes_bay("hbrc_coastal_erosion_likely_100", as_sf=True),
-    "150yr": client.hawkes_bay("hbrc_coastal_erosion_likely_150", as_sf=True),
+    "100yr": client.hawkes_bay("hbrc_coastal_erosion_likely_66", as_sf=True),
+    "150yr": client.hawkes_bay("hbrc_coastal_erosion_possible_33", as_sf=True),
 }
 for label, layer in scenarios.items():
     area_km2 = layer.to_crs("EPSG:2193").area.sum() / 1e6
