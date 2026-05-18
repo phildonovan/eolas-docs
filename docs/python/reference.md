@@ -124,13 +124,31 @@ gdf.to_crs("EPSG:2193")                           # reproject to NZTM
 | `name` | `str` | — | Dataset identifier |
 | `start` | `str \| None` | `None` | ISO date lower bound, e.g. `"2020-01-01"` |
 | `end` | `str \| None` | `None` | ISO date upper bound |
-| `format` | `str` | `"json"` | `"json"` or `"csv"` |
+| `format` | `str` | `"json"` | `"json"` or `"csv"`. You don't need to set this for speed — the client transparently negotiates Apache Arrow over the wire for the DataFrame path (see *Performance*). |
 | `engine` | `str` | `"pandas"` | `"pandas"` or `"polars"` |
 | `limit` | `int \| None` | `None` | Max rows to return. `None` requests the full dataset. Free / Starter plans are capped server-side at 50,000 rows; Pro is unlimited. |
 | `as_geo` | `bool \| None` | `None` | Return a `geopandas.GeoDataFrame` for geospatial datasets. `None` auto-converts when geometry is present and `geopandas` is importable. `True` forces conversion (errors if missing). `False` keeps the raw `geometry_wkt` string column. Install with `pip install eolas-data[geo]`. |
 
 **Returns:** `Dataset` (pandas) or `polars.DataFrame` when `engine="polars"`  
 **Raises:** `NotFoundError`, `AuthenticationError`, `RateLimitError`
+
+#### Performance: Arrow & Parquet
+
+The API serves datasets in four formats via `?format=` — `json` (default), `csv`, `arrow` (Apache Arrow IPC stream), and `parquet`. Arrow and Parquet are columnar and typed, so they're dramatically faster for anything beyond a few hundred rows. Measured end-to-end on a 100,000-row × 71-column dataset:
+
+| Format | Wire size | Total (download + parse) |
+|---|---|---|
+| JSON | 165 MB | 39.5 s |
+| **Arrow** | 66 MB | **7.7 s** (5× faster; ~80× faster parse) |
+| **Parquet** | 6.3 MB | **4.3 s** (9× faster; 26× smaller) |
+
+The Python client uses Arrow automatically — `client.get("nz_cpi")` returns the same `DataFrame`, just much faster on large pulls, with a transparent JSON fallback. Hitting the REST API directly:
+
+```bash
+curl -H "X-API-Key: $EOLAS_API_KEY" \
+  "https://api.eolas.fyi/v1/datasets/nzta_cas_crashes/data?format=parquet&limit=100000" \
+  -o crashes.parquet
+```
 
 ---
 
