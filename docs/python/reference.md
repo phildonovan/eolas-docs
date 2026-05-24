@@ -307,7 +307,7 @@ df = client.get_local("nz_parcels", as_geo=False)
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `name` | `str` | — | Dataset identifier, e.g. `"nz_parcels"` |
-| `cache_dir` | `str \| Path` | `"~/.cache/eolas"` | Local directory for cached files. `~` is expanded. Directory is created if it does not exist. |
+| `cache_dir` | `str \| Path \| None` | `None` | Local directory for cached files. `None` (default) resolves via the library precedence chain (env → config → `~/.cache/eolas/`). An explicit value wins outright. See [Authentication → Library](../authentication.md#library-where-your-data-files-live). |
 | `format` | `str \| None` | `None` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. `None` auto-detects from dataset metadata (geo → geoparquet, else parquet). |
 | `freshness` | `str` | `"auto"` | `"auto"`, `"monthly"`, or `"current"`. Passed verbatim to `sync_bulk`. |
 | `as_geo` | `bool` | `True` | When `True` and the file is GeoParquet and `geopandas` is installed, returns a `GeoDataFrame`. When `False` (or geopandas is missing), returns a plain `DataFrame` with the raw WKB column. |
@@ -408,6 +408,42 @@ eolas auth set-key
 ### `eolas auth clear`
 
 Remove `~/.eolas/config.json`. Does not affect the env var or keyring.
+
+---
+
+## CLI library commands
+
+Manage the directory where `get_local()` and smart-routed `get()` cache bulk data files. Requires `pip install 'eolas-data[cli]'`.
+
+### `eolas library set [PATH]`
+
+Write `library_dir` to `~/.eolas/config.json`. Future calls to `get_local()` use this directory unless overridden by `EOLAS_LIBRARY` or an explicit `cache_dir=` argument.
+
+```bash
+eolas library set ~/eolas-library        # user-wide persistent location
+eolas library set /data/eolas           # custom absolute path
+eolas library set                        # interactive prompt if no arg given
+```
+
+The config file is shared with the R `eolas` client, so a path set here is immediately honoured in R.
+
+### `eolas library status`
+
+Show the resolved library directory and which source is supplying it (env var, config file, or `~/.cache/eolas/` fallback).
+
+```bash
+eolas library status
+# library: /home/you/eolas-library
+# source:  /home/you/.eolas/config.json
+```
+
+### `eolas library clear`
+
+Remove `library_dir` from `~/.eolas/config.json`. After clearing, `get_local()` reverts to `~/.cache/eolas/` (or `EOLAS_LIBRARY` if set).
+
+```bash
+eolas library clear
+```
 
 ---
 

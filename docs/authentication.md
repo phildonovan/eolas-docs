@@ -244,6 +244,75 @@ Then your dev environment sets `EOLAS_API_KEY=vs_dev_...` and your prod env sets
 
 ---
 
+## Library: where your data files live
+
+The API key tells eolas *who you are*. The library directory tells eolas *where to put your data files* when you download bulk datasets via `client.get_local()` / `eolas_get_local()` or the smart-routing in `client.get()` / `eolas_get()`.
+
+### Precedence chain
+
+When the client needs a local cache directory it resolves it in this order — whichever source wins first:
+
+| Priority | Source | How to set |
+|---|---|---|
+| **1. Explicit arg** | `cache_dir=` passed directly to `get_local()` | `client.get_local("nz_cpi", cache_dir="/data/eolas")` |
+| **2. `EOLAS_LIBRARY` env var** | Persistent across shells | `export EOLAS_LIBRARY=~/eolas-library` |
+| **3. Config file** | `library_dir` in `~/.eolas/config.json` | `eolas library set ~/eolas-library` (CLI) or `eolas_library_set("~/eolas-library")` (R) |
+| **4. `~/.cache/eolas/`** | Transient OS cache fallback | Used automatically when nothing else is configured |
+
+The config file is the **same** `~/.eolas/config.json` that stores your API key. Both languages share it, so a library path set from Python is immediately honoured in R and vice versa.
+
+In a TTY session (interactive terminal, not CI/piped), the first call that would fall through to the `~/.cache/eolas/` fallback will prompt you to choose a location. On non-interactive hosts (CI, Docker, cron) the fallback is used silently with a one-time `INFO` log.
+
+### Setting a persistent library
+
+=== "Python CLI"
+
+    ```bash
+    eolas library set ~/eolas-library        # writes to ~/.eolas/config.json
+    eolas library set                        # interactive prompt if no arg
+    eolas library status                     # show source + resolved path
+    eolas library clear                      # revert to ~/.cache/eolas/ fallback
+    ```
+
+=== "Python (programmatic)"
+
+    ```python
+    from eolas_data.library import library_set, library_status, library_clear
+
+    library_set("~/eolas-library")   # writes to config
+    library_status()                  # returns dict with source + path
+    library_clear()                   # removes library_dir from config
+    ```
+
+=== "R"
+
+    ```r
+    eolas_library_set("~/eolas-library")    # writes to ~/.eolas/config.json
+    eolas_library_status()                  # show source + resolved path
+    eolas_library_clear()                   # revert to ~/.cache/eolas/ fallback
+    ```
+
+### The library vs the OS keyring
+
+Think of these as a pair:
+
+- **OS keyring** (`eolas auth save-key` / `eolas_key_save()`) — stores your *secret* so you never paste it again.
+- **Library** (`eolas library set` / `eolas_library_set()`) — stores your *data location* so cached files land somewhere permanent.
+
+Set both once on a workstation and every future session "just works" — no arguments, no env vars.
+
+### CI / headless environments
+
+In CI, Docker, or cron jobs you rarely want the interactive prompt. Use an env var instead — it takes priority over the config file and works the same way in both languages:
+
+```bash
+export EOLAS_LIBRARY=/data/eolas-cache   # in Dockerfile, GH Actions env, systemd unit, etc.
+```
+
+Or pass `cache_dir=` explicitly in every `get_local()` call if you need per-script control.
+
+---
+
 ## Troubleshooting auth issues
 
 See the [Troubleshooting page](troubleshooting.md) — sections on **"No API key found"**, **HTTP 401**, and **HTTP 403** cover the common failure modes.

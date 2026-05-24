@@ -370,7 +370,7 @@ repeat {
 
 ---
 
-### `eolas_get_local(name, cache_dir = "~/.cache/eolas", format = NULL, freshness = "auto", as_sf = TRUE)`
+### `eolas_get_local(name, cache_dir = NULL, format = NULL, freshness = "auto", as_sf = TRUE)`
 
 Explicit alias for `eolas_get(name, mode = "cached")`. Forces the cache+sync path regardless of dataset size or metadata.
 
@@ -406,7 +406,7 @@ df  <- eolas_get_local("nz_cpi", format = "csv_gz")
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `name` | character | — | Dataset identifier, e.g. `"nz_parcels"` |
-| `cache_dir` | character | `"~/.cache/eolas"` | Local directory for cached files. `~` is expanded. Directory is created if it does not exist. |
+| `cache_dir` | character \| NULL | `NULL` | Local directory for cached files. `NULL` (default) resolves via the library precedence chain (`EOLAS_LIBRARY` env → `library_dir` in `~/.eolas/config.json` → `~/.cache/eolas/`). An explicit value always wins. See [Authentication → Library](../authentication.md#library-where-your-data-files-live). |
 | `format` | character \| NULL | `NULL` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. `NULL` auto-detects from dataset metadata (geo → geoparquet, else parquet). |
 | `freshness` | character | `"auto"` | `"auto"`, `"monthly"`, or `"current"`. Passed verbatim to `eolas_sync_bulk()`. |
 | `as_sf` | logical | `TRUE` | When `TRUE` and the file is GeoParquet, attempts to return an `sf` object via `sfarrow::st_read_parquet()` or `sf::st_read()`. When `FALSE`, returns a plain `data.frame`. Requires `sf` or `sfarrow`: `install.packages("sf")`. |
@@ -420,6 +420,50 @@ df  <- eolas_get_local("nz_cpi", format = "csv_gz")
 | `"Bulk upgrade required:"` | HTTP 402 — `freshness = "current"` requires Pro plan |
 | `"Bulk licence restricted:"` | HTTP 403 (licence body) — dataset excluded from bulk (e.g. OECD). Use `eolas_get()` instead. |
 | `"Bulk not yet available:"` | HTTP 503 — monthly snapshot not yet generated |
+
+---
+
+## Library management
+
+These helpers manage the directory where `eolas_get_local()` and smart-routed `eolas_get()` cache bulk data files. They read and write the same `~/.eolas/config.json` that the Python `eolas-data` CLI uses, so a path set from R is immediately honoured in Python and vice versa. See [Authentication → Library](../authentication.md#library-where-your-data-files-live) for the full precedence chain.
+
+### `eolas_library_set(path)`
+
+Write `library_dir` to `~/.eolas/config.json`.
+
+```r
+eolas_library_set("~/eolas-library")    # user-wide persistent location
+eolas_library_set("/data/eolas")        # custom absolute path
+```
+
+**Arguments:** `path` — character, the directory to use. Supports `~`-prefixed paths.  
+**Returns:** The resolved (absolute) path, invisibly.
+
+---
+
+### `eolas_library_status()`
+
+Show the resolved library directory and which source is supplying it.
+
+```r
+eolas_library_status()
+# library: /home/you/eolas-library
+# source:  /home/you/.eolas/config.json
+```
+
+**Returns:** Named list with `source`, `path`, `env_var`, `config_file`, `config_value`, invisibly. Called primarily for its printed output.
+
+---
+
+### `eolas_library_clear()`
+
+Remove `library_dir` from `~/.eolas/config.json`. After clearing, `eolas_get_local()` reverts to `~/.cache/eolas/` (or `EOLAS_LIBRARY` if set).
+
+```r
+eolas_library_clear()
+```
+
+**Returns:** Invisibly `NULL`.
 
 ---
 

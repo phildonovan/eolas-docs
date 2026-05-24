@@ -54,7 +54,7 @@ gdf = client.get_local("nz_parcels")
 gdf = client.get_local("nz_parcels", cache_dir="/data/eolas", freshness="monthly")
 ```
 
-`format` auto-detects from metadata (geo → geoparquet, else parquet). Cached under `~/.cache/eolas/` by default. Exceptions from the bulk endpoint (`BulkLicenceRestricted`, `BulkUpgradeRequired`, `BulkNotYetAvailable`) propagate unchanged.
+`format` auto-detects from metadata (geo → geoparquet, else parquet). By default files cache at `~/.cache/eolas/`. For reproducible pipelines, set up a library — see [Authentication → Library](authentication.md#library-where-your-data-files-live). Exceptions from the bulk endpoint (`BulkLicenceRestricted`, `BulkUpgradeRequired`, `BulkNotYetAvailable`) propagate unchanged.
 
 ### R
 
