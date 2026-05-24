@@ -6,6 +6,47 @@ The endpoint is `/v1/bulk/{namespace}/{table}` on `api.eolas.fyi`. It's cached b
 
 ---
 
+## The easy path — `get_local` / `eolas_get_local`
+
+For the typical notebook workflow, `get_local()` is what you want. It wraps `sync_bulk` and the file read into one call and returns a DataFrame directly — you do not need to manage paths or parse the file yourself.
+
+If you have been running `client.get("nz_parcels")` on a 3-million-row geospatial dataset and it takes 15 minutes, this is why: `client.get()` issues a live Iceberg scan through the row-oriented data endpoint. `get_local()` serves a pre-materialised GeoParquet from CDN — milliseconds for monthly snapshots.
+
+### Python
+
+```python
+from eolas_data import Client
+
+client = Client("your_api_key")
+
+# First call: downloads ~1 GB GeoParquet from CDN into ~/.cache/eolas/
+# Subsequent calls in any future session: HEAD check (~200 bytes) then local read
+gdf = client.get_local("nz_parcels")   # returns geopandas.GeoDataFrame
+
+# Non-geo dataset
+df = client.get_local("nz_cpi")        # returns pd.DataFrame
+```
+
+`format` auto-detects from metadata (geo → geoparquet, else parquet). Cached under `~/.cache/eolas/` by default. Exceptions from the bulk endpoint (`BulkLicenceRestricted`, `BulkUpgradeRequired`, `BulkNotYetAvailable`) propagate unchanged.
+
+### R
+
+```r
+library(eolas)
+eolas_key("your_key")
+
+# First call: downloads GeoParquet from CDN into ~/.cache/eolas/
+# Subsequent calls: HEAD check then local read
+gdf <- eolas_get_local("nz_parcels")   # returns sf object (if sf installed)
+
+# Non-geo dataset
+df  <- eolas_get_local("nz_cpi")       # returns data.frame
+```
+
+See the [Python reference](python/reference.md) and [R reference](r/reference.md) for the full parameter list.
+
+---
+
 ## When to use bulk vs the live API
 
 | You want… | Use |

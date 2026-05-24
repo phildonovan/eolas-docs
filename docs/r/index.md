@@ -37,6 +37,16 @@ df <- eolas_get_treasury("treasury_fiscal_spending")       # NZ Treasury
 df <- eolas_get_linz("nz_parcels", limit = 1000)          # LINZ (~3M rows — always limit/filter big geo)
 ```
 
+For multi-million-row or geospatial datasets, use `eolas_get_local()` instead — it serves a pre-materialised file from CDN and caches it locally, so subsequent reads take under a second:
+
+```r
+# First call downloads from CDN; every subsequent call reads the local cache.
+gdf <- eolas_get_local("nz_parcels")   # sf object (if sf installed)
+df  <- eolas_get_local("nz_cpi")       # data.frame
+```
+
+See [Bulk downloads](../bulk-downloads.md) for the full explanation.
+
 Each returns a `eolas_dataset` tagged with the source label.
 
 ## Discovery

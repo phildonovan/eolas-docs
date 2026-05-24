@@ -263,6 +263,59 @@ print(r.status)            # "updated"
 
 ---
 
+### `client.get_local(name, *, cache_dir="~/.cache/eolas", format=None, freshness="auto", as_geo=True)`
+
+Download (or serve from cache) a whole dataset as a local DataFrame. This is the recommended path for large or geospatial datasets in a notebook workflow.
+
+On the first call it fetches the bulk file from CDN and writes it to `~/.cache/eolas/`. On subsequent calls a lightweight HEAD request checks whether the file is still current; if so the local copy is read directly with zero data transfer.
+
+If you have been running `client.get("nz_parcels")` on a 3-million-row geospatial dataset and it is taking 15+ minutes, use `get_local()` instead — it serves a pre-materialised GeoParquet from CDN, not a live Iceberg scan.
+
+```python
+from eolas_data import Client
+
+client = Client("your_api_key")
+
+# Geospatial dataset — first call downloads from CDN; subsequent calls read locally
+gdf = client.get_local("nz_parcels")     # geopandas.GeoDataFrame (if geopandas installed)
+
+# Non-geo dataset
+df = client.get_local("nz_cpi")          # pd.DataFrame
+
+# Custom cache directory
+df = client.get_local("nz_cpi", cache_dir="/data/eolas-cache")
+
+# Force a specific format
+df = client.get_local("nz_cpi", format="csv_gz")
+
+# Keep raw WKB column instead of converting to GeoDataFrame
+df = client.get_local("nz_parcels", as_geo=False)
+```
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `name` | `str` | — | Dataset identifier, e.g. `"nz_parcels"` |
+| `cache_dir` | `str \| Path` | `"~/.cache/eolas"` | Local directory for cached files. `~` is expanded. Directory is created if it does not exist. |
+| `format` | `str \| None` | `None` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. `None` auto-detects from dataset metadata (geo → geoparquet, else parquet). |
+| `freshness` | `str` | `"auto"` | `"auto"`, `"monthly"`, or `"current"`. Passed verbatim to `sync_bulk`. |
+| `as_geo` | `bool` | `True` | When `True` and the file is GeoParquet and `geopandas` is installed, returns a `GeoDataFrame`. When `False` (or geopandas is missing), returns a plain `DataFrame` with the raw WKB column. |
+
+**Returns:** `pd.DataFrame` or `geopandas.GeoDataFrame`
+
+**Raises:**
+
+| Exception | When |
+|---|---|
+| `BulkUpgradeRequired` | HTTP 402 — `freshness="current"` requires Pro plan |
+| `BulkLicenceRestricted` | HTTP 403 (licence body) — dataset excluded from bulk (e.g. OECD). Use `client.get()` instead. |
+| `BulkNotYetAvailable` | HTTP 503 — monthly snapshot not yet generated |
+| `NotFoundError` | Dataset not found |
+| `AuthenticationError` | Invalid or missing API key |
+
+---
+
 ## `Dataset`
 
 A `pandas.DataFrame` subclass returned by all data-fetching methods.

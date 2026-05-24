@@ -44,6 +44,16 @@ df = client.treasury("treasury_fiscal_spending")      # NZ Treasury
 df = client.linz("nz_parcels", limit=1000)           # LINZ (~3M rows — always limit/filter big geo)
 ```
 
+For multi-million-row or geospatial datasets, use `get_local()` instead — it serves a pre-materialised file from CDN and caches it locally, so subsequent reads take under a second:
+
+```python
+# First call downloads from CDN; every subsequent call reads the local cache.
+gdf = client.get_local("nz_parcels")   # geopandas.GeoDataFrame (if geopandas installed)
+df  = client.get_local("nz_cpi")       # pd.DataFrame
+```
+
+See [Bulk downloads](../bulk-downloads.md) for the full explanation.
+
 Each returns a `Dataset` tagged with the source label.
 
 ## Discovery

@@ -363,6 +363,56 @@ repeat {
 
 ---
 
+### `eolas_get_local(name, cache_dir = "~/.cache/eolas", format = NULL, freshness = "auto", as_sf = TRUE)`
+
+Download (or serve from cache) a whole dataset as a local data frame. This is the recommended path for large or geospatial datasets in an interactive R session or R Markdown notebook.
+
+On the first call it fetches the bulk file from CDN and writes it to `~/.cache/eolas/`. On subsequent calls a lightweight HEAD request checks whether the file is still current; if so the cached copy is read directly with zero data transfer.
+
+If you have been running `eolas_get("nz_parcels")` on a 3-million-row geospatial dataset and it is taking 15+ minutes, use `eolas_get_local()` instead — it serves a pre-materialised GeoParquet from CDN, not a live Iceberg scan.
+
+```r
+library(eolas)
+eolas_key("your_key")
+
+# Geospatial dataset — first call downloads from CDN; subsequent calls read locally
+gdf <- eolas_get_local("nz_parcels")      # sf object (if sf installed)
+
+# Non-geo dataset
+df  <- eolas_get_local("nz_cpi")          # data.frame
+
+# Custom cache directory
+df  <- eolas_get_local("nz_cpi", cache_dir = "/data/eolas-cache")
+
+# Keep plain data.frame instead of converting to sf
+df  <- eolas_get_local("nz_parcels", as_sf = FALSE)
+
+# Force a specific format
+df  <- eolas_get_local("nz_cpi", format = "csv_gz")
+```
+
+**Arguments**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `name` | character | — | Dataset identifier, e.g. `"nz_parcels"` |
+| `cache_dir` | character | `"~/.cache/eolas"` | Local directory for cached files. `~` is expanded. Directory is created if it does not exist. |
+| `format` | character \| NULL | `NULL` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. `NULL` auto-detects from dataset metadata (geo → geoparquet, else parquet). |
+| `freshness` | character | `"auto"` | `"auto"`, `"monthly"`, or `"current"`. Passed verbatim to `eolas_sync_bulk()`. |
+| `as_sf` | logical | `TRUE` | When `TRUE` and the file is GeoParquet, attempts to return an `sf` object via `sfarrow::st_read_parquet()` or `sf::st_read()`. When `FALSE`, returns a plain `data.frame`. Requires `sf` or `sfarrow`: `install.packages("sf")`. |
+
+**Returns:** `data.frame` or `sf` object depending on the dataset and `as_sf`.
+
+**Errors (via `stop()`):**
+
+| Condition | When |
+|---|---|
+| `"Bulk upgrade required:"` | HTTP 402 — `freshness = "current"` requires Pro plan |
+| `"Bulk licence restricted:"` | HTTP 403 (licence body) — dataset excluded from bulk (e.g. OECD). Use `eolas_get()` instead. |
+| `"Bulk not yet available:"` | HTTP 503 — monthly snapshot not yet generated |
+
+---
+
 ## Plotting
 
 ### `eolas_plot(x)`
