@@ -152,6 +152,66 @@ curl -H "X-API-Key: $EOLAS_API_KEY" \
 
 ---
 
+### `client.download_bulk(name, *, freshness="auto", format="parquet", path=None)`
+
+Download a complete dataset as a single binary file via the `/v1/bulk/{namespace}/{table}` endpoint. Monthly snapshots are served from Cloudflare's edge cache; Pro current snapshots are lazy-generated on first request.
+
+See [Bulk downloads](../bulk-downloads.md) for the full narrative, tier comparison, and worked examples.
+
+```python
+import io, pandas as pd
+
+# Return raw bytes
+raw = client.download_bulk("nz_cpi")
+df  = pd.read_parquet(io.BytesIO(raw))
+
+# Write to a file, get the path back
+path = client.download_bulk("nz_cpi", path="nz_cpi.parquet")
+
+# Gzipped CSV
+client.download_bulk("nz_cpi", format="csv_gz", path="nz_cpi.csv.gz")
+
+# GeoParquet for a geospatial dataset
+import geopandas as gpd
+raw = client.download_bulk("territorial_authority_2023", format="geoparquet")
+gdf = gpd.read_parquet(io.BytesIO(raw))
+
+# Force monthly freshness (reproducibility across plan levels)
+client.download_bulk("nz_cpi", freshness="monthly", path="nz_cpi.parquet")
+```
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `name` | `str` | — | Dataset identifier, e.g. `"nz_cpi"` |
+| `freshness` | `str` | `"auto"` | `"auto"` — server picks based on plan (Free→monthly, Pro→current). `"monthly"` or `"current"` to override. |
+| `format` | `str` | `"parquet"` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. GeoParquet only available on geospatial datasets. |
+| `path` | `str \| Path \| None` | `None` | Write to this path and return the resolved `Path`. `None` returns raw bytes. Parent directories are created automatically. |
+
+**Returns:** `pathlib.Path` when `path` is set; `bytes` when `path` is `None`.
+
+**Raises:**
+
+| Exception | When |
+|---|---|
+| `BulkUpgradeRequired` | HTTP 402 — `freshness="current"` requires Pro plan |
+| `BulkLicenceRestricted` | HTTP 403 (licence body) — dataset excluded from bulk (e.g. OECD). Use `client.get()` instead. |
+| `BulkNotYetAvailable` | HTTP 503 — monthly snapshot not yet generated |
+| `NotFoundError` | Dataset not found |
+| `AuthenticationError` | Invalid or missing API key |
+
+```python
+from eolas_data.exceptions import BulkUpgradeRequired, BulkLicenceRestricted
+
+try:
+    client.download_bulk("nz_cpi", freshness="current")
+except BulkUpgradeRequired:
+    print("Upgrade to Pro for current snapshots: https://eolas.fyi/pricing")
+```
+
+---
+
 ## `Dataset`
 
 A `pandas.DataFrame` subclass returned by all data-fetching methods.
@@ -192,10 +252,14 @@ All exceptions inherit from `eolas_data.exceptions.EolasError`.
 
 ```python
 from eolas_data.exceptions import (
-    EolasError,            # base
-    AuthenticationError,   # 401 / 403
-    RateLimitError,        # 429
-    NotFoundError,         # 404
-    APIError,              # other HTTP errors — has .status_code attribute
+    EolasError,              # base
+    AuthenticationError,     # 401 / 403
+    RateLimitError,          # 429
+    NotFoundError,           # 404
+    APIError,                # other HTTP errors — has .status_code attribute
+    # Bulk-download-specific (subclass APIError)
+    BulkUpgradeRequired,     # 402 — current freshness requires Pro
+    BulkLicenceRestricted,   # 403 (licence body) — dataset excluded from bulk
+    BulkNotYetAvailable,     # 503 — monthly snapshot not yet generated
 )
 ```

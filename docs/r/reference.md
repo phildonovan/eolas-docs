@@ -205,6 +205,57 @@ attr(df, "eolas_source")   # "Stats NZ"
 
 ---
 
+### `eolas_download_bulk(name, freshness = "auto", format = "parquet", path = NULL, ...)`
+
+Download a complete dataset as a single binary file via the `/v1/bulk/{namespace}/{table}` endpoint. Monthly snapshots are served from Cloudflare's edge cache; Pro current snapshots are lazy-generated on first request.
+
+See [Bulk downloads](../bulk-downloads.md) for the full narrative, tier comparison, and worked examples.
+
+```r
+# Return a raw vector
+raw <- eolas_download_bulk("nz_cpi")
+df  <- arrow::read_parquet(raw)
+
+# Write to a file, get the path back invisibly
+path <- eolas_download_bulk("nz_cpi", path = "nz_cpi.parquet")
+df   <- arrow::read_parquet(path)
+
+# Gzipped CSV (read.csv / readr compatible)
+eolas_download_bulk("nz_cpi", format = "csv_gz", path = "nz_cpi.csv.gz")
+df <- read.csv(gzfile("nz_cpi.csv.gz"))
+
+# GeoParquet for a geospatial dataset
+eolas_download_bulk("territorial_authority_2023",
+                    format = "geoparquet",
+                    path   = "ta2023.geo.parquet")
+
+# Force monthly freshness (reproducibility across plan levels)
+eolas_download_bulk("nz_cpi", freshness = "monthly", path = "nz_cpi.parquet")
+```
+
+**Arguments**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `name` | character | — | Dataset identifier, e.g. `"nz_cpi"` |
+| `freshness` | character | `"auto"` | `"auto"` — server picks based on plan (Free→monthly, Pro→current). `"monthly"` or `"current"` to override. |
+| `format` | character | `"parquet"` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. GeoParquet only available on geospatial datasets. |
+| `path` | character \| NULL | `NULL` | Write to this path and return it invisibly. `NULL` returns the raw bytes as a `raw` vector. Parent directories are created automatically. |
+
+**Returns:** Invisibly the normalised path when `path` is set; a `raw` vector when `path = NULL`.
+
+**Errors (via `stop()`):**
+
+| Condition | When |
+|---|---|
+| `"Bulk upgrade required:"` | HTTP 402 — `freshness = "current"` requires Pro plan |
+| `"Bulk licence restricted:"` | HTTP 403 (licence body) — dataset excluded from bulk (e.g. OECD). Use `eolas_get()` instead. |
+| `"Bulk not yet available:"` | HTTP 503 — monthly snapshot not yet generated |
+| `"Not found:"` | Dataset not found |
+| `"Authentication error:"` | Invalid or missing API key |
+
+---
+
 ## Plotting
 
 ### `eolas_plot(x)`

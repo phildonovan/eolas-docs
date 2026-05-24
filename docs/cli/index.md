@@ -20,9 +20,14 @@ script, or an AI agent.
 eolas datasets list --source "Stats NZ"
 eolas datasets list --search cpi --json | jq '.[].name'
 
-# Fetch
+# Fetch (row-level, live API)
 eolas get nz_cpi --start 2020-01-01 --format csv > cpi.csv
 eolas get nz_cpi --format json | jq '.[].value'
+
+# Bulk download (whole dataset as a single file)
+eolas download nz_cpi                                    # → nz_cpi.parquet in cwd
+eolas download nz_cpi --format csv --out cpi.csv.gz     # gzipped CSV
+eolas download territorial_authority_2023 --format geoparquet
 
 # Schedule (cron on POSIX, Task Scheduler on Windows)
 eolas schedule add nz_cpi --daily --out ~/data/cpi.csv
@@ -90,6 +95,43 @@ eolas get nz_cpi --limit 100                           # cap rows
 
 Formats: `csv` (default), `json`, `parquet`.
 Parquet requires `--out FILE` (binary output isn't safe to stream to stdout).
+
+### `eolas download <name>`
+
+Download a complete dataset as a single file. Wraps the `/v1/bulk/{namespace}/{table}` endpoint — no row caps, no pagination.
+
+See [Bulk downloads](../bulk-downloads.md) for tiers, caching, licence rules, and redistribution guidance.
+
+```bash
+eolas download nz_cpi                                    # Parquet, written to ./nz_cpi.parquet
+eolas download nz_cpi --format csv                       # gzipped CSV → ./nz_cpi.csv.gz
+eolas download nz_cpi --format parquet --out ~/data/cpi.parquet
+eolas download territorial_authority_2023 --format geoparquet
+eolas download nz_cpi --freshness monthly                # pin to latest monthly snapshot
+eolas download nz_cpi --freshness current                # Pro plan — current Iceberg snapshot
+```
+
+**Options**
+
+| Flag | Values | Default | Description |
+|---|---|---|---|
+| `--format`, `-f` | `parquet`, `csv`, `geoparquet` | `parquet` | Output format. `csv` writes a `.csv.gz` file. GeoParquet requires a geospatial dataset. |
+| `--freshness` | `auto`, `monthly`, `current` | `auto` | `auto` — server picks based on plan (Free→monthly, Pro→current). |
+| `--out`, `-o` | PATH | `<name>.<ext>` in cwd | Destination file path. |
+| `--api-key` | KEY | resolved from env / config | Override API key. |
+
+**Exit codes**
+
+| Code | Meaning |
+|---|---|
+| `0` | Success — file written |
+| `2` | Auth error (invalid key, 402 upgrade required, 403 licence restricted) |
+| `5` | API error (503 snapshot not yet available, 5xx) |
+| `4` | Dataset not found |
+
+On success (interactive mode) the command prints the filename and file size. When stdout is piped, it emits a single JSON line: `{"path": "...", "bytes": ..., "format": "...", "freshness": "..."}`.
+
+---
 
 ### `eolas datasets ...`
 
