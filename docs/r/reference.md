@@ -256,6 +256,58 @@ eolas_download_bulk("nz_cpi", freshness = "monthly", path = "nz_cpi.parquet")
 
 ---
 
+### `eolas_sync_bulk(name, path, format = "parquet", freshness = "auto", ...)`
+
+Incrementally sync a bulk dataset file — only re-downloads when the snapshot changes.
+
+Issues a lightweight HEAD request to read the server's `X-Snapshot-Version` header. If the local sidecar records the same snapshot id and the file exists, returns immediately with `status = "unchanged"` and zero data I/O. Otherwise downloads the new snapshot and replaces the file **atomically** (temp file + `file.rename()`).
+
+A sidecar file `paste0(path, ".eolas-meta.json")` is written next to the data file on every download or update.
+
+```r
+eolas_key("your_key")
+
+# First call: full download
+r <- eolas_sync_bulk("nz_cpi", path = "nz_cpi.parquet")
+r$status            # "downloaded"
+r$bytes_downloaded  # e.g. 2100000
+
+# Subsequent calls: no-op when snapshot unchanged
+r <- eolas_sync_bulk("nz_cpi", path = "nz_cpi.parquet")
+r$status            # "unchanged"
+r$bytes_downloaded  # 0
+
+# Poll in a script
+repeat {
+  r <- eolas_sync_bulk("nz_cpi", path = "nz_cpi.parquet")
+  if (r$status != "unchanged") message("Updated to ", r$current_snapshot_id)
+  Sys.sleep(3600)
+}
+```
+
+**Arguments**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `name` | character | — | Dataset identifier, e.g. `"nz_cpi"` |
+| `path` | character | — | **Required.** File path for the data. Sidecar written at `paste0(path, ".eolas-meta.json")`. |
+| `format` | character | `"parquet"` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. |
+| `freshness` | character | `"auto"` | `"auto"`, `"monthly"`, or `"current"`. |
+
+**Returns:** Named list with the same fields as Python's `SyncResult`:
+
+| Name | Type | Description |
+|---|---|---|
+| `status` | character | `"downloaded"`, `"updated"`, or `"unchanged"` |
+| `previous_snapshot_id` | character \| NA | Snapshot id from the sidecar, or `NA` if none |
+| `current_snapshot_id` | character | Snapshot id from the server |
+| `path` | character | Normalised path to the data file |
+| `bytes_downloaded` | integer | Bytes written (`0L` when unchanged) |
+
+**Errors (via `stop()`):** Same conditions as `eolas_download_bulk`. No sidecar is written on error.
+
+---
+
 ## Plotting
 
 ### `eolas_plot(x)`

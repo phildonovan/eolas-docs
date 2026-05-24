@@ -133,6 +133,44 @@ On success (interactive mode) the command prints the filename and file size. Whe
 
 ---
 
+### `eolas sync <name>`
+
+Incrementally sync a bulk dataset — only re-downloads when the server's snapshot changes.
+
+On each run, a lightweight HEAD request checks the `X-Snapshot-Version` header. If the local file is already current (snapshot id matches the sidecar), no data is transferred. The file is replaced **atomically** when an update is available. A sidecar file `<out>.eolas-meta.json` records the snapshot id for the next check.
+
+```bash
+# Single-shot sync (no --watch)
+eolas sync nz_cpi                                     # → ./nz_cpi.parquet
+eolas sync nz_cpi --format csv --out ~/data/cpi.csv.gz
+
+# Watch mode: poll every hour, print one line per iteration, exit with Ctrl-C
+eolas sync nz_cpi --watch 1h
+eolas sync nz_cpi --watch hourly --out ~/data/cpi.parquet
+eolas sync nz_cpi --watch 30m    --freshness current
+```
+
+**Options**
+
+| Flag | Values | Default | Description |
+|---|---|---|---|
+| `--format`, `-f` | `parquet`, `csv`, `geoparquet` | `parquet` | Output format. |
+| `--freshness` | `auto`, `monthly`, `current` | `auto` | Freshness level. |
+| `--out`, `-o` | PATH | `<name>.<ext>` in cwd | Destination file path. |
+| `--watch` | duration | (off) | Foreground poll loop. Duration examples: `60` / `30s` / `5m` / `1h` / `1d` / `hourly` / `daily` / `weekly`. |
+| `--api-key` | KEY | resolved from env / config | Override API key. |
+
+**Watch-mode output** (one line per iteration):
+
+```
+[14:00:00 NZST] unchanged (snapshot 5503437…)
+[15:00:00 NZST] updated to snapshot 7041234… (1.2 MB)
+```
+
+**Exit codes:** Same as `eolas download` (`0` success, `2` auth/plan, `5` API error, `4` not found, `64` bad usage).
+
+---
+
 ### `eolas datasets ...`
 
 ```bash

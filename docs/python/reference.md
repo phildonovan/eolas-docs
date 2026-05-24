@@ -212,6 +212,57 @@ except BulkUpgradeRequired:
 
 ---
 
+### `client.sync_bulk(name, *, path, format="parquet", freshness="auto")`
+
+Incrementally sync a bulk dataset file — only re-downloads when the snapshot changes.
+
+Issues a lightweight HEAD request to read the server's `X-Snapshot-Version` header. If the local sidecar records the same snapshot id and the file exists, returns immediately with `status="unchanged"` and zero data I/O. Otherwise downloads the new snapshot and replaces the file **atomically** (`os.replace()`).
+
+A sidecar file `<path>.eolas-meta.json` is written next to the data file on every download or update, recording the snapshot id, timestamp, and source URL.
+
+```python
+from eolas_data import Client, SyncResult
+
+client = Client("your_api_key")
+
+# First call: full download
+r = client.sync_bulk("nz_cpi", path="nz_cpi.parquet")
+print(r.status)            # "downloaded"
+print(r.bytes_downloaded)  # e.g. 2_100_000
+
+# Subsequent calls: no-op when snapshot unchanged
+r = client.sync_bulk("nz_cpi", path="nz_cpi.parquet")
+print(r.status)            # "unchanged"
+print(r.bytes_downloaded)  # 0
+
+# After a new ETL run: file replaced in place
+r = client.sync_bulk("nz_cpi", path="nz_cpi.parquet")
+print(r.status)            # "updated"
+```
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `name` | `str` | — | Dataset identifier, e.g. `"nz_cpi"` |
+| `path` | `str \| Path` | — | **Required.** Where to write the data file. Sidecar lives at `f"{path}.eolas-meta.json"`. |
+| `format` | `str` | `"parquet"` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. |
+| `freshness` | `str` | `"auto"` | `"auto"`, `"monthly"`, or `"current"`. |
+
+**Returns:** `SyncResult` — a dataclass with fields:
+
+| Field | Type | Description |
+|---|---|---|
+| `status` | `str` | `"downloaded"`, `"updated"`, or `"unchanged"` |
+| `previous_snapshot_id` | `str \| None` | Snapshot id from the sidecar before sync, or `None` if no sidecar existed |
+| `current_snapshot_id` | `str` | Snapshot id from the server |
+| `path` | `pathlib.Path` | Resolved path to the data file |
+| `bytes_downloaded` | `int` | Bytes written (`0` when unchanged) |
+
+**Raises:** Same as `download_bulk` (`BulkUpgradeRequired`, `BulkLicenceRestricted`, `BulkNotYetAvailable`, `NotFoundError`, `AuthenticationError`). No sidecar is written on error.
+
+---
+
 ## `Dataset`
 
 A `pandas.DataFrame` subclass returned by all data-fetching methods.

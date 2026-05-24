@@ -126,6 +126,49 @@ On any [dataset page](https://eolas.fyi/datasets), if you're logged in, click th
 
 ---
 
+## Keeping a downloaded file in sync
+
+After the first download, call `sync_bulk` / `eolas_sync_bulk` / `eolas sync` instead of `download_bulk` on subsequent runs. A HEAD request (~200 bytes) checks the server's `X-Snapshot-Version` header; if the local sidecar records the same snapshot, no data is transferred.
+
+### Python
+
+```python
+from eolas_data import Client
+
+client = Client("your_api_key")
+
+r = client.sync_bulk("nz_cpi", path="nz_cpi.parquet")
+# r.status is "downloaded" (first run), "updated" (new snapshot), or "unchanged"
+# r.bytes_downloaded is 0 when unchanged
+print(r.status, r.current_snapshot_id)
+```
+
+### R
+
+```r
+library(eolas)
+eolas_key("your_key")
+
+r <- eolas_sync_bulk("nz_cpi", path = "nz_cpi.parquet")
+# r$status: "downloaded" | "updated" | "unchanged"
+# r$bytes_downloaded: 0 when unchanged
+message(r$status, " — snapshot: ", r$current_snapshot_id)
+```
+
+### CLI (one-shot or watch loop)
+
+```bash
+# Single check
+eolas sync nz_cpi --out ~/data/nz_cpi.parquet
+
+# Foreground loop — polls every hour, exits on Ctrl-C
+eolas sync nz_cpi --watch hourly --out ~/data/nz_cpi.parquet
+```
+
+The sidecar `<path>.eolas-meta.json` (written automatically) contains the snapshot id, download timestamp, format, and source URL. It is safe to delete — the next call will treat it as a first download. See the [Python reference](python/reference.md) and [R reference](r/reference.md) pages for the full `sync_bulk` API.
+
+---
+
 ## What you get in the download
 
 Every bulk file is named `{namespace}__{table}@{snapshot_id}.{ext}`. The snapshot id is the Iceberg snapshot the file was generated from — files are immutable by name, so a new refresh of the source data produces a new URL (CDN cache invalidates itself).
