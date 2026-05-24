@@ -261,7 +261,7 @@ When the client needs a local cache directory it resolves it in this order — w
 
 The config file is the **same** `~/.eolas/config.json` that stores your API key. Both languages share it, so a library path set from Python is immediately honoured in R and vice versa.
 
-In a TTY session (interactive terminal, not CI/piped), the first call that would fall through to the `~/.cache/eolas/` fallback will prompt you to choose a location. On non-interactive hosts (CI, Docker, cron) the fallback is used silently with a one-time `INFO` log.
+In a TTY session (interactive terminal, not CI/piped), the first call that would fall through to the `~/.cache/eolas/` fallback will prompt you to choose a location — this works in **both Python and R**. Python gates on `sys.stdin.isatty()`; R gates on `interactive()`, the standard stdlib function used by `usethis`, `gitcreds`, `keyring`, and similar packages for exactly this purpose. On non-interactive hosts (CI, Docker, Rscript batch, Rmd render, Shiny Server) the fallback is used silently with a one-time `INFO` log/message nudge.
 
 ### Setting a persistent library
 
