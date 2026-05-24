@@ -267,7 +267,7 @@ attr(df, "eolas_source")   # "Stats NZ"
 
 ---
 
-### `eolas_download_bulk(name, freshness = "auto", format = "parquet", path = NULL, ...)`
+### `eolas_download_bulk(name, freshness = "auto", format = "parquet", path = NULL, progress = NULL, ...)`
 
 Download a complete dataset as a single binary file via the `/v1/bulk/{namespace}/{table}` endpoint. Monthly snapshots are served from Cloudflare's edge cache; Pro current snapshots are lazy-generated on first request.
 
@@ -303,6 +303,7 @@ eolas_download_bulk("nz_cpi", freshness = "monthly", path = "nz_cpi.parquet")
 | `freshness` | character | `"auto"` | `"auto"` — server picks based on plan (Free→monthly, Pro→current). `"monthly"` or `"current"` to override. |
 | `format` | character | `"parquet"` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. GeoParquet only available on geospatial datasets. |
 | `path` | character \| NULL | `NULL` | Write to this path and return it invisibly. `NULL` returns the raw bytes as a `raw` vector. Parent directories are created automatically. |
+| `progress` | logical \| NULL | `NULL` | Control the download progress bar. `NULL` auto-detects: shown when `interactive()` is `TRUE`, hidden in batch/CI. `TRUE` forces the bar on; `FALSE` forces it off. Also suppressed by `EOLAS_NO_PROGRESS=1` env var. When `path = NULL` (bytes mode) progress is always disabled. |
 
 **Returns:** Invisibly the normalised path when `path` is set; a `raw` vector when `path = NULL`.
 
@@ -318,7 +319,7 @@ eolas_download_bulk("nz_cpi", freshness = "monthly", path = "nz_cpi.parquet")
 
 ---
 
-### `eolas_sync_bulk(name, path, format = "parquet", freshness = "auto", ...)`
+### `eolas_sync_bulk(name, path, format = "parquet", freshness = "auto", progress = NULL, ...)`
 
 Incrementally sync a bulk dataset file — only re-downloads when the snapshot changes.
 
@@ -355,6 +356,7 @@ repeat {
 | `path` | character | — | **Required.** File path for the data. Sidecar written at `paste0(path, ".eolas-meta.json")`. |
 | `format` | character | `"parquet"` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. |
 | `freshness` | character | `"auto"` | `"auto"`, `"monthly"`, or `"current"`. |
+| `progress` | logical \| NULL | `NULL` | Control the download progress bar. `NULL` auto-detects via `interactive()`. `TRUE` forces on; `FALSE` forces off. `EOLAS_NO_PROGRESS=1` env var suppresses globally. When `status = "unchanged"` no bar is shown regardless. |
 
 **Returns:** Named list with the same fields as Python's `SyncResult`:
 

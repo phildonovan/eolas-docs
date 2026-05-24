@@ -56,6 +56,8 @@ gdf = client.get_local("nz_parcels", cache_dir="/data/eolas", freshness="monthly
 
 `format` auto-detects from metadata (geo → geoparquet, else parquet). By default files cache at `~/.cache/eolas/`. For reproducible pipelines, set up a library — see [Authentication → Library](authentication.md#library-where-your-data-files-live). Exceptions from the bulk endpoint (`BulkLicenceRestricted`, `BulkUpgradeRequired`, `BulkNotYetAvailable`) propagate unchanged.
 
+A **download progress bar** is shown automatically in interactive sessions (terminal or VSCode notebook) so 1 GB+ files are never silent. Pass `progress=False` / `progress = FALSE` to suppress it in scripts, or set `EOLAS_NO_PROGRESS=1` in the environment for a global CI-friendly escape hatch.
+
 ### R
 
 ```r

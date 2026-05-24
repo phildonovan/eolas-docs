@@ -159,7 +159,7 @@ curl -H "X-API-Key: $EOLAS_API_KEY" \
 
 ---
 
-### `client.download_bulk(name, *, freshness="auto", format="parquet", path=None)`
+### `client.download_bulk(name, *, freshness="auto", format="parquet", path=None, progress=None)`
 
 Download a complete dataset as a single binary file via the `/v1/bulk/{namespace}/{table}` endpoint. Monthly snapshots are served from Cloudflare's edge cache; Pro current snapshots are lazy-generated on first request.
 
@@ -195,6 +195,7 @@ client.download_bulk("nz_cpi", freshness="monthly", path="nz_cpi.parquet")
 | `freshness` | `str` | `"auto"` | `"auto"` — server picks based on plan (Free→monthly, Pro→current). `"monthly"` or `"current"` to override. |
 | `format` | `str` | `"parquet"` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. GeoParquet only available on geospatial datasets. |
 | `path` | `str \| Path \| None` | `None` | Write to this path and return the resolved `Path`. `None` returns raw bytes. Parent directories are created automatically. |
+| `progress` | `bool \| None` | `None` | Control the download progress bar. `None` auto-detects: shown when `sys.stdout.isatty()` is `True` (terminal or VSCode notebook), hidden otherwise. `True` forces the bar on; `False` forces it off. Also suppressed by `EOLAS_NO_PROGRESS=1` env var. When `path=None` (bytes mode) progress is always disabled. |
 
 **Returns:** `pathlib.Path` when `path` is set; `bytes` when `path` is `None`.
 
@@ -219,7 +220,7 @@ except BulkUpgradeRequired:
 
 ---
 
-### `client.sync_bulk(name, *, path, format="parquet", freshness="auto")`
+### `client.sync_bulk(name, *, path, format="parquet", freshness="auto", progress=None)`
 
 Incrementally sync a bulk dataset file — only re-downloads when the snapshot changes.
 
@@ -255,6 +256,7 @@ print(r.status)            # "updated"
 | `path` | `str \| Path` | — | **Required.** Where to write the data file. Sidecar lives at `f"{path}.eolas-meta.json"`. |
 | `format` | `str` | `"parquet"` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. |
 | `freshness` | `str` | `"auto"` | `"auto"`, `"monthly"`, or `"current"`. |
+| `progress` | `bool \| None` | `None` | Control the download progress bar. `None` auto-detects via `sys.stdout.isatty()`. `True` forces the bar on; `False` forces it off. `EOLAS_NO_PROGRESS=1` env var globally suppresses. When `status="unchanged"` no bar is shown regardless (no data transferred). |
 
 **Returns:** `SyncResult` — a dataclass with fields:
 
