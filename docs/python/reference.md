@@ -101,7 +101,7 @@ meta = client.info("nz_cpi")
 
 ---
 
-### `client.get(name, start=None, end=None, format="json", engine="pandas", limit=None, as_geo=None, *, mode="auto")`
+### `client.get(name, start=None, end=None, format="json", engine="pandas", limit=None, as_geo=None, as_arrow=False, *, mode="auto")`
 
 Fetch dataset rows as a DataFrame. For everyday use prefer the source-specific methods above — they call `get()` internally and inherit smart routing.
 
@@ -133,10 +133,11 @@ gdf = client.get("nz_parcels", mode="cached")
 | `format` | `str` | `"json"` | `"json"` or `"csv"`. You don't need to set this for speed — the client transparently negotiates Apache Arrow over the wire for the DataFrame path (see *Performance*). |
 | `engine` | `str` | `"pandas"` | `"pandas"` or `"polars"` |
 | `limit` | `int \| None` | `None` | Max rows to return. `None` requests the full dataset. Free plan is capped server-side at 50,000 rows; Pro is unlimited. Forces live path in `mode="auto"`. |
-| `as_geo` | `bool \| None` | `None` | Return a `geopandas.GeoDataFrame` for geospatial datasets. `None` auto-converts when geometry is present and `geopandas` is importable. `True` forces conversion (errors if missing). `False` keeps the raw `geometry_wkt` string column. Install with `pip install eolas-data[geo]`. |
+| `as_geo` | `bool \| None` | `None` | Return a `geopandas.GeoDataFrame` for geospatial datasets. `None` auto-converts when geometry is present and `geopandas` is importable. `True` forces conversion (errors if missing). `False` keeps the raw `geometry_wkt` string column. Install with `pip install eolas-data[geo]`. Mutually exclusive with `as_arrow=True`. |
+| `as_arrow` | `bool` | `False` | Return a `pyarrow.Table` instead of a DataFrame or GeoDataFrame. Skips all shapely allocation — geometry stays as Arrow buffers. Works on all datasets, all routing modes, and all source helpers. Mutually exclusive with `as_geo=True`. |
 | `mode` | `str` | `"auto"` | `"auto"` — smart-routes via metadata (see above). `"live"` — always use the live API. `"cached"` — always use cache+sync (equivalent to `get_local()`). |
 
-**Returns:** `Dataset` (pandas), `polars.DataFrame` when `engine="polars"`, or `geopandas.GeoDataFrame` when routed through the cache path  
+**Returns:** `Dataset` (pandas), `polars.DataFrame` when `engine="polars"`, `geopandas.GeoDataFrame` when routed through the cache path, or `pyarrow.Table` when `as_arrow=True`  
 **Raises:** `NotFoundError`, `AuthenticationError`, `RateLimitError`
 
 #### Performance: Arrow & Parquet
@@ -272,7 +273,7 @@ print(r.status)            # "updated"
 
 ---
 
-### `client.get_local(name, *, cache_dir="~/.cache/eolas", format=None, freshness="auto", as_geo=True)`
+### `client.get_local(name, *, cache_dir="~/.cache/eolas", format=None, freshness="auto", as_geo=None, as_arrow=False)`
 
 Explicit alias for `client.get(name, mode="cached")`. Forces the cache+sync path regardless of dataset size or metadata.
 
@@ -312,9 +313,10 @@ df = client.get_local("nz_parcels", as_geo=False)
 | `cache_dir` | `str \| Path \| None` | `None` | Local directory for cached files. `None` (default) resolves via the library precedence chain (env → config → `~/.cache/eolas/`). An explicit value wins outright. See [Authentication → Library](../authentication.md#library-where-your-data-files-live). |
 | `format` | `str \| None` | `None` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. `None` auto-detects from dataset metadata (geo → geoparquet, else parquet). |
 | `freshness` | `str` | `"auto"` | `"auto"`, `"monthly"`, or `"current"`. Passed verbatim to `sync_bulk`. |
-| `as_geo` | `bool` | `True` | When `True` and the file is GeoParquet and `geopandas` is installed, returns a `GeoDataFrame`. When `False` (or geopandas is missing), returns a plain `DataFrame` with the raw WKB column. |
+| `as_geo` | `bool \| None` | `None` | When `True` and the file is GeoParquet and `geopandas` is installed, returns a `GeoDataFrame`. When `False` (or geopandas is missing), returns a plain `DataFrame` with the raw WKT column. `None` auto-converts when geometry is present and geopandas is importable (unless `as_arrow=True`). Mutually exclusive with `as_arrow=True`. |
+| `as_arrow` | `bool` | `False` | Return a `pyarrow.Table` instead of a DataFrame or GeoDataFrame. Skips all shapely allocation. Mutually exclusive with `as_geo=True`. |
 
-**Returns:** `pd.DataFrame` or `geopandas.GeoDataFrame`
+**Returns:** `pd.DataFrame`, `geopandas.GeoDataFrame`, or `pyarrow.Table` when `as_arrow=True`
 
 **Raises:**
 

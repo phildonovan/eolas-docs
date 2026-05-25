@@ -161,7 +161,7 @@ meta$source  # "Stats NZ"
 
 ## Fetching data
 
-### `eolas_get(name, start = NULL, end = NULL, limit = NULL, as_sf = NULL, mode = "auto")`
+### `eolas_get(name, start = NULL, end = NULL, limit = NULL, as_sf = NULL, as_arrow = FALSE, mode = "auto")`
 
 Generic workhorse. For everyday use prefer the source-specific helpers below — they call `eolas_get()` internally and inherit smart routing.
 
@@ -190,10 +190,11 @@ gdf <- eolas_get("nz_parcels", mode = "cached")
 | `start` | character \| NULL | `NULL` | ISO date lower bound, e.g. `"2020-01-01"`. Forces live path in `mode = "auto"`. |
 | `end` | character \| NULL | `NULL` | ISO date upper bound. Forces live path in `mode = "auto"`. |
 | `limit` | integer \| NULL | `NULL` | Max rows. `NULL` requests the full dataset. Free plan is capped server-side at 50,000 rows; Pro is unlimited. Forces live path in `mode = "auto"`. |
-| `as_sf` | logical \| NULL | `NULL` | Return an `sf` object for geospatial datasets. `NULL` auto-converts when geometry is present and the `sf` package is installed. `TRUE` forces conversion (errors if missing). `FALSE` keeps the raw `geometry_wkt` string column. Install with `install.packages("sf")`. |
+| `as_sf` | logical \| NULL | `NULL` | Return an `sf` object for geospatial datasets. `NULL` auto-converts when geometry is present and the `sf` package is installed. `TRUE` forces conversion (errors if missing). `FALSE` keeps the raw `geometry_wkt` string column. Install with `install.packages("sf")`. Mutually exclusive with `as_arrow = TRUE`. |
+| `as_arrow` | logical | `FALSE` | Return an `arrow::Table` instead of a data frame or `sf` object. Skips all geometry materialisation — geometry stays as character WKT. Works on all datasets, all routing modes, and all `eolas_get_*()` source helpers. Mutually exclusive with `as_sf = TRUE`. |
 | `mode` | character | `"auto"` | `"auto"` — smart-routes via metadata (see above). `"live"` — always use the live API. `"cached"` — always use cache+sync (equivalent to `eolas_get_local()`). |
 
-**Returns:** `eolas_dataset` data frame, `sf` object when geometry is present and conversion is enabled, or the return value of `eolas_get_local()` when routed through the cache path.
+**Returns:** `eolas_dataset` data frame, `sf` object when geometry is present and conversion is enabled, `arrow::Table` when `as_arrow = TRUE`, or the return value of `eolas_get_local()` when routed through the cache path.
 
 #### Performance: Arrow & Parquet
 
@@ -227,38 +228,38 @@ Each is a named wrapper over `eolas_get()` that tags the result with the source 
 
 | Function | Source |
 |---|---|
-| `eolas_get_statsnz(name, start, end, limit, as_sf)` | Stats NZ |
-| `eolas_get_oecd(name, start, end, limit, as_sf)` | OECD |
-| `eolas_get_rbnz(name, start, end, limit, as_sf)` | RBNZ |
-| `eolas_get_treasury(name, start, end, limit, as_sf)` | NZ Treasury |
-| `eolas_get_linz(name, start, end, limit, as_sf)` | LINZ |
-| `eolas_get_statsnz_geo(name, start, end, limit, as_sf)` | Stats NZ Geospatial |
-| `eolas_get_mbie(name, start, end, limit, as_sf)` | MBIE |
-| `eolas_get_nzta(name, start, end, limit, as_sf)` | Waka Kotahi (NZTA) |
-| `eolas_get_msd(name, start, end, limit, as_sf)` | MSD |
-| `eolas_get_police(name, start, end, limit, as_sf)` | NZ Police / MoJ |
-| `eolas_get_immigration(name, start, end, limit, as_sf)` | Immigration NZ |
-| `eolas_get_lris(name, start, end, limit, as_sf)` | Manaaki Whenua / LRIS |
-| `eolas_get_geonet(name, start, end, limit, as_sf)` | GeoNet |
-| `eolas_get_doc(name, start, end, limit, as_sf)` | DOC (Department of Conservation) |
-| `eolas_get_akl_council(name, start, end, limit, as_sf)` | Auckland Council |
-| `eolas_get_akl_transport(name, start, end, limit, as_sf)` | Auckland Transport |
-| `eolas_get_bay_of_plenty(name, start, end, limit, as_sf)` | Bay of Plenty Councils |
-| `eolas_get_charities(name, start, end, limit, as_sf)` | Charities Services |
-| `eolas_get_colab_waikato(name, start, end, limit, as_sf)` | Co-Lab Waikato |
-| `eolas_get_ecan_canterbury(name, start, end, limit, as_sf)` | ECan / Canterbury |
-| `eolas_get_eeca(name, start, end, limit, as_sf)` | EECA (energy use, EV chargers, regional heat demand) |
-| `eolas_get_hawkes_bay(name, start, end, limit, as_sf)` | Hawke's Bay Councils |
-| `eolas_get_manawatu_whanganui(name, start, end, limit, as_sf)` | Manawatū-Whanganui Councils |
-| `eolas_get_napier_whanganui(name, start, end, limit, as_sf)` | Napier + Whanganui |
-| `eolas_get_northland(name, start, end, limit, as_sf)` | Northland Councils |
-| `eolas_get_otago(name, start, end, limit, as_sf)` | Otago Councils |
-| `eolas_get_pharmac(name, start, end, limit, as_sf)` | PHARMAC |
-| `eolas_get_southland(name, start, end, limit, as_sf)` | Southland Councils |
-| `eolas_get_taranaki(name, start, end, limit, as_sf)` | Taranaki Councils |
-| `eolas_get_top_of_south(name, start, end, limit, as_sf)` | Gisborne / Top of South Councils |
-| `eolas_get_wellington(name, start, end, limit, as_sf)` | Wellington Region Councils |
-| `eolas_get_west_coast(name, start, end, limit, as_sf)` | West Coast (Te Tai o Poutini) |
+| `eolas_get_statsnz(name, start, end, limit, as_sf, as_arrow)` | Stats NZ |
+| `eolas_get_oecd(name, start, end, limit, as_sf, as_arrow)` | OECD |
+| `eolas_get_rbnz(name, start, end, limit, as_sf, as_arrow)` | RBNZ |
+| `eolas_get_treasury(name, start, end, limit, as_sf, as_arrow)` | NZ Treasury |
+| `eolas_get_linz(name, start, end, limit, as_sf, as_arrow)` | LINZ |
+| `eolas_get_statsnz_geo(name, start, end, limit, as_sf, as_arrow)` | Stats NZ Geospatial |
+| `eolas_get_mbie(name, start, end, limit, as_sf, as_arrow)` | MBIE |
+| `eolas_get_nzta(name, start, end, limit, as_sf, as_arrow)` | Waka Kotahi (NZTA) |
+| `eolas_get_msd(name, start, end, limit, as_sf, as_arrow)` | MSD |
+| `eolas_get_police(name, start, end, limit, as_sf, as_arrow)` | NZ Police / MoJ |
+| `eolas_get_immigration(name, start, end, limit, as_sf, as_arrow)` | Immigration NZ |
+| `eolas_get_lris(name, start, end, limit, as_sf, as_arrow)` | Manaaki Whenua / LRIS |
+| `eolas_get_geonet(name, start, end, limit, as_sf, as_arrow)` | GeoNet |
+| `eolas_get_doc(name, start, end, limit, as_sf, as_arrow)` | DOC (Department of Conservation) |
+| `eolas_get_akl_council(name, start, end, limit, as_sf, as_arrow)` | Auckland Council |
+| `eolas_get_akl_transport(name, start, end, limit, as_sf, as_arrow)` | Auckland Transport |
+| `eolas_get_bay_of_plenty(name, start, end, limit, as_sf, as_arrow)` | Bay of Plenty Councils |
+| `eolas_get_charities(name, start, end, limit, as_sf, as_arrow)` | Charities Services |
+| `eolas_get_colab_waikato(name, start, end, limit, as_sf, as_arrow)` | Co-Lab Waikato |
+| `eolas_get_ecan_canterbury(name, start, end, limit, as_sf, as_arrow)` | ECan / Canterbury |
+| `eolas_get_eeca(name, start, end, limit, as_sf, as_arrow)` | EECA (energy use, EV chargers, regional heat demand) |
+| `eolas_get_hawkes_bay(name, start, end, limit, as_sf, as_arrow)` | Hawke's Bay Councils |
+| `eolas_get_manawatu_whanganui(name, start, end, limit, as_sf, as_arrow)` | Manawatū-Whanganui Councils |
+| `eolas_get_napier_whanganui(name, start, end, limit, as_sf, as_arrow)` | Napier + Whanganui |
+| `eolas_get_northland(name, start, end, limit, as_sf, as_arrow)` | Northland Councils |
+| `eolas_get_otago(name, start, end, limit, as_sf, as_arrow)` | Otago Councils |
+| `eolas_get_pharmac(name, start, end, limit, as_sf, as_arrow)` | PHARMAC |
+| `eolas_get_southland(name, start, end, limit, as_sf, as_arrow)` | Southland Councils |
+| `eolas_get_taranaki(name, start, end, limit, as_sf, as_arrow)` | Taranaki Councils |
+| `eolas_get_top_of_south(name, start, end, limit, as_sf, as_arrow)` | Gisborne / Top of South Councils |
+| `eolas_get_wellington(name, start, end, limit, as_sf, as_arrow)` | Wellington Region Councils |
+| `eolas_get_west_coast(name, start, end, limit, as_sf, as_arrow)` | West Coast (Te Tai o Poutini) |
 
 ```r
 df <- eolas_get_statsnz("nz_cpi", start = "2015-01-01")
@@ -372,7 +373,7 @@ repeat {
 
 ---
 
-### `eolas_get_local(name, cache_dir = NULL, format = NULL, freshness = "auto", as_sf = TRUE)`
+### `eolas_get_local(name, cache_dir = NULL, format = NULL, freshness = "auto", as_sf = NULL, as_arrow = FALSE)`
 
 Explicit alias for `eolas_get(name, mode = "cached")`. Forces the cache+sync path regardless of dataset size or metadata.
 
@@ -411,9 +412,10 @@ df  <- eolas_get_local("nz_cpi", format = "csv_gz")
 | `cache_dir` | character \| NULL | `NULL` | Local directory for cached files. `NULL` (default) resolves via the library precedence chain (`EOLAS_LIBRARY` env → `library_dir` in `~/.eolas/config.json` → `~/.cache/eolas/`). An explicit value always wins. See [Authentication → Library](../authentication.md#library-where-your-data-files-live). |
 | `format` | character \| NULL | `NULL` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. `NULL` auto-detects from dataset metadata (geo → geoparquet, else parquet). |
 | `freshness` | character | `"auto"` | `"auto"`, `"monthly"`, or `"current"`. Passed verbatim to `eolas_sync_bulk()`. |
-| `as_sf` | logical | `TRUE` | When `TRUE` and the file is GeoParquet, attempts to return an `sf` object via `sfarrow::st_read_parquet()` or `sf::st_read()`. When `FALSE`, returns a plain `data.frame`. Requires `sf` or `sfarrow`: `install.packages("sf")`. |
+| `as_sf` | logical \| NULL | `NULL` | When `TRUE` and the file is GeoParquet, attempts to return an `sf` object via `sfarrow::st_read_parquet()` or `sf::st_read()`. When `FALSE`, returns a plain `data.frame`. `NULL` auto-converts when geometry is present and `sf` is installed (unless `as_arrow = TRUE`). Mutually exclusive with `as_arrow = TRUE`. |
+| `as_arrow` | logical | `FALSE` | Return an `arrow::Table` instead of a data frame or `sf` object. Skips all geometry materialisation. Mutually exclusive with `as_sf = TRUE`. |
 
-**Returns:** `data.frame` or `sf` object depending on the dataset and `as_sf`.
+**Returns:** `data.frame`, `sf` object, or `arrow::Table` when `as_arrow = TRUE`.
 
 **Errors (via `stop()`):**
 
