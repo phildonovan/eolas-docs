@@ -339,26 +339,13 @@ A `pandas.DataFrame` subclass returned by all data-fetching methods.
 | `eolas_name` | `str` | Series identifier, e.g. `"nz_cpi"` |
 | `eolas_source` | `str` | Source label, e.g. `"Stats NZ"` |
 
-**Methods**
+**Plotting**
 
-### `Dataset.plot_series(ax=None, **kwargs)`
-
-Quick matplotlib line chart.
+`Dataset` subclasses `DataFrame`, so any matplotlib, seaborn, or plotly workflow works directly. `plot_series()` was removed in v1.3.0 — use pandas `.plot()` instead:
 
 ```python
-ax = df.plot_series()
-ax.set_ylabel("Index")   # customise further
+df.plot(x="date", y="value")
 ```
-
-**Parameters**
-
-| Name | Type | Default | Description |
-|---|---|---|---|
-| `ax` | `matplotlib.Axes \| None` | `None` | Existing axes to plot into. Creates a new figure if `None`. |
-| `**kwargs` | | | Passed to `ax.plot()`. |
-
-**Returns:** `matplotlib.Axes`  
-**Requires:** `matplotlib` — `pip install matplotlib` or `pip install eolas-data[plot]`
 
 ---
 

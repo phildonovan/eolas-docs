@@ -87,13 +87,17 @@ attr(df, "eolas_source")  # "Stats NZ"
 
 `eolas_dataset` is fully compatible with dplyr, ggplot2, and any function that accepts a data frame.
 
-## `eolas_plot()`
+## Plotting
 
-One-line ggplot2 chart — returns a `ggplot` object you can customise further with `+`:
+`eolas_dataset` is a plain data frame — use ggplot2 (or base R) directly. `eolas_plot()` was removed in v1.3.0 because it silently mis-rendered datasets with multiple series per date. Plot the tidy data frame yourself instead:
 
 ```r
-eolas_get_statsnz("nz_cpi", start = "2010-01-01") |>
-  eolas_plot() +
+library(ggplot2)
+
+df <- eolas_get_statsnz("nz_cpi", start = "2010-01-01")
+
+ggplot(df, aes(date, value)) +
+  geom_line() +
   ggplot2::labs(y = "Index (base 1000)")
 ```
 

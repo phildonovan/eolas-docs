@@ -1,6 +1,6 @@
 # Python client
 
-The `eolas-data` Python package provides a `Client` class that wraps the eolas REST API and returns **`Dataset` objects** — pandas DataFrames with source metadata and a built-in plot method.
+The `eolas-data` Python package provides a `Client` class that wraps the eolas REST API and returns **`Dataset` objects** — pandas DataFrames with source metadata.
 
 ## Installation
 
@@ -12,7 +12,7 @@ Optional extras:
 
 ```bash
 pip install eolas-data[polars]      # polars output support
-pip install eolas-data[plot]        # matplotlib for plot_series()
+pip install matplotlib              # for plotting
 ```
 
 Requires Python 3.10+ and pandas 1.5+.
@@ -86,13 +86,13 @@ df.eolas_name    # "nz_cpi"
 df.eolas_source  # "Stats NZ"
 ```
 
-### `.plot_series()`
+### Plotting
 
-Quick matplotlib line chart — returns the `Axes` object for further customisation:
+`Dataset` is a pandas `DataFrame` subclass, so any matplotlib, seaborn, or plotly workflow works directly. For a quick line chart:
 
 ```python
-ax = df.plot_series()
-ax.set_ylabel("Index (base 1000)")   # add to the returned axes
+ax = df.plot(x="date", y="value")
+ax.set_ylabel("Index (base 1000)")
 ```
 
 Requires `matplotlib`: `pip install matplotlib`.

@@ -471,24 +471,17 @@ eolas_library_clear()
 
 ## Plotting
 
-### `eolas_plot(x)`
-
-Quick ggplot2 line chart for a `eolas_dataset`. Returns a `ggplot` object — add further layers with `+`.
+`eolas_dataset` is a plain data frame. `eolas_plot()` was removed in v1.3.0 — it silently mis-rendered datasets that have a dimension column (multiple series per date). Use ggplot2 directly instead:
 
 ```r
-eolas_get_statsnz("nz_cpi", start = "2010-01-01") |>
-  eolas_plot() +
-  ggplot2::labs(y = "Index (base 1000)")
+library(ggplot2)
+
+df <- eolas_get_statsnz("nz_cpi", start = "2010-01-01")
+
+ggplot(df, aes(date, value)) +
+  geom_line() +
+  labs(y = "Index (base 1000)")
 ```
-
-**Arguments**
-
-| Name | Type | Description |
-|---|---|---|
-| `x` | eolas_dataset | A data frame returned by any `eolas_get_*()` function |
-
-**Returns:** `ggplot` object.  
-**Requires:** `ggplot2` — `install.packages("ggplot2")`.
 
 ---
 
@@ -520,13 +513,6 @@ ggplot(df, aes(date, value)) +
   theme_minimal()
 ```
 
-**With eolas_plot (quick):**
-
-```r
-df <- eolas_get_statsnz("nz_cpi", start = "2010-01-01")
-eolas_plot(df)
-```
-
 **In R Markdown:**
 
 ````markdown
@@ -536,6 +522,8 @@ eolas_key(Sys.getenv("EOLAS_API_KEY"))
 ```
 
 ```{r cpi-chart, fig.cap="NZ Consumer Price Index"}
-eolas_get_statsnz("nz_cpi", start = "2015-01-01") |> eolas_plot()
+library(ggplot2)
+df <- eolas_get_statsnz("nz_cpi", start = "2015-01-01")
+ggplot(df, aes(date, value)) + geom_line()
 ```
 ````
