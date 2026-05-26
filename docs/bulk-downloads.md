@@ -42,7 +42,9 @@ gdf = client.linz("nz_parcels")        # also auto-routes
 **Escape hatches when you need explicit control:**
 
 ```python
-# Force the live Iceberg scan regardless of dataset size
+# Force the live Iceberg scan — useful for freshest data, OECD-restricted sources,
+# or small slices (e.g. with limit=/start=/end=).
+# Refused with 413 if the dataset is large/geo and you don't pass a filter.
 gdf = client.get("nz_parcels", mode="live")
 
 # Force the cache+sync path explicitly (same as get_local)
@@ -75,7 +77,9 @@ gdf <- eolas_get_linz("nz_parcels")   # also auto-routes
 **Escape hatches:**
 
 ```r
-# Force live
+# Force the live Iceberg scan — useful for freshest data, OECD-restricted sources,
+# or small slices (e.g. with limit/start/end).
+# Refused with 413 if the dataset is large/geo and you don't pass a filter.
 gdf <- eolas_get("nz_parcels", mode = "live")
 
 # Force cache+sync (same as eolas_get_local)

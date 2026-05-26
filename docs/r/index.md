@@ -39,14 +39,15 @@ gdf <- eolas_get_linz("nz_parcels")   # LINZ (~3M rows — auto-bulks in seconds
 
 Source-specific helpers call `eolas_get()` internally and inherit smart routing: large and geospatial datasets auto-route through the cache+sync path, so `eolas_get_linz("nz_parcels")` returns an `sf` object in seconds — not 15 minutes. The first call emits a one-line message explaining what happened; subsequent calls are silent.
 
-For cases where you want to be explicit, use `eolas_get_local()` (same path, extra options for `cache_dir` / `format` / `freshness`), or pass `mode = "live"` to force the raw Iceberg scan:
+For cases where you want to be explicit, use `eolas_get_local()` (same path, extra options for `cache_dir` / `format` / `freshness`), or pass `mode = "live"` to hit the live Iceberg endpoint directly (useful for freshest data, OECD-restricted sources, or sliced queries with `limit`/`start`/`end`):
 
 ```r
 # Explicit cache+sync path with extra control
 gdf <- eolas_get_local("nz_parcels")
 df  <- eolas_get_local("nz_cpi", cache_dir = "/data/eolas", format = "csv_gz")
 
-# Force live scan regardless of dataset size
+# Force live scan — note: server returns 413 if the dataset is large/geo
+# and no limit/start/end filter is set; apply a filter or use mode = "cached"
 gdf <- eolas_get("nz_parcels", mode = "live")
 ```
 

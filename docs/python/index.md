@@ -46,14 +46,15 @@ gdf = client.linz("nz_parcels")  # LINZ (~3M rows — auto-bulks in seconds, no 
 
 Source-specific helpers call `client.get()` internally and inherit smart routing: large and geospatial datasets auto-route through the cache+sync path, so `client.linz("nz_parcels")` now returns a GeoDataFrame in seconds — not 15 minutes. The first call emits a one-line log explaining what happened; subsequent calls are silent.
 
-For cases where you want to be explicit, use `get_local()` (same path, extra options for `cache_dir` / `format` / `freshness`), or pass `mode="live"` to force the raw Iceberg scan:
+For cases where you want to be explicit, use `get_local()` (same path, extra options for `cache_dir` / `format` / `freshness`), or pass `mode="live"` to hit the live Iceberg endpoint directly (useful for freshest data, OECD-restricted sources, or sliced queries with `limit=`/`start=`/`end=`):
 
 ```python
 # Explicit cache+sync path with extra control
 gdf = client.get_local("nz_parcels")
 gdf = client.get_local("nz_parcels", cache_dir="/data/eolas", freshness="monthly")
 
-# Force live scan regardless of dataset size
+# Force live scan — note: server returns 413 if the dataset is large/geo
+# and no limit=/start=/end= filter is set; apply a filter or use mode="cached"
 gdf = client.get("nz_parcels", mode="live")
 ```
 

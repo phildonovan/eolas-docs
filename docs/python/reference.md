@@ -135,7 +135,7 @@ gdf = client.get("nz_parcels", mode="cached")
 | `limit` | `int \| None` | `None` | Max rows to return. `None` requests the full dataset. Free plan is capped server-side at 50,000 rows; Pro is unlimited. Forces live path in `mode="auto"`. |
 | `as_geo` | `bool \| None` | `None` | Return a `geopandas.GeoDataFrame` for geospatial datasets. `None` auto-converts when geometry is present and `geopandas` is importable. `True` forces conversion (errors if missing). `False` keeps the raw `geometry_wkt` string column. Install with `pip install eolas-data[geo]`. Mutually exclusive with `as_arrow=True`. |
 | `as_arrow` | `bool` | `False` | Return a `pyarrow.Table` instead of a DataFrame or GeoDataFrame. Skips all shapely allocation — geometry stays as Arrow buffers. Works on all datasets, all routing modes, and all source helpers. Mutually exclusive with `as_geo=True`. |
-| `mode` | `str` | `"auto"` | `"auto"` — smart-routes via metadata (see above). `"live"` — always use the live API. `"cached"` — always use cache+sync (equivalent to `get_local()`). |
+| `mode` | `str` | `"auto"` | `"auto"` — smart-routes via metadata (see above). `"live"` — hit the live API directly; useful for freshest data, OECD-restricted sources, or sliced queries (e.g. with `limit=`/`start=`/`end=`). The server returns **413** if the dataset is large (>100 k rows) or has geometry and no filter is set — use `mode="cached"` for whole-dataset pulls. `"cached"` — always use cache+sync (equivalent to `get_local()`). |
 
 **Returns:** `Dataset` (pandas), `polars.DataFrame` when `engine="polars"`, `geopandas.GeoDataFrame` when routed through the cache path, or `pyarrow.Table` when `as_arrow=True`  
 **Raises:** `NotFoundError`, `AuthenticationError`, `RateLimitError`

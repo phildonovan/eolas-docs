@@ -192,7 +192,7 @@ gdf <- eolas_get("nz_parcels", mode = "cached")
 | `limit` | integer \| NULL | `NULL` | Max rows. `NULL` requests the full dataset. Free plan is capped server-side at 50,000 rows; Pro is unlimited. Forces live path in `mode = "auto"`. |
 | `as_sf` | logical \| NULL | `NULL` | Return an `sf` object for geospatial datasets. `NULL` auto-converts when geometry is present and the `sf` package is installed. `TRUE` forces conversion (errors if missing). `FALSE` keeps the raw `geometry_wkt` string column. Install with `install.packages("sf")`. Mutually exclusive with `as_arrow = TRUE`. |
 | `as_arrow` | logical | `FALSE` | Return an `arrow::Table` instead of a data frame or `sf` object. Skips all geometry materialisation — geometry stays as character WKT. Works on all datasets, all routing modes, and all `eolas_get_*()` source helpers. Mutually exclusive with `as_sf = TRUE`. |
-| `mode` | character | `"auto"` | `"auto"` — smart-routes via metadata (see above). `"live"` — always use the live API. `"cached"` — always use cache+sync (equivalent to `eolas_get_local()`). |
+| `mode` | character | `"auto"` | `"auto"` — smart-routes via metadata (see above). `"live"` — hit the live API directly; useful for freshest data, OECD-restricted sources, or sliced queries (e.g. with `limit`/`start`/`end`). The server returns **413** if the dataset is large (>100 k rows) or has geometry and no filter is set — use `"cached"` for whole-dataset pulls. `"cached"` — always use cache+sync (equivalent to `eolas_get_local()`). |
 
 **Returns:** `eolas_dataset` data frame, `sf` object when geometry is present and conversion is enabled, `arrow::Table` when `as_arrow = TRUE`, or the return value of `eolas_get_local()` when routed through the cache path.
 
