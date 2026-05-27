@@ -74,6 +74,9 @@ nav:
   - Bulk downloads: bulk-downloads.md
   - Examples: examples/index.md
   - Troubleshooting: troubleshooting.md
+  - Blog:
+    - Index: blog/index.md
+    - Reading our own GeoParquet: blog/2026-05-27-geoparquet-rabbit-hole.md
 
 markdown_extensions:
   - pymdownx.highlight:
