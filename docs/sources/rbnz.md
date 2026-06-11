@@ -1,6 +1,6 @@
 # RBNZ data via eolas
 
-The [Reserve Bank of New Zealand](https://www.rbnz.govt.nz/statistics) publishes the canonical NZ money-and-banking statistics. eolas serves **33 datasets** from RBNZ, organised by the RBNZ's own letter-numbered table system (`B1`, `B2`, …, `C` series, `M` series).
+The [Reserve Bank of New Zealand](https://www.rbnz.govt.nz/statistics) publishes the canonical NZ money-and-banking statistics. eolas serves **32 datasets** from RBNZ, organised by the RBNZ's own letter-numbered table system (`B1`, `B2`, …, `C` series, `M` series).
 
 If you do anything involving mortgages, exchange rates, NZ monetary aggregates, or balance-of-payments — RBNZ is the source.
 
@@ -8,7 +8,7 @@ If you do anything involving mortgages, exchange rates, NZ monetary aggregates, 
 
 ## What's in the catalogue
 
-The 33 datasets cover RBNZ's statistical-release tables. The naming convention is `rbnz_<table_code>_<topic>`, e.g. `rbnz_b1_exchange_rates_daily`.
+The 32 datasets cover RBNZ's statistical-release tables. The naming convention is `rbnz_<table_code>_<topic>`, e.g. `rbnz_b1_exchange_rates_daily`.
 
 ### Interest rates
 
@@ -16,8 +16,8 @@ The 33 datasets cover RBNZ's statistical-release tables. The naming convention i
 |---|---|
 | `rbnz_b1_exchange_rates_daily` | Daily TWI and bilateral exchange rates (NZD vs major currencies). |
 | `rbnz_b1_exchange_rates_monthly` | Monthly averages of the same. |
-| `rbnz_b2_wholesale_rates_daily` | Wholesale interbank rates — OCR, 90-day bank bill, swap rates. |
-| `rbnz_b2_wholesale_rates_monthly` | Monthly averages. |
+| `rbnz_b2_wholesale_rates_daily` | Wholesale rates, end-of-day close — OCR, bank bills, government bond yields, swap rates. |
+| `rbnz_b2_wholesale_rates_monthly` | Monthly averages of the same (close basis). |
 | `rbnz_b3_retail_rates` | Retail / household rates (term deposits, lending). |
 | `rbnz_b20_mortgage_rates` | Mortgage rates by fixed term and lender. |
 
@@ -25,10 +25,11 @@ The 33 datasets cover RBNZ's statistical-release tables. The naming convention i
 
 | Dataset | Description |
 |---|---|
-| `rbnz_c5_money_supply` | M1 / M2 / M3 monetary aggregates. |
-| `rbnz_c6_credit_aggregates` | Lending to households, business, agriculture. |
-| `rbnz_c12_registered_banks_balance_sheet` | Aggregate bank balance sheet. |
-| `rbnz_c31_new_mortgage_lending` | New mortgage lending by LVR band — useful for housing-market analysis. |
+| `rbnz_c5_credit_extended` | Credit extended to households, business, and agriculture. |
+| `rbnz_c31_new_mortgage_lending` | New mortgage lending by LVR band and borrower type — useful for housing-market analysis. |
+| `rbnz_c33_mortgage_by_purpose` | New mortgage lending by purpose (first-home, investor, owner-occupier). |
+| `rbnz_c40_monetary_aggregates` | New residential mortgage lending by debt-to-income (DTI) band. *(The `monetary_aggregates` id is a historical misnomer — the content is DTI lending.)* |
+| `rbnz_c71_residential_mortgage_lending` | Residential mortgage lending by rate type (fixed/floating mix). |
 
 ### Macro + external
 
@@ -44,7 +45,7 @@ For the full list, browse [eolas.fyi/datasets?source=RBNZ](https://eolas.fyi/dat
 
 ## Refresh schedule
 
-Weekly, Wednesday morning NZ time. RBNZ itself publishes most tables monthly or weekly — daily exchange rates the major exception. The weekly refresh catches new monthly releases within 5-12 days of RBNZ publishing them.
+Daily for the rate/FX tables (B1 exchange rates, B2 wholesale rates), daily checks with monthly/quarterly source cadence for the rest (the pipeline's change detection skips unchanged source files). One exception: `rbnz_m13_inflation_expectations` is **archived** — RBNZ discontinued its source file in June 2022, so the dataset is the 1995–2022 historical series and no longer updates.
 
 ---
 
@@ -70,9 +71,10 @@ The two interest rates every analyst tracks:
 
     rates = client.rbnz("rbnz_b2_wholesale_rates_daily", start="2018-01-01")
 
-    # rates has columns: date, series, value — where series includes "OCR", "90day", etc.
-    pivoted = rates.pivot(index="date", columns="series", values="value")
-    pivoted[["OCR", "90day"]].plot(figsize=(10, 4), title="OCR vs 90-day bank bill")
+    # Tables are WIDE: one column per series, snake_cased from RBNZ's headers.
+    rates.plot(x="date",
+               y=["cash_rate_official_cash_rate_ocr", "bank_bill_yields_90_days"],
+               figsize=(10, 4), title="OCR vs 90-day bank bill")
     plt.show()
     ```
 
@@ -83,11 +85,11 @@ The two interest rates every analyst tracks:
     library(ggplot2)
 
     rates <- eolas_get_rbnz("rbnz_b2_wholesale_rates_daily", start = "2018-01-01")
-    wide  <- pivot_wider(rates, names_from = series, values_from = value)
 
-    ggplot(wide, aes(date)) +
-      geom_line(aes(y = OCR,   colour = "OCR")) +
-      geom_line(aes(y = `90day`, colour = "90-day")) +
+    # Tables are wide: one column per series, snake_cased from RBNZ's headers.
+    ggplot(rates, aes(date)) +
+      geom_line(aes(y = cash_rate_official_cash_rate_ocr, colour = "OCR")) +
+      geom_line(aes(y = bank_bill_yields_90_days, colour = "90-day")) +
       labs(y = "Rate (%)", colour = NULL)
     ```
 
@@ -97,10 +99,10 @@ The two interest rates every analyst tracks:
 
     ```python
     mort = client.rbnz("rbnz_b20_mortgage_rates", start="2020-01-01")
-    # Columns include date, term, value (rate %)
-
-    fixed_2yr = mort[mort["term"] == "2 years fixed"]
-    fixed_2yr.plot(x="date", y="value", title="NZ 2-year fixed mortgage rate")
+    # One column per fixed term (wide format)
+    mort.plot(x="date",
+              y="new_standard_residential_mortgage_interest_rates_average_pct_end_of_month_2_years",
+              title="NZ 2-year fixed mortgage rate")
     ```
 
 ### LVR composition of new lending
@@ -109,9 +111,13 @@ The two interest rates every analyst tracks:
 
     ```python
     lvr = client.rbnz("rbnz_c31_new_mortgage_lending", start="2018-01-01")
-    # Shows the >80% LVR share — the RBNZ's macroprudential tool target
-    high_lvr = lvr[lvr["lvr_band"] == ">80%"]
-    high_lvr.plot(x="date", y="value", title="High-LVR share of new mortgage lending (%)")
+    # High-LVR (>80%) share of all new lending — the RBNZ's macroprudential target
+    lvr["high_lvr_share_pct"] = (
+        lvr["higher_than_80_pct_lvr_lending_b1_all_borrower_types_b2_b3_b4_b5"]
+        / lvr["total_lending_a1_all_borrower_types_a2_a3_a4_a5"] * 100
+    )
+    lvr.plot(x="date", y="high_lvr_share_pct",
+             title="High-LVR share of new mortgage lending (%)")
     ```
 
 ---
@@ -153,7 +159,7 @@ See the [Sync guide](../sync-guide.md) for cron and Airflow recipes.
 ## Source-specific notes
 
 - **Naming**: dataset names follow `rbnz_<rbnz_table_code>_<topic>` so they cross-reference cleanly to RBNZ's own [Statistics page](https://www.rbnz.govt.nz/statistics) — if you read a "B2" release on RBNZ's website, the eolas dataset is `rbnz_b2_*`.
-- **Long format**: most tables are emitted as `(date, series, value)` long-format rather than wide. Pivot to wide for charting (Python: `df.pivot()`, R: `tidyr::pivot_wider()`).
+- **Wide format**: tables are one row per date with one column per series, snake_cased from RBNZ's multi-row Excel headers (e.g. `cash_rate_official_cash_rate_ocr`). No pivoting needed for charting; use `df.melt()` / `tidyr::pivot_longer()` if you want long format.
 - **Cloudflare**: RBNZ's site is Cloudflare-protected. Our pipeline uses residential-proxy fallback to fetch reliably; you don't see this — just clean data. If you're scraping RBNZ directly without proxies you'll see 403s from Fargate-IP-range addresses.
 - **Recent retirement**: RBNZ retired 8 legacy tables in May 2026 (404s on the source). We removed those from our schedule rather than report broken pipelines; if you have older code referencing them, the dataset names will 404 from us too.
 
