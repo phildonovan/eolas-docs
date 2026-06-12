@@ -25,6 +25,7 @@ nav:
   - Getting started: quickstart.md
   - Sync guide: sync-guide.md
   - Authentication: authentication.md
+  - Snowflake share: snowflake.md
   - Data sources:
     - Overview: sources/index.md
     - Stats NZ: sources/statsnz.md
