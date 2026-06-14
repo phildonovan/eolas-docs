@@ -100,7 +100,7 @@ See the [Python reference](python/reference.md) and [R reference](r/reference.md
 |---|---|
 | A few hundred or thousand recent rows | `/v1/datasets/{name}/data` (filterable, JSON/CSV/Arrow/Parquet) |
 | **The full dataset as one file** | **`/v1/bulk/{ns}/{table}`** (this page) |
-| The data joined live into your warehouse | Snowflake share (Enterprise) — see [Authentication](authentication.md) |
+| The data joined live into your warehouse | Snowflake share (Enterprise) — see [Snowflake share](snowflake.md) |
 
 The live `/data` endpoint is capped (Free: 50,000 rows/request). For multi-million-row geospatial datasets like LINZ parcels, the bulk endpoint is the right tool — it lazy-generates the snapshot file once and serves it from CDN thereafter.
 
