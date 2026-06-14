@@ -287,3 +287,5 @@ You can also browse interactively at [eolas.fyi/datasets](https://eolas.fyi/data
 
 !!! tip "Rate limits"
     Free keys allow **10 requests per month** at up to 50,000 rows per request. [Pro](https://eolas.fyi/#pricing) ($49/month) is unlimited requests and unlimited rows. Enterprise adds Snowflake share + connector scaffolding + SLA.
+
+    Every Free-tier response tells you where you stand: check the `X-RateLimit-Remaining` header (and `X-RateLimit-Reset`, the Unix epoch when the count rolls over) so a script never burns the quota by surprise.
