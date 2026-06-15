@@ -307,32 +307,23 @@ eolas sync is not a general-purpose ETL platform. It's a deliberately narrow too
 
 ---
 
-## Datasets that support incremental sync
+## How sync keeps your copy current
 
-Most datasets in eolas support incremental sync — only the rows added since your last sync are transferred. The exceptions are datasets where the upstream source replaces the full table on each publish (e.g. Stats NZ SDMX series, OECD indicators, RBNZ tables), where SCD2 lineage can't be preserved through a full replacement, or where the dataset is too small for incrementalism to matter.
+Whatever the dataset, `sync()` transfers the minimum needed and sends **zero bytes when the server snapshot hasn't changed** since your last sync. *How* it refreshes when data does change depends on how the upstream source is published:
 
-**Full-refresh datasets** (the server returns all rows on every sync; your client still skips the download when the snapshot hasn't changed):
+**Full-snapshot datasets** — when the snapshot changes, the server serves the whole current snapshot (your client still skips the download entirely when nothing has changed). This covers both sources that replace the table on each publish **and** SCD2 cadastral/geospatial tables — the latter expire rows in place (an `is_current` flip), which can't be reconstructed from append-only deltas, so they refresh as a full snapshot:
 
-- Stats NZ SDMX time-series (`statsnz.*`, `oecd.*`)
-- RBNZ tables (`rbnz.*`)
-- Charities Services (`charities.*`)
-- EECA energy use (`eeca.*`)
-- ACC claims (`acc.*`)
-- Education Counts (`edcounts.*`)
-- NZ Police / MoJ (`police.*`)
-- WorkSafe NZ (`worksafe.*`)
-- GeoNet seismic events (`geonet.*`)
+- LINZ cadastral & geospatial (`linz.*`) — parcels, titles, addresses, roads, buildings
+- Stats NZ geospatial boundaries (`statsnz_geo.*`), LRIS (`lris.*`)
+- Stats NZ SDMX & OECD time-series (`statsnz.*`, `oecd.*`), RBNZ (`rbnz.*`)
+- Charities (`charities.*`), EECA (`eeca.*`), ACC (`acc.*`), Education Counts (`edcounts.*`), NZ Police / MoJ (`police.*`), WorkSafe (`worksafe.*`), GeoNet (`geonet.*`)
 
-**Incremental-capable datasets** (delta rows only after the first sync):
+**Append-only datasets** — only the rows added since your last sync are transferred (true row-level deltas). This covers sources that only ever append new records:
 
-- LINZ cadastral and geospatial (`linz.*`) — parcels, titles, addresses, roads, buildings
-- Stats NZ geospatial boundaries (`statsnz_geo.*`)
-- NZTA / Waka Kotahi (`nzta.*`) — crash analysis, traffic monitoring
-- MSD (`msd.*`)
-- Auckland Council and Auckland Transport geospatial layers
-- Most regional council spatial datasets
+- MSD (`msd.*`), MBIE (`mbie.*`), Pharmac history (`pharmac.*`)
+- NZTA / Waka Kotahi (`nzta.*`) and ArcGIS council layers (Auckland, regional councils) — new features by object id
 
-When you call `sync()` on a full-refresh dataset, the behaviour is identical from your perspective: if the snapshot hasn't changed since your last sync, zero bytes are transferred. If it has, the new snapshot is downloaded in full and the old file is superseded. The client handles the routing transparently.
+From your perspective the call is identical either way: `sync()` downloads the minimum and returns "unchanged" when nothing moved. The client handles the routing transparently.
 
 ---
 
