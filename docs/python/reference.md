@@ -101,26 +101,14 @@ meta = client.info("nz_cpi")
 
 ---
 
-### `client.get(name, start=None, end=None, format="json", engine="pandas", limit=None, as_geo=None, as_arrow=False, *, mode="auto")`
+### `client.get(name, start=None, end=None, format="json", engine="pandas", limit=None, as_geo=None, as_arrow=False)`
 
-Fetch dataset rows as a DataFrame. For everyday use prefer the source-specific methods above — they call `get()` internally and inherit smart routing.
-
-`get()` is now a **smart entry point**: in `mode="auto"` (the default) it inspects the dataset's metadata and automatically routes large or geospatial datasets through the cache+sync path, returning a `GeoDataFrame` in seconds instead of minutes. See [Bulk downloads](../bulk-downloads.md) for the full routing rules.
+Fetch dataset rows as a DataFrame. For everyday use prefer the source-specific methods above — they call `get()` internally.
 
 ```python
-# Smart default: nz_parcels auto-routes to cache+sync (~seconds after first call)
-gdf = client.get("nz_parcels")
-
-# Small dataset: stays on the live path (no metadata overhead for sliced queries)
 df = client.get("nz_cpi", start="2020-01-01", end="2024-12-31")
 df = client.get("nz_cpi", engine="polars")        # returns polars DataFrame
-df = client.get("nz_addresses", limit=1000)       # limit= forces live
-
-# Force live even for large datasets
-gdf = client.get("nz_parcels", mode="live")
-
-# Force cache+sync explicitly (same as get_local)
-gdf = client.get("nz_parcels", mode="cached")
+df = client.get("nz_addresses", limit=1000)
 ```
 
 **Parameters**
@@ -128,16 +116,15 @@ gdf = client.get("nz_parcels", mode="cached")
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `name` | `str` | — | Dataset identifier |
-| `start` | `str \| None` | `None` | ISO date lower bound, e.g. `"2020-01-01"`. Forces live path in `mode="auto"`. |
-| `end` | `str \| None` | `None` | ISO date upper bound. Forces live path in `mode="auto"`. |
+| `start` | `str \| None` | `None` | ISO date lower bound, e.g. `"2020-01-01"`. |
+| `end` | `str \| None` | `None` | ISO date upper bound. |
 | `format` | `str` | `"json"` | `"json"` or `"csv"`. You don't need to set this for speed — the client transparently negotiates Apache Arrow over the wire for the DataFrame path (see *Performance*). |
 | `engine` | `str` | `"pandas"` | `"pandas"` or `"polars"` |
-| `limit` | `int \| None` | `None` | Max rows to return. `None` requests the full dataset. Free plan is capped server-side at 50,000 rows; Pro is unlimited. Forces live path in `mode="auto"`. |
+| `limit` | `int \| None` | `None` | Max rows to return. `None` requests the full dataset. Free plan is capped server-side at 50,000 rows; Pro is unlimited. |
 | `as_geo` | `bool \| None` | `None` | Return a `geopandas.GeoDataFrame` for geospatial datasets. `None` auto-converts when geometry is present and `geopandas` is importable. `True` forces conversion (errors if missing). `False` keeps the raw `geometry_wkt` string column. Install with `pip install eolas-data[geo]`. Mutually exclusive with `as_arrow=True`. |
-| `as_arrow` | `bool` | `False` | Return a `pyarrow.Table` instead of a DataFrame or GeoDataFrame. Skips all shapely allocation — geometry stays as Arrow buffers. Works on all datasets, all routing modes, and all source helpers. Mutually exclusive with `as_geo=True`. |
-| `mode` | `str` | `"auto"` | `"auto"` — smart-routes via metadata (see above). `"live"` — hit the live API directly; useful for freshest data, OECD-restricted sources, or sliced queries (e.g. with `limit=`/`start=`/`end=`). The server returns **413** if the dataset is large (>100 k rows) or has geometry and no filter is set — use `mode="cached"` for whole-dataset pulls. `"cached"` — always use cache+sync (equivalent to `get_local()`). |
+| `as_arrow` | `bool` | `False` | Return a `pyarrow.Table` instead of a DataFrame or GeoDataFrame. Skips all shapely allocation — geometry stays as Arrow buffers. Works on all datasets and all source helpers. Mutually exclusive with `as_geo=True`. |
 
-**Returns:** `Dataset` (pandas), `polars.DataFrame` when `engine="polars"`, `geopandas.GeoDataFrame` when routed through the cache path, or `pyarrow.Table` when `as_arrow=True`  
+**Returns:** `Dataset` (pandas), `polars.DataFrame` when `engine="polars"`, `geopandas.GeoDataFrame` when geometry is present, or `pyarrow.Table` when `as_arrow=True`  
 **Raises:** `NotFoundError`, `AuthenticationError`, `RateLimitError`
 
 #### Performance: Arrow & Parquet
@@ -157,137 +144,6 @@ curl -H "X-API-Key: $EOLAS_API_KEY" \
   "https://api.eolas.fyi/v1/datasets/nzta_cas_crashes/data?format=parquet&limit=100000" \
   -o crashes.parquet
 ```
-
----
-
-### `client.sync(name, library_dir)`
-
-Incrementally sync a dataset into a local library directory. On the first call, downloads the full snapshot. On subsequent calls, fetches only the rows appended since the last sync and adds them as a delta file. Returns immediately (no download) when the server snapshot is unchanged.
-
-The dataset is stored as a directory of Parquet files plus `_eolas-manifest.json`. Any Parquet-aware tool (`pandas`, `DuckDB`, `polars`, `Spark`, `dbt`) can read the whole directory as one logical table.
-
-See the [Sync guide](../sync-guide.md) for the full conceptual walkthrough, cron and Airflow recipes, and a comparison vs Fivetran/Stitch.
-
-```python
-from eolas_data import Client
-
-client = Client("your_eolas_key")
-LIBRARY = "/data/nz-warehouse"
-
-# First sync — full download
-result = client.sync("nz_parcels", library_dir=LIBRARY)
-print(result.status)           # "snapshot_full"
-print(result.bytes_downloaded) # e.g. 1_650_000_000
-
-# Re-sync — only delta rows
-result = client.sync("nz_parcels", library_dir=LIBRARY)
-print(result.status)   # "unchanged" or "snapshot_delta"
-print(result.rows_added)  # 0 or e.g. 2847
-```
-
-**Parameters**
-
-| Name | Type | Description |
-|---|---|---|
-| `name` | `str` | Dataset identifier, e.g. `"nz_parcels"` |
-| `library_dir` | `str \| Path` | Root directory of your local dataset library. The dataset is written to `<library_dir>/<name>/`. |
-
-**Returns:** `SyncResult` (see below)
-
----
-
-### `client.sync_all(library_dir, datasets=None)`
-
-Sync multiple datasets concurrently. When `datasets` is not provided, syncs every dataset already registered in the library (by manifest). Up to 4 datasets are synced in parallel.
-
-```python
-# Explicit list
-results = client.sync_all(
-    library_dir="/data/nz-warehouse",
-    datasets=["nz_parcels", "nz_addresses", "nz_property_titles"],
-)
-for name, r in results.items():
-    print(f"{name}: {r.status} (+{r.rows_added} rows)")
-
-# Everything in the library
-results = client.sync_all(library_dir="/data/nz-warehouse")
-```
-
-**Parameters**
-
-| Name | Type | Default | Description |
-|---|---|---|---|
-| `library_dir` | `str \| Path` | — | Root library directory |
-| `datasets` | `list[str] \| None` | `None` | Datasets to sync. `None` syncs all datasets with existing manifests in the library. |
-
-**Returns:** `dict[str, SyncResult]`
-
----
-
-### `client.compact(path)`
-
-Merge all snapshot and delta files in a dataset directory into a single new snapshot file, then remove the old files. The manifest is updated atomically. Safe to run at any time — old files are only removed after the new snapshot is confirmed.
-
-Pass a single dataset directory or the library root (compacts all datasets with deltas).
-
-```python
-# Single dataset
-client.compact("/data/nz-warehouse/nz_parcels")
-
-# Entire library
-client.compact("/data/nz-warehouse")
-```
-
-**Parameters**
-
-| Name | Type | Description |
-|---|---|---|
-| `path` | `str \| Path` | Path to a dataset directory OR the library root. |
-
-**Returns:** `CompactResult`
-
-| Field | Type | Description |
-|---|---|---|
-| `files_removed` | `int` | Number of old snapshot/delta files deleted |
-| `bytes_saved` | `int` | Approximate disk space recovered |
-| `new_snapshot_file` | `str` | Filename of the new consolidated snapshot |
-
----
-
-### `SyncResult`
-
-Returned by `client.sync()`. Also available as `eolas_data.SyncResult`.
-
-| Field | Type | Description |
-|---|---|---|
-| `status` | `str` | `"unchanged"` — no data transferred. `"snapshot_full"` — full dataset downloaded (first sync, or full reset after lineage gap). `"snapshot_delta"` — delta rows appended. |
-| `bytes_downloaded` | `int` | Bytes written to disk (`0` when `status="unchanged"`) |
-| `rows_added` | `int` | Rows written in this sync (`0` when unchanged) |
-| `files_added` | `int` | New Parquet files created (`0` when unchanged) |
-| `current_snapshot_id` | `str` | The snapshot ID now recorded in the manifest |
-| `dataset` | `str` | Dataset name |
-
----
-
-### `client.get()` — library-aware smart routing
-
-When `library_dir` is configured (via `eolas library set` or the `EOLAS_LIBRARY` env var) and a manifest exists for the requested dataset, `client.get()` and the source-specific helpers (`client.linz()`, etc.) automatically read from the local library files using PyArrow's `ParquetDataset` — zero network traffic, no cadence re-check if the manifest is within the dataset's refresh window.
-
-```python
-# After syncing nz_parcels into /data/nz-warehouse:
-client = Client("your_key")  # EOLAS_LIBRARY=/data/nz-warehouse or eolas library set
-
-gdf = client.linz("nz_parcels")   # reads from /data/nz-warehouse/nz_parcels/ — no download
-df  = client.get("nz_cpi")        # small dataset, still goes live (no manifest)
-```
-
-Set the library directory once:
-
-```bash
-eolas library set /data/nz-warehouse
-```
-
-Or per-process via env var: `EOLAS_LIBRARY=/data/nz-warehouse python my_pipeline.py`.
 
 ---
 
@@ -406,12 +262,7 @@ print(r.status)            # "updated"
 
 ### `client.get_local(name, *, cache_dir="~/.cache/eolas", format=None, freshness="auto", as_geo=None, as_arrow=False)`
 
-Explicit alias for `client.get(name, mode="cached")`. Forces the cache+sync path regardless of dataset size or metadata.
-
-`client.get(name)` in `mode="auto"` (the default) now auto-routes large and geospatial datasets to this same path automatically — so for most use cases you no longer need to call `get_local()` explicitly. Keep using it when:
-
-- You want to be unambiguous in production scripts.
-- You need to control `cache_dir`, `format`, or `freshness` (those parameters are only available here, not on `get()`).
+Fetch a dataset from the local cache, downloading it from the bulk endpoint if not already present or if the snapshot has changed. Use this when you want to avoid re-downloading data that hasn't changed.
 
 On the first call it fetches the bulk file from CDN and writes it to `~/.cache/eolas/`. On subsequent calls a lightweight HEAD request checks whether the file is still current; if so the local copy is read directly with zero data transfer.
 
@@ -535,11 +386,11 @@ Remove `~/.eolas/config.json`. Does not affect the env var or keyring.
 
 ## CLI library commands
 
-Manage the directory where `get_local()` and smart-routed `get()` cache bulk data files. Requires `pip install 'eolas-data[cli]'`.
+Manage the directory where `get_local()` caches bulk data files. Requires `pip install 'eolas-data[cli]'`.
 
 ### `eolas library set [PATH]`
 
-Write `library_dir` to `~/.eolas/config.json`. Future calls to `get_local()` use this directory unless overridden by `EOLAS_LIBRARY` or an explicit `cache_dir=` argument.
+Write `library_dir` to `~/.eolas/config.json`. Future calls to `get_local()` will use this directory unless overridden by `EOLAS_LIBRARY` or an explicit `cache_dir=` argument.
 
 ```bash
 eolas library set ~/eolas-library        # user-wide persistent location
@@ -561,7 +412,7 @@ eolas library status
 
 ### `eolas library clear`
 
-Remove `library_dir` from `~/.eolas/config.json`. After clearing, `get_local()` reverts to `~/.cache/eolas/` (or `EOLAS_LIBRARY` if set).
+Remove `library_dir` from `~/.eolas/config.json`. After clearing, `get_local()` reverts to the default `~/.cache/eolas/` location (or `EOLAS_LIBRARY` if set).
 
 ```bash
 eolas library clear

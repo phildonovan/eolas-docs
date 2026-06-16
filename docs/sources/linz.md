@@ -140,7 +140,7 @@ This is the workflow behind property-search tools (PropertyGuru-style sites) —
 
 ## Pipeline use
 
-LINZ cadastral datasets support **true incremental sync** — when you re-sync after the weekly LINZ refresh, you receive only the rows added or changed since your last sync, not the full 3-million-row parcel layer. For a dataset like `nz_parcels`, this means your nightly or weekly sync job transfers a few MB of deltas instead of 1.6 GB.
+LINZ datasets are served as full snapshots. Use `sync_bulk` / `eolas_sync_bulk` to keep a local file fresh — it issues a lightweight HEAD check and only re-downloads when the snapshot has changed.
 
 === "Python"
 
@@ -148,22 +148,18 @@ LINZ cadastral datasets support **true incremental sync** — when you re-sync a
     from eolas_data import Client
 
     client = Client("your_eolas_key")
-    LIBRARY = "/data/nz-warehouse"
 
-    # First sync: full 1.6 GB download, creates the snapshot file + manifest
-    result = client.sync("nz_parcels", library_dir=LIBRARY)
-    print(result.status)           # "snapshot_full"
+    # First call: full 1.6 GB download
+    result = client.sync_bulk("nz_parcels", path="/data/nz_parcels.parquet")
+    print(result.status)           # "downloaded"
     print(result.bytes_downloaded) # ~1_650_000_000
 
-    # Next week: only the changed parcels
-    result = client.sync("nz_parcels", library_dir=LIBRARY)
-    print(result.status)   # "snapshot_delta"
-    print(result.rows_added)  # e.g. 2847
+    # Next call: no-op when the snapshot is unchanged
+    result = client.sync_bulk("nz_parcels", path="/data/nz_parcels.parquet")
+    print(result.status)  # "unchanged" or "updated"
 
-    # Read as one logical table — PyArrow unions snapshot + deltas transparently
-    import pyarrow.parquet as pq
-    gdf = pq.ParquetDataset(f"{LIBRARY}/nz_parcels").read().to_pandas()
-    # Filter to current cadastral state
+    import pandas as pd
+    gdf = pd.read_parquet("/data/nz_parcels.parquet")
     current = gdf[gdf["_eolas_is_current"] == True]
     ```
 
@@ -172,31 +168,27 @@ LINZ cadastral datasets support **true incremental sync** — when you re-sync a
     ```r
     library(eolas)
 
-    result <- eolas_sync("nz_parcels", library_dir = "/data/nz-warehouse")
-    result$status     # "snapshot_full" first time, "snapshot_delta" after
-    result$rows_added # number of new/changed parcel records
+    result <- eolas_sync_bulk("nz_parcels", path = "/data/nz_parcels.parquet")
+    result$status  # "downloaded" first time, "unchanged" or "updated" after
 
     library(arrow)
-    ds <- open_dataset("/data/nz-warehouse/nz_parcels")
-    current <- ds |> filter(_eolas_is_current == TRUE) |> collect()
+    df <- arrow::read_parquet("/data/nz_parcels.parquet")
+    current <- df[df$`_eolas_is_current`, ]
     ```
 
 === "CLI"
 
     ```bash
     # First sync
-    eolas sync nz_parcels --library /data/nz-warehouse
-    # → snapshot_full (1.6 GB)
+    eolas sync nz_parcels --out /data/nz_parcels.parquet
+    # → downloaded (1.6 GB)
 
-    # Weekly cron
-    eolas sync nz_parcels --library /data/nz-warehouse
-    # → snapshot_delta +2847 rows (1.4 MB)
-
-    # Monthly compaction: roll 4 weeks of deltas into a fresh snapshot
-    eolas compact --dataset nz_parcels --library /data/nz-warehouse
+    # Weekly cron — only re-downloads when snapshot changes
+    eolas sync nz_parcels --out /data/nz_parcels.parquet
+    # → unchanged (snapshot 5503437…)
     ```
 
-See the [Sync guide](../sync-guide.md) for the full conceptual model, multi-dataset sync, and Airflow recipes.
+See the [Bulk downloads](../bulk-downloads.md) guide for format options, freshness levels, and scheduling recipes.
 
 ---
 

@@ -206,7 +206,7 @@ sn[grepl("population", sn$name), ]
 
 ## Pipeline use
 
-Stats NZ datasets are **full-refresh** on sync — the upstream SDMX source replaces the whole table on each publish, so eolas can't emit incremental rows. When you call `eolas sync` on a Stats NZ dataset, it checks whether the server snapshot has changed; if not, no bytes are transferred. If the snapshot is new, the full table is re-downloaded and replaces the previous file.
+Stats NZ datasets are full-snapshot — the upstream SDMX source replaces the whole table on each publish. When you call `eolas sync` on a Stats NZ dataset, it issues a lightweight HEAD check and only re-downloads when the snapshot has changed. If the snapshot is unchanged, no bytes are transferred.
 
 In practice, CPI and GDP tables are 1–5 MB — a weekly re-download is negligible. The geospatial boundary tables (meshblocks, SA2s) can be larger, but they change infrequently; most weeks the sync call returns "unchanged".
 
@@ -217,13 +217,12 @@ In practice, CPI and GDP tables are 1–5 MB — a weekly re-download is negligi
 
     client = Client("your_eolas_key")
 
-    # Sync once; subsequent calls are no-ops until Stats NZ publishes a new revision
-    result = client.sync("nz_cpi", library_dir="/data/nz-warehouse")
-    print(result.status)  # "snapshot_full" (first time) or "unchanged"
+    # First call: full download; subsequent calls are no-ops when snapshot is unchanged
+    result = client.sync_bulk("nz_cpi", path="/data/nz_cpi.parquet")
+    print(result.status)  # "downloaded" (first time) or "unchanged"
 
-    # Read from library — zero network traffic after first sync
-    import pyarrow.parquet as pq
-    df = pq.ParquetDataset("/data/nz-warehouse/nz_cpi").read().to_pandas()
+    import pandas as pd
+    df = pd.read_parquet("/data/nz_cpi.parquet")
     ```
 
 === "R"
@@ -231,22 +230,22 @@ In practice, CPI and GDP tables are 1–5 MB — a weekly re-download is negligi
     ```r
     library(eolas)
 
-    result <- eolas_sync("nz_cpi", library_dir = "/data/nz-warehouse")
-    result$status  # "snapshot_full" or "unchanged"
+    result <- eolas_sync_bulk("nz_cpi", path = "/data/nz_cpi.parquet")
+    result$status  # "downloaded" or "unchanged"
 
     library(arrow)
-    df <- collect(open_dataset("/data/nz-warehouse/nz_cpi"))
+    df <- arrow::read_parquet("/data/nz_cpi.parquet")
     ```
 
 === "CLI"
 
     ```bash
-    eolas sync nz_cpi --library /data/nz-warehouse
-    # → snapshot_full (2.1 MB)  — first run
+    eolas sync nz_cpi --out /data/nz_cpi.parquet
+    # → downloaded (2.1 MB)  — first run
     # → unchanged (snapshot 7041234…)  — next run, nothing published
     ```
 
-See the [Sync guide](../sync-guide.md) for cron, Airflow, and dbt integration recipes.
+See the [Bulk downloads](../bulk-downloads.md) guide for cron, Airflow, and dbt integration recipes.
 
 ---
 

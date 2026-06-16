@@ -124,35 +124,37 @@ The two interest rates every analyst tracks:
 
 ## Pipeline use
 
-RBNZ datasets are **full-refresh** on sync — each RBNZ release replaces the full table, so delta fetches are not applicable. Most RBNZ tables are small (exchange-rate series are a few hundred KB; the larger balance-sheet tables top out around 5 MB), so full re-downloads are fast.
+RBNZ datasets are full-snapshot — each RBNZ release replaces the whole table. Most RBNZ tables are small (exchange-rate series are a few hundred KB; the larger balance-sheet tables top out around 5 MB), so full re-downloads are fast.
 
-When you call `eolas sync` on an RBNZ dataset, it returns "unchanged" in weeks where RBNZ hasn't published a new release — zero bytes transferred. When a new release lands, the full table downloads and replaces the previous file.
+Use `sync_bulk` / `eolas_sync_bulk` to keep a local file fresh — it issues a lightweight HEAD check and only re-downloads when the snapshot has changed. In weeks where RBNZ hasn't published a new release, the call returns "unchanged" and transfers zero bytes.
 
 === "Python"
 
     ```python
-    result = client.sync("rbnz_b1_exchange_rates_daily", library_dir="/data/nz-warehouse")
-    print(result.status)  # "snapshot_full" (first run) or "unchanged"
+    result = client.sync_bulk("rbnz_b1_exchange_rates_daily",
+                              path="/data/rbnz_b1_exchange_rates_daily.parquet")
+    print(result.status)  # "downloaded" (first run) or "unchanged"
 
-    import pyarrow.parquet as pq
-    df = pq.ParquetDataset("/data/nz-warehouse/rbnz_b1_exchange_rates_daily").read().to_pandas()
+    import pandas as pd
+    df = pd.read_parquet("/data/rbnz_b1_exchange_rates_daily.parquet")
     ```
 
 === "R"
 
     ```r
-    result <- eolas_sync("rbnz_b1_exchange_rates_daily", library_dir = "/data/nz-warehouse")
-    result$status  # "snapshot_full" or "unchanged"
+    result <- eolas_sync_bulk("rbnz_b1_exchange_rates_daily",
+                              path = "/data/rbnz_b1_exchange_rates_daily.parquet")
+    result$status  # "downloaded" or "unchanged"
     ```
 
 === "CLI"
 
     ```bash
-    # Sync all RBNZ tables at once (after syncing them individually first)
-    eolas sync --library /data/nz-warehouse --all
+    eolas sync rbnz_b1_exchange_rates_daily --out /data/rbnz_b1_exchange_rates_daily.parquet
+    # → downloaded (first run) or unchanged (snapshot 5503437…)
     ```
 
-See the [Sync guide](../sync-guide.md) for cron and Airflow recipes.
+See the [Bulk downloads](../bulk-downloads.md) guide for cron and Airflow recipes.
 
 ---
 
