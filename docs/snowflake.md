@@ -109,7 +109,7 @@ LIMIT 100;
 ```
 
 dbt users: point a source at the `eolas` database and reference tables as
-`{{ source('rbnz', 'rbnz_b2_wholesale_rates_daily') }}`.
+{% raw %}`{{ source('rbnz', 'rbnz_b2_wholesale_rates_daily') }}`{% endraw %}.
 
 ---
 
