@@ -11,7 +11,15 @@ Falls back to safe defaults if the API is unreachable so docs builds never break
 import requests
 
 API = "https://api.eolas.fyi/v1/datasets"
-FALLBACK = {"dataset_count": 700, "sources": "Stats NZ, OECD, RBNZ, NZ Treasury, LINZ, Stats NZ Geospatial, MBIE, Waka Kotahi, MSD, NZ Police / MoJ, ACC, Education Counts, WorkSafe NZ", "source_count": 13}
+FALLBACK = {
+    "dataset_count": 1530,
+    "sources": (
+        "Stats NZ, OECD, RBNZ, NZ Treasury, LINZ, Stats NZ Geospatial, MBIE, Waka Kotahi, "
+        "MSD, NZ Police / MoJ, ACC, Education Counts, WorkSafe NZ, PHARMAC, EECA, DOC, "
+        "and regional councils"
+    ),
+    "source_count": 34,
+}
 
 
 def _fetch():
