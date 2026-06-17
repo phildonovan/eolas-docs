@@ -27,6 +27,11 @@ Built so you don't have to:
 - Reconcile dozens of date formats, region codes, and naming conventions
 - Wait for batch CSV exports when you want fresh data
 
+The product promise is **clean** (typed columns, one schema), **current** (automated refresh on
+source cadence — see [status](https://eolas.fyi/status)), and **integrated** (REST, bulk Parquet,
+Snowflake share, Meltano/Fivetran/ADF generators). Licence and attribution travel with every
+pull via `X-Eolas-*` headers or the JSON `?envelope=1` wrapper — [documented here](quickstart.md#5-attribution-and-provenance).
+
 If you do data work in NZ — economic, demographic, geospatial, or social — eolas is the layer that gets the data into your pandas / dplyr / SQL pipeline without you babysitting it.
 
 ---
@@ -102,7 +107,7 @@ If you do data work in NZ — economic, demographic, geospatial, or social — e
 | Fiscal | Government spending, revenue, debt, NZ Super Fund |
 | Geospatial | Land parcels, roads, addresses, territorial authorities |
 
-Data is sourced from **Stats NZ**, the **OECD**, **NZ Treasury**, **RBNZ**, **LINZ**, **MBIE**, **Waka Kotahi (NZTA)**, **MSD**, **NZ Police / MoJ**, **ACC**, **Education Counts**, **WorkSafe NZ**, **Auckland Council**, **Auckland Transport**, **DOC**, **Co-Lab Waikato**, **ECan / Canterbury**, **GeoNet**, **Charities Services**, **Immigration NZ**, **EECA**, **Manaaki Whenua / LRIS**, and 10 regional & district council clusters. Updated weekly.
+Data is sourced from **Stats NZ**, the **OECD**, **NZ Treasury**, **RBNZ**, **LINZ**, **MBIE**, **Waka Kotahi (NZTA)**, **MSD**, **NZ Police / MoJ**, **ACC**, **Education Counts**, **WorkSafe NZ**, **Auckland Council**, **Auckland Transport**, **DOC**, **Co-Lab Waikato**, **ECan / Canterbury**, **GeoNet**, **Charities Services**, **Immigration NZ**, **EECA**, **Manaaki Whenua / LRIS**, and 10 regional & district council clusters. Refreshed daily to quarterly depending on source — [live freshness](https://eolas.fyi/status) · [data changelog](https://eolas.fyi/data/changelog) · [Enterprise SLA](sla.md).
 
 ---
 

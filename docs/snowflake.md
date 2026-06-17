@@ -78,6 +78,44 @@ SHOW TABLES IN SCHEMA eolas.rbnz;
 DESCRIBE TABLE eolas.rbnz.rbnz_b2_wholesale_rates_daily;
 ```
 
+### Licence and attribution
+
+Raw Iceberg tables do not embed licence text in every row. Use one of these paths — all
+share the **same citation wording** via `app/licensing.py` so Snowflake, API, and bulk
+cannot drift:
+
+**1. Snowflake lookup table (recommended for warehouse consumers)**
+
+Query **`eolas.EOLAS_META.ATTRIBUTIONS`** — one row per dataset with `namespace`,
+`table_name`, `source`, `licence`, `attribution_text`, `source_url`, and `refreshed_at`:
+
+```sql
+SELECT namespace, table_name, source, licence, attribution_text
+FROM eolas.EOLAS_META.ATTRIBUTIONS
+WHERE namespace = 'rbnz'
+ORDER BY table_name;
+```
+
+The table is created/upserted by `infra/refresh_snowflake.py` at the end of each pipeline
+run (Glue `eolas.*` properties → MERGE; schema `EOLAS_META` granted to the share).
+
+**2. REST API headers (same share, different access path)**
+
+`GET /v1/datasets/{name}/data` (and `/changes`, `/v1/bulk/...`) return:
+
+- `X-Eolas-Attribution` — full citation string
+- `X-Eolas-Source`, `X-Eolas-Licence`, `X-Eolas-Source-URL`, `X-Eolas-Namespace`
+
+JSON clients can optionally pass `?envelope=1` to receive
+`{"data_sources":[{...}], "data":[...]}` in the body. See [Getting started §5](quickstart.md#5-attribution-and-provenance).
+
+**3. Bulk downloads**
+
+Pre-built Parquet/CSV artifacts include a `NOTICE.txt` sidecar with identical text.
+
+Dataset-level metadata (`GET /v1/datasets/{name}`) also exposes `source`, `licence`,
+`attribution_text`, and `source_url` fields when stamped in Glue.
+
 The 35 namespaces: `rbnz`, `stats_nz`, `treasury`, `oecd`, `linz`, `statsnz_geo`, `lris`, `nzta`,
 `doc`, `mbie`, `msd`, `acc`, `police`, `edcounts`, `worksafe`, `charities`, `immigration`,
 `pharmac`, `eeca`, `geonet`, plus the regional-council namespaces (`akl_council`, `akl_transport`,

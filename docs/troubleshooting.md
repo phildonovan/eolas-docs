@@ -19,6 +19,25 @@ The API returns standard HTTP codes. Each maps to a Python exception class (and 
 
 ---
 
+## Response headers worth knowing
+
+Beyond rate-limit headers (Free tier), successful data responses often include:
+
+| Header | When | Meaning |
+|---|---|---|
+| `X-Eolas-Attribution` | `/v1/datasets/{name}/data`, `/changes`, `/v1/bulk/...` | Full upstream citation — **preserve this** when you store or republish rows (CC-BY obligation). |
+| `X-Eolas-Source` | same | Publisher label (`Stats NZ`, `RBNZ`, …). |
+| `X-Eolas-Licence` | same | Licence id when stamped. |
+| `X-Eolas-Source-URL` | same | Link to the upstream dataset. |
+| `X-Eolas-Namespace` | same | API namespace / Glue database id. |
+| `X-Eolas-Truncated` | `/data` when plan-capped | `true` if your Free-tier row cap shortened the result; pair with `X-Plan-Row-Cap` and `X-Plan`. |
+| `X-RateLimit-Remaining` | every authenticated call (Free) | Requests left this month. |
+
+For JSON-only provenance in the response body, use `?envelope=1` on `/v1/datasets/{name}/data`
+(`format=json` only). Details: [Getting started §5](quickstart.md#5-attribution-and-provenance).
+
+---
+
 ## Exception hierarchy (Python)
 
 All exceptions inherit from `eolas_data.exceptions.EolasError`, so you can catch broadly or narrowly:

@@ -180,7 +180,81 @@ Use source-specific helpers so your code is self-documenting:
 
     Output auto-detects piping: rich tables in an interactive terminal, NDJSON / CSV when stdout is redirected. Pass `--json` to force NDJSON.
 
-## 5. Access regional council data
+## 5. Attribution and provenance
+
+Most eolas datasets are free at the source (Stats NZ, RBNZ, OECD, etc.) but **CC-BY requires the credit to travel with your copy of the data**. Every API pull carries the same attribution whether you use JSON, CSV, Arrow, or Parquet.
+
+### Response headers (all formats)
+
+Authenticated requests to `/v1/datasets/{name}/data` include:
+
+| Header | Meaning |
+|---|---|
+| `X-Eolas-Attribution` | Full citation string — e.g. `Source: OECD (data-explorer.oecd.org), OECD Terms and Conditions.` |
+| `X-Eolas-Source` | Publisher label (`Stats NZ`, `RBNZ`, …) |
+| `X-Eolas-Licence` | Licence identifier when stamped (`CC-BY 4.0`, …) |
+| `X-Eolas-Source-URL` | Link to the upstream dataset or portal |
+| `X-Eolas-Namespace` | Glue namespace / API source id (`oecd`, `rbnz`, …) |
+
+The same headers appear on `/v1/datasets/{name}/changes` and `/v1/bulk/{namespace}/{table}`.
+Bulk downloads also ship a `NOTICE.txt` sidecar with identical wording.
+
+=== "Python"
+
+    ```python
+    import httpx
+
+    r = httpx.get(
+        "https://api.eolas.fyi/v1/datasets/nz_cpi/data",
+        headers={"X-API-Key": "vs_your_key"},
+        params={"limit": 5},
+    )
+    print(r.headers["X-Eolas-Attribution"])
+    # → Source: OECD (data-explorer.oecd.org), OECD Terms and Conditions.
+    ```
+
+=== "CLI"
+
+    ```bash
+    curl -sD - "https://api.eolas.fyi/v1/datasets/nz_cpi/data?limit=5" \
+      -H "X-API-Key: vs_your_key" -o /dev/null | grep -i x-eolas
+    ```
+
+### JSON envelope (opt-in)
+
+Default JSON is a bare array of rows (backward compatible). Pass `?envelope=1` to wrap
+licence metadata alongside the data — useful for agents and pipelines that need
+provenance in the body, not just headers:
+
+```json
+{
+  "data_sources": [{
+    "dataset": "nz_cpi",
+    "namespace": "oecd",
+    "source": "OECD",
+    "licence": "OECD Terms and Conditions",
+    "attribution": "Source: OECD (data-explorer.oecd.org), OECD Terms and Conditions.",
+    "source_url": "https://data-explorer.oecd.org/"
+  }],
+  "data": [{"date": "2023-01-01", "period": "2023Q1", "value": 100.0}]
+}
+```
+
+`envelope=1` only works with `format=json` (the default). Arrow, Parquet, and CSV
+keep using headers + dataset metadata (`GET /v1/datasets/{name}`).
+
+### Snowflake Enterprise share
+
+Raw Iceberg tables do not repeat licence text in every row. Query
+`eolas.EOLAS_META.ATTRIBUTIONS` instead — see [Snowflake share](snowflake.md#licence-and-attribution).
+
+### Freshness and status
+
+- [eolas.fyi/status](https://eolas.fyi/status) — API subsystem health and **last successful ETL run per source**
+- [eolas.fyi/data/changelog](https://eolas.fyi/data/changelog) — dataset-level ingest events
+- [Enterprise SLA](sla.md) — uptime and refresh-cadence commitments
+
+## 6. Access regional council data
 
 Each of New Zealand's regional and city/district council groups has a dedicated source helper, making it easy to discover and fetch geospatial planning, hazard, and environmental layers by region.
 
@@ -236,7 +310,7 @@ Available regional helpers: `akl_council`, `akl_transport`, `bay_of_plenty`, `ch
 
 ---
 
-## 6. Plot it
+## 7. Plot it
 
 === "Python"
 
@@ -253,7 +327,7 @@ Available regional helpers: `akl_council`, `akl_transport`, `bay_of_plenty`, `ch
     ggplot(df, aes(date, value)) + geom_line() + labs(title = "NZ CPI")
     ```
 
-## 7. Browse available series
+## 8. Browse available series
 
 === "Python"
 
