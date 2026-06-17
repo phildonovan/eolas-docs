@@ -58,16 +58,17 @@ Each returns a `eolas_dataset` tagged with the source label.
 ## Discovery
 
 ```r
-eolas_list()            # all series — tibble (or data.frame)
-eolas_list_statsnz()    # Stats NZ only
-eolas_list_oecd()       # OECD only
-eolas_list_rbnz()       # RBNZ only
-eolas_list_treasury()   # NZ Treasury only
-eolas_list_linz()       # LINZ only
+eolas_list()                 # all datasets — tibble
+eolas_list_statsnz()         # Stats NZ only
+eolas_list_wellington()      # Wellington Region Councils only
 
-# Generic filter
-eolas_list("Stats NZ")
+eolas_search("HLFS")         # labour-force datasets (alias expansion)
+eolas_search("OCR", source = "RBNZ")
+eolas_search("kapiti")       # → kcdc_* council layers
+eolas_search("cpi")          # ranks rbnz_m1_prices before nz_cpi; prints CPI guidance
 ```
+
+`nz_cpi` is OECD year-on-year % change, not a CPI index level — use `rbnz_m1_prices` for quarterly index levels.
 
 ## eolas_dataset
 

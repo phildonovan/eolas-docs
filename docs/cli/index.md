@@ -21,8 +21,11 @@ eolas datasets list --source "Stats NZ"
 eolas datasets list --search cpi --json | jq '.[].name'
 
 # Fetch (row-level, live API)
-eolas get nz_cpi --start 2020-01-01 --format csv > cpi.csv
-eolas get nz_cpi --format json | jq '.[].value'
+eolas get rbnz_m1_prices --limit 20 --out ~/data/cpi.csv   # prints "Wrote N rows → …" on stderr
+eolas get nz_cpi --start 2020-01-01 --format json | jq '.[].value'   # OECD YoY % — not an index level
+
+# Search (HLFS, OCR, CPI, kapiti, porirua aliases)
+eolas datasets list --search kapiti
 
 # Bulk download (whole dataset as a single file)
 eolas download nz_cpi                                    # → nz_cpi.parquet in cwd

@@ -65,9 +65,17 @@ Each returns a `Dataset` tagged with the source label.
 ## Discovery
 
 ```python
-client.list()              # all series — list of dicts
-client.list("Stats NZ")   # filter by source
+client.list()                    # all datasets — DataFrame
+client.list("Stats NZ")          # filter by source
+client.list_wellington()         # Wellington Region Councils only
+
+client.search("HLFS")            # labour-force datasets (alias expansion)
+client.search("OCR", source="RBNZ")
+client.search("kapiti")          # → kcdc_* council layers
+client.search("cpi")             # ranks rbnz_m1_prices before nz_cpi; prints CPI guidance
 ```
+
+`nz_cpi` is OECD year-on-year % change, not a CPI index level — use `rbnz_m1_prices` for quarterly index levels.
 
 ## Dataset
 

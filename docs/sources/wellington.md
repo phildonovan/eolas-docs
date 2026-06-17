@@ -4,6 +4,33 @@ The Wellington region covers ~540,000 people across [Greater Wellington Regional
 
 If you're doing Wellington-region property research, hazard analysis, planning work, or earthquake / coastal exposure modelling — this is the source. Wellington has particularly comprehensive hazard data because of its earthquake + tsunami + flood exposure.
 
+### Finding datasets
+
+Council names don't always match dataset prefixes. Use search aliases or list helpers:
+
+=== "Python"
+
+    ```python
+    client.list_wellington()           # all ~110 Wellington-region datasets
+    client.search("kapiti")            # → kcdc_* (Kāpiti Coast DC)
+    client.search("porirua")           # → pcc_* (Porirua City Council)
+    ```
+
+=== "R"
+
+    ```r
+    eolas_list_wellington()
+    eolas_search("kapiti")
+    eolas_search("porirua")
+    ```
+
+=== "CLI"
+
+    ```bash
+    eolas datasets list --source "Wellington Region Councils"
+    eolas datasets list --search kapiti
+    ```
+
 ---
 
 ## What's in the catalogue
@@ -14,7 +41,7 @@ Regional-scale environmental + transport data:
 
 | Theme | Datasets |
 |---|---|
-| Hazards | `gwrc_flood_hazard_extents`, `gwrc_eq_urm_buildings` (unreinforced masonry buildings at risk) |
+| Hazards | `gwrc_flood_1pct_aep`, `gwrc_flood_023pct_aep`, `gwrc_eq_urm_buildings` (unreinforced masonry buildings at risk) |
 | Coastal | `gwrc_coastline_mhws10` (mean-high-water-springs +10cm — sea-level-rise reference) |
 | Environment | `gwrc_key_native_ecosystems`, `gwrc_groundwater_zones`, `gwrc_river_flows_p` (recorder sites), `gwrc_sites_of_significance_mana_whenua` |
 | Transport | `gwrc_metlink_park_and_ride`, `gwrc_regional_cycle_network` |
@@ -80,7 +107,7 @@ Plus smaller suites from Carterton + South Wairarapa.
 Weekly, Wednesday morning NZ time. Each council publishes via its own portal — GWRC via Koordinates, Wellington City via [data.wellingtoncc.govt.nz](https://data.wellingtoncc.govt.nz), and most district councils via ArcGIS. The pipeline pulls from each source independently.
 
 ```python
-meta = client.info("gwrc_flood_hazard_extents")
+meta = client.info("gwrc_flood_1pct_aep")
 meta["last_refreshed_at"]
 meta["source_last_modified_at"]
 ```
