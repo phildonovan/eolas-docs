@@ -6,6 +6,7 @@ repo_name: eolas-data
 
 theme:
   name: material
+  custom_dir: overrides
   palette:
     scheme: slate
     primary: blue
@@ -72,6 +73,7 @@ nav:
   - CLI:
     - Reference: cli/index.md
   - Bulk downloads: bulk-downloads.md
+  - Enterprise SLA: sla.md
   - Examples: examples/index.md
   - Troubleshooting: troubleshooting.md
   - Blog:
