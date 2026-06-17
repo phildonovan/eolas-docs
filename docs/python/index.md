@@ -168,6 +168,28 @@ except NotFoundError:
 | `NotFoundError` | 404 | Series identifier not found |
 | `APIError` | other | Unexpected API error |
 
+## Attribution and provenance
+
+Every `/data` response carries `X-Eolas-Attribution`, `X-Eolas-Licence`, and related
+headers. The client merges them into `df.attrs["eolas_meta"]` automatically (v1.3.3+).
+
+```python
+df = client.get("rbnz_b1_exchange_rates_monthly", limit=5)
+df.attrs["eolas_meta"]["attribution_text"]
+df.attrs["eolas_meta"]["licence"]
+```
+
+For provenance in the JSON body (agents, pipelines), pass `envelope=True` — same as
+`?envelope=1` on the API:
+
+```python
+df = client.get("nz_cpi", limit=5, envelope=True)
+df.attrs["eolas_meta"]["data_sources"]  # licence block alongside rows
+```
+
+See [Getting started §5](../quickstart.md#5-attribution-and-provenance) for the raw HTTP
+shape and Snowflake `ATTRIBUTIONS` table.
+
 ## Source
 
 [github.com/phildonovan/eolas-data-python](https://github.com/phildonovan/eolas-data-python) · [PyPI](https://pypi.org/project/eolas-data/)

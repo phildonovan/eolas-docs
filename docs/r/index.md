@@ -164,6 +164,26 @@ tryCatch(
 | `"Not found: ..."` | Series identifier not found |
 | `"API error (HTTP ...): ..."` | Unexpected API error |
 
+## Attribution and provenance
+
+Every `/data` response carries `X-Eolas-*` headers. The client merges them into
+`eolas_meta()` automatically (v1.3.3+).
+
+```r
+df <- eolas_get("rbnz_b1_exchange_rates_monthly", limit = 5)
+eolas_meta(df)$attribution_text
+eolas_meta(df)$licence
+```
+
+For provenance in the JSON body, pass `envelope = TRUE`:
+
+```r
+df <- eolas_get("nz_cpi", limit = 5, envelope = TRUE)
+eolas_meta(df)$data_sources
+```
+
+See [Getting started §5](../quickstart.md#5-attribution-and-provenance).
+
 ## Source
 
 [github.com/phildonovan/eolas-r](https://github.com/phildonovan/eolas-r)
