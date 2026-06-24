@@ -1,4 +1,14 @@
 {% extends "base.html" %}
+
+{% block announce %}
+{% if config.extra.beta_banner %}
+<aside class="md-banner md-typeset" id="eolas-beta-banner" role="status">
+  <strong>Beta</strong> · {{ config.extra.beta_banner_message }}
+  <a href="https://eolas.fyi">Explore eolas.fyi</a>
+</aside>
+{% endif %}
+{% endblock %}
+
 {% block extrahead %}
   {{ super() }}
   <meta property="og:type" content="website" />
