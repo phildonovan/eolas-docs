@@ -113,7 +113,7 @@ Data is sourced from **Stats NZ**, the **OECD**, **NZ Treasury**, **RBNZ**, **LI
 
 ## Get an API key
 
-Free tier requires no credit card. [Get your key →](https://api.eolas.fyi/signup)
+Free tier requires no credit card. [Get your key →](https://eolas.fyi/signup)
 
 | Plan | Price | Requests | Row cap per request | Extras |
 |---|---|---|---|---|

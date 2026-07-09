@@ -2,7 +2,7 @@
 
 ## 1. Get an API key
 
-Sign up at [api.eolas.fyi](https://api.eolas.fyi/signup). Your key will start with `vs_`.
+Sign up at [eolas.fyi](https://eolas.fyi/signup). Your key will start with `vs_`.
 
 ## 2. Install the client
 
