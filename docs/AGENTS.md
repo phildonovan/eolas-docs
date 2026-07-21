@@ -76,6 +76,7 @@ columns, and the large-dataset routing rules below.
 | `limit` | `100` | **`0` means "everything"** — see the guard below. |
 | `format` | `json` | `json` \| `csv` \| `arrow` \| `parquet` |
 | `dimensions` | – | Case-insensitive substring match across dimension columns |
+| `geometry` | `true` | `false` omits `geometry_wkt` on spatial datasets — much smaller and faster |
 | `envelope` | `false` | JSON only: wraps rows as `{"data_sources": [...], "data": [...]}` with licence metadata |
 
 **Use `format=arrow` or `format=parquet` for anything large** — columnar and typed,
@@ -98,9 +99,11 @@ columns, and the large-dataset routing rules below.
    `X-Eolas-Truncated: true` and `X-Plan-Row-Cap` — check them rather than assuming
    you got everything.
 
-4. **Two-thirds of datasets carry a `geometry_wkt` column** (WKT, EPSG:4326, lon-lat).
-   It is often far larger than the rest of the row. If you don't need geometry, select
-   the columns you want rather than pulling the whole table.
+4. **Two-thirds of datasets carry a `geometry_wkt` column** (WKT, EPSG:4326, lon-lat)
+   and it usually dwarfs the rest of the row. **Pass `geometry=false`** if you only
+   need the attributes — the column is projected away at the storage layer, so it is
+   never read or transferred, and the response sets `X-Eolas-Geometry-Omitted: true`.
+   This also clears the 413 guard for small spatial tables.
 
 5. **Dataset shape varies by upstream format.** Some series are long
    (`date, period, value`), others are wide (one column per series, e.g.
