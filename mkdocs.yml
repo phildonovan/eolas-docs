@@ -24,6 +24,7 @@ theme:
 nav:
   - Home: index.md
   - Getting started: quickstart.md
+  - For coding agents: AGENTS.md
   - Authentication: authentication.md
   - Snowflake share: snowflake.md
   - Data sources:
