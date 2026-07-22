@@ -123,7 +123,10 @@ response carries:
 The same fields are on `info()` as `attribution_text`, `licence`, `source_url`.
 `source_url_precision` tells you what `source_url` points at:
 
-- `"dataset"` — the specific dataset page; safe to cite directly
+- `"dataset"` — addresses this dataset specifically, not just the agency. Note
+  this means "more specific than the homepage", not "a tidy human-facing page":
+  some are direct data endpoints (an OECD SDMX query, an `.xlsx`, an `.rda`).
+  Good for reproducibility; check it before pasting into a reference list.
 - `"source"` — only the publishing agency's landing page (that dataset isn't
   individually stamped yet); cite the agency, not the URL, as the dataset location
 - `null` — no URL known
