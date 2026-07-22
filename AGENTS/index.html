@@ -2843,7 +2843,10 @@ response carries:</p>
 <p>The same fields are on <code>info()</code> as <code>attribution_text</code>, <code>licence</code>, <code>source_url</code>.
 <code>source_url_precision</code> tells you what <code>source_url</code> points at:</p>
 <ul>
-<li><code>"dataset"</code> — the specific dataset page; safe to cite directly</li>
+<li><code>"dataset"</code> — addresses this dataset specifically, not just the agency. Note
+  this means "more specific than the homepage", not "a tidy human-facing page":
+  some are direct data endpoints (an OECD SDMX query, an <code>.xlsx</code>, an <code>.rda</code>).
+  Good for reproducibility; check it before pasting into a reference list.</li>
 <li><code>"source"</code> — only the publishing agency's landing page (that dataset isn't
   individually stamped yet); cite the agency, not the URL, as the dataset location</li>
 <li><code>null</code> — no URL known</li>
