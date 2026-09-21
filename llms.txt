@@ -1,0 +1,32 @@
+# eolas
+
+> Read-only HTTP API serving cleaned, versioned New Zealand and OECD public data
+> (~1,500 datasets) as JSON, CSV, Arrow, or Parquet. One schema, one auth scheme,
+> and one date format across every publishing agency.
+
+Base URL `https://api.eolas.fyi`; data routes under `/v1`; auth via an
+`X-API-Key: vs_...` header. Official clients: `eolas-data` (Python, PyPI) and
+`eolas` (R). Both honour the `EOLAS_BASE_URL` environment variable.
+
+## Start here
+
+- [For coding agents](https://docs.eolas.fyi/AGENTS.md): endpoints, query
+  parameters, tier caps, the HTTP 413 large-dataset guard, provenance headers, and
+  the mistakes that cost a retry. Read this first.
+- [Getting started](https://docs.eolas.fyi/quickstart/): install and first query
+- [Authentication](https://docs.eolas.fyi/authentication/): API keys and headers
+
+## Reference
+
+- [Python client](https://docs.eolas.fyi/python/reference/)
+- [R client](https://docs.eolas.fyi/r/reference/)
+- [CLI](https://docs.eolas.fyi/cli/)
+- [Bulk downloads](https://docs.eolas.fyi/bulk-downloads/): whole-dataset files (Pro/Enterprise)
+- [Snowflake share](https://docs.eolas.fyi/snowflake/): zero-copy Iceberg share
+- [Data sources](https://docs.eolas.fyi/sources/): per-agency coverage and licensing
+
+## Optional
+
+- [Examples](https://docs.eolas.fyi/examples/)
+- [Troubleshooting](https://docs.eolas.fyi/troubleshooting/)
+- [Enterprise SLA](https://docs.eolas.fyi/sla/)
