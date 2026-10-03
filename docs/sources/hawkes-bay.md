@@ -22,7 +22,7 @@ If you're doing Hawke's Bay property research, cyclone-resilience analysis, or a
 - `chbdc_haz_flood_full`, `chbdc_haz_flood_risk_areas` — Central HB flood hazards
 - `chbdc_haz_tsunami_inundation` — tsunami inundation modelling (Pacific exposure)
 
-Browse: [eolas.fyi/datasets?source=Hawke%27s+Bay+Councils](https://eolas.fyi/datasets?source=Hawke%27s%20Bay%20Councils).
+Browse: [eolas.nz/datasets?source=Hawke%27s+Bay+Councils](https://eolas.nz/datasets?source=Hawke%27s%20Bay%20Councils).
 
 ---
 
@@ -76,7 +76,7 @@ for label, layer in scenarios.items():
 
 ## Where to find more
 
-- **HB datasets on eolas**: [eolas.fyi/datasets?source=Hawke%27s+Bay+Councils](https://eolas.fyi/datasets?source=Hawke%27s%20Bay%20Councils)
+- **HB datasets on eolas**: [eolas.nz/datasets?source=Hawke%27s+Bay+Councils](https://eolas.nz/datasets?source=Hawke%27s%20Bay%20Councils)
 - **HBRC**: [www.hbrc.govt.nz](https://www.hbrc.govt.nz)
 - **CHBDC**: [www.chbdc.govt.nz](https://www.chbdc.govt.nz)
 

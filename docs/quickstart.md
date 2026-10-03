@@ -2,7 +2,7 @@
 
 ## 1. Get an API key
 
-Sign up at [eolas.fyi](https://eolas.fyi/signup). Your key will start with `vs_`.
+Sign up at [eolas.nz](https://eolas.nz/signup). Your key will start with `vs_`.
 
 ## 2. Install the client
 
@@ -205,7 +205,7 @@ Bulk downloads also ship a `NOTICE.txt` sidecar with identical wording.
     import httpx
 
     r = httpx.get(
-        "https://api.eolas.fyi/v1/datasets/nz_cpi/data",
+        "https://api.eolas.nz/v1/datasets/nz_cpi/data",
         headers={"X-API-Key": "vs_your_key"},
         params={"limit": 5},
     )
@@ -216,7 +216,7 @@ Bulk downloads also ship a `NOTICE.txt` sidecar with identical wording.
 === "CLI"
 
     ```bash
-    curl -sD - "https://api.eolas.fyi/v1/datasets/nz_cpi/data?limit=5" \
+    curl -sD - "https://api.eolas.nz/v1/datasets/nz_cpi/data?limit=5" \
       -H "X-API-Key: vs_your_key" -o /dev/null | grep -i x-eolas
     ```
 
@@ -250,8 +250,8 @@ Raw Iceberg tables do not repeat licence text in every row. Query
 
 ### Freshness and status
 
-- [eolas.fyi/status](https://eolas.fyi/status) — API subsystem health and **last successful ETL run per source**
-- [eolas.fyi/data/changelog](https://eolas.fyi/data/changelog) — dataset-level ingest events
+- [eolas.nz/status](https://eolas.nz/status) — API subsystem health and **last successful ETL run per source**
+- [eolas.nz/data/changelog](https://eolas.nz/data/changelog) — dataset-level ingest events
 - [Enterprise SLA](sla.md) — uptime and refresh-cadence commitments
 
 ## 6. Access regional council data
@@ -355,11 +355,11 @@ Available regional helpers: `akl_council`, `akl_transport`, `bay_of_plenty`, `ch
     eolas datasets preview nz_cpi --limit 5
     ```
 
-You can also browse interactively at [eolas.fyi/datasets](https://eolas.fyi/datasets).
+You can also browse interactively at [eolas.nz/datasets](https://eolas.nz/datasets).
 
 ---
 
 !!! tip "Rate limits"
-    Free keys allow **10 requests per month** at up to 50,000 rows per request. [Pro](https://eolas.fyi/#pricing) ($49/month) is unlimited requests and unlimited rows. Enterprise adds Snowflake share + connector scaffolding + SLA.
+    Free keys allow **10 requests per month** at up to 50,000 rows per request. [Pro](https://eolas.nz/#pricing) ($49/month) is unlimited requests and unlimited rows. Enterprise adds Snowflake share + connector scaffolding + SLA.
 
     Every Free-tier response tells you where you stand: check the `X-RateLimit-Remaining` header (and `X-RateLimit-Reset`, the Unix epoch when the count rolls over) so a script never burns the quota by surprise.

@@ -28,7 +28,7 @@ District plan zones + hazards covering the urban-rural fringe around Tauranga.
 
 Smaller TAs — district plan zones, heritage sites, basic hazard layers.
 
-Browse the full list at [eolas.fyi/datasets?source=Bay+of+Plenty+Councils](https://eolas.fyi/datasets?source=Bay%20of%20Plenty%20Councils).
+Browse the full list at [eolas.nz/datasets?source=Bay+of+Plenty+Councils](https://eolas.nz/datasets?source=Bay%20of%20Plenty%20Councils).
 
 ---
 
@@ -47,7 +47,7 @@ meta["last_refreshed_at"]
 
 All BoP council data is **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; per-council attribution required.
 
-Recommended attribution: *"Source: [Council name], served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: [Council name], served via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -90,7 +90,7 @@ print(f"Coastal protection area: {combined.to_crs('EPSG:2193').area.sum() / 1e6:
 
 ## Where to find more
 
-- **BoP datasets on eolas**: [eolas.fyi/datasets?source=Bay+of+Plenty+Councils](https://eolas.fyi/datasets?source=Bay%20of%20Plenty%20Councils)
+- **BoP datasets on eolas**: [eolas.nz/datasets?source=Bay+of+Plenty+Councils](https://eolas.nz/datasets?source=Bay%20of%20Plenty%20Councils)
 - **BoPRC data portal**: [data.boprc.govt.nz](https://data.boprc.govt.nz)
 - **Tauranga GIS**: [data.tauranga.govt.nz](https://data.tauranga.govt.nz)
 

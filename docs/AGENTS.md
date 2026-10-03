@@ -9,7 +9,7 @@ A read-only HTTP API serving cleaned, versioned New Zealand and OECD public data
 (~1,500 datasets) as JSON, CSV, Arrow, or Parquet. One schema, one auth scheme,
 one date format across every agency.
 
-- **Base URL:** `https://api.eolas.fyi` — all data routes are under `/v1`
+- **Base URL:** `https://api.eolas.nz` — all data routes are under `/v1`
 - **Auth:** `X-API-Key: vs_...` header on every `/v1` request
 - **Override the host** with the `EOLAS_BASE_URL` env var (both clients honour it)
 
@@ -53,7 +53,7 @@ columns, and the large-dataset routing rules below.
 
     ```bash
     curl -H "X-API-Key: $EOLAS_API_KEY" \
-      "https://api.eolas.fyi/v1/datasets/nz_unemployment/data?start=2015-01-01&limit=1000"
+      "https://api.eolas.nz/v1/datasets/nz_unemployment/data?start=2015-01-01&limit=1000"
     ```
 
 ## Endpoints
@@ -170,6 +170,6 @@ different again: which snapshot tier you're entitled to (`monthly` or `current`)
 ## Don't
 
 - Don't scrape the website — the API serves the same data, faster and licensed.
-- Don't hardcode `https://api.eolas.fyi`; read `EOLAS_BASE_URL` with that as default.
+- Don't hardcode `https://api.eolas.nz`; read `EOLAS_BASE_URL` with that as default.
 - Don't paginate manually — the clients stream; use `limit=0` or the bulk endpoint.
 - Don't cache across snapshots without checking `current_snapshot_id`.

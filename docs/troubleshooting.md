@@ -10,12 +10,12 @@ The API returns standard HTTP codes. Each maps to a Python exception class (and 
 
 | Code | Python class | When you'll see it | What to do |
 |---|---|---|---|
-| **401** | `AuthenticationError` | Missing or wrong API key | Check `EOLAS_API_KEY` env var or `Client(api_key=...)`. Keys start with `vs_`; if yours doesn't, regenerate from [your dashboard](https://eolas.fyi/settings). |
-| **403** | `AuthenticationError` | API key is valid but your plan doesn't include this endpoint (e.g. `/v1/integrations/*` is Enterprise-only) | Check your plan at [eolas.fyi/dashboard](https://eolas.fyi/dashboard). Upgrade if needed, or use a generic endpoint that's available on your plan. |
-| **404** | `NotFoundError` | Dataset name doesn't exist | Double-check the spelling. Run `client.list()` to see all available names, or browse [eolas.fyi/datasets](https://eolas.fyi/datasets). Names are case-sensitive. |
+| **401** | `AuthenticationError` | Missing or wrong API key | Check `EOLAS_API_KEY` env var or `Client(api_key=...)`. Keys start with `vs_`; if yours doesn't, regenerate from [your dashboard](https://eolas.nz/settings). |
+| **403** | `AuthenticationError` | API key is valid but your plan doesn't include this endpoint (e.g. `/v1/integrations/*` is Enterprise-only) | Check your plan at [eolas.nz/dashboard](https://eolas.nz/dashboard). Upgrade if needed, or use a generic endpoint that's available on your plan. |
+| **404** | `NotFoundError` | Dataset name doesn't exist | Double-check the spelling. Run `client.list()` to see all available names, or browse [eolas.nz/datasets](https://eolas.nz/datasets). Names are case-sensitive. |
 | **413** | `APIError` (status_code=413) | Unbounded full-dataset pull on a large/geo dataset | Live JSON refuses `limit=0` with no date filter on datasets over 100,000 rows or with geometry — the detail message names the bulk endpoint to use instead. Either add a `limit=`/`start=`/`end=` filter or switch to `/v1/bulk/...`. (Plan **row caps** are separate: when a 200 response is truncated to your plan's 50,000-row cap it carries `X-Eolas-Truncated: true`, `X-Plan-Row-Cap`, and `X-Plan`.) |
 | **429** | `RateLimitError` | Monthly request quota reached | Free is 10/month, Pro is unlimited. Wait until next month, upgrade, or contact us if you think the count is wrong. Free-tier responses carry `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` (Unix epoch of the reset) on **every** request, so you can see your quota before you hit the wall; the 429 itself also includes `Retry-After` (seconds until reset). |
-| **5xx** | `APIError` | Server issue on our end | Retry once or twice — the client doesn't auto-retry. If it persists, check the [status page](https://eolas.fyi/status) and report via GitHub. |
+| **5xx** | `APIError` | Server issue on our end | Retry once or twice — the client doesn't auto-retry. If it persists, check the [status page](https://eolas.nz/status) and report via GitHub. |
 
 ---
 
@@ -57,7 +57,7 @@ client = Client()
 try:
     df = client.statsnz("nz_cpi", start="2020-01-01")
 except AuthenticationError:
-    print("API key isn't working — get one at https://eolas.fyi/signup")
+    print("API key isn't working — get one at https://eolas.nz/signup")
 except RateLimitError:
     print("Out of free-tier requests this month — upgrade or wait")
 except NotFoundError:
@@ -217,7 +217,7 @@ client = Client()
 client.info("nz_cpi")  # any successful call confirms the key works
 ```
 
-Or from the dashboard at [eolas.fyi/dashboard](https://eolas.fyi/dashboard) — usage counter + plan tier are visible there.
+Or from the dashboard at [eolas.nz/dashboard](https://eolas.nz/dashboard) — usage counter + plan tier are visible there.
 
 ---
 
@@ -226,4 +226,4 @@ Or from the dashboard at [eolas.fyi/dashboard](https://eolas.fyi/dashboard) — 
 - [GitHub issues — eolas-data](https://github.com/phildonovan/eolas-data/issues) for Python client bugs
 - [GitHub issues — eolas-r](https://github.com/phildonovan/eolas-r/issues) for R client bugs
 - **Email**: phil@virtus-solutions.io for billing, plan changes, or anything sensitive
-- **Status page**: [eolas.fyi/status](https://eolas.fyi/status) to check if an outage explains what you're seeing
+- **Status page**: [eolas.nz/status](https://eolas.nz/status) to check if an outage explains what you're seeing

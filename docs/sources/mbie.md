@@ -38,7 +38,7 @@ The Government Electronic Tenders Service publishes every public procurement not
 |---|---|
 | `science_funding` | Government research grants — recipients, amounts, fund stream. |
 
-Plus 4 additional MBIE datasets covering ancillary topics (browse the [live catalogue](https://eolas.fyi/datasets?source=MBIE) for the current list).
+Plus 4 additional MBIE datasets covering ancillary topics (browse the [live catalogue](https://eolas.nz/datasets?source=MBIE) for the current list).
 
 ---
 
@@ -58,7 +58,7 @@ meta["source_last_modified_at"]
 
 All MBIE data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: MBIE, served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: MBIE, served via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -125,7 +125,7 @@ Recommended attribution: *"Source: MBIE, served via eolas (eolas.fyi). CC-BY 4.0
 
 ## Where to find more
 
-- **MBIE datasets on eolas**: [eolas.fyi/datasets?source=MBIE](https://eolas.fyi/datasets?source=MBIE)
+- **MBIE datasets on eolas**: [eolas.nz/datasets?source=MBIE](https://eolas.nz/datasets?source=MBIE)
 - **MBIE's own data hub**: [www.mbie.govt.nz/about/open-government-and-official-information/data](https://www.mbie.govt.nz/about/open-government-and-official-information/data)
 - **GETS** (the live procurement portal): [www.gets.govt.nz](https://www.gets.govt.nz)
 - **MBIE energy stats**: [www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling](https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling)

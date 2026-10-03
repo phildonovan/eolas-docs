@@ -73,7 +73,7 @@ meta["source_last_modified_at"]
 
 All Canterbury council data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: [Council name], served via eolas (eolas.fyi). CC-BY 4.0."* — substitute ECan / CCC / WMKDC etc. as applicable.
+Recommended attribution: *"Source: [Council name], served via eolas (eolas.nz). CC-BY 4.0."* — substitute ECan / CCC / WMKDC etc. as applicable.
 
 ---
 
@@ -157,7 +157,7 @@ faults["buffer_20m"] = faults.geometry.buffer(20)
 - **Post-quake Canterbury data is dense for a reason**: the 2010-2011 sequence + 2016 Kaikōura quake generated enormous post-event data. `ecan_kaikoura_2016_fault_traces` captures observed surface ruptures; `ecan_earthquake_faults_2024` is the current legally-recognised hazard envelope.
 - **Christchurch Central Recovery Plan**: a unique post-quake regulatory overlay specific to central Christchurch. Different consenting rules apply within it.
 - **WMKDC's two plan generations**: the *operative* district plan is the current legal document; the *DP2025* layers (`wmkdc_dp2025_*`) are the proposed plan in hearings. Both serve different purposes — use the operative for active consenting, DP2025 for forecasting.
-- **Hurunui + Selwyn coverage**: limited but growing. As both councils publish more open data, eolas will add layers — see [eolas.fyi/datasets?source=ECan+%2F+Canterbury](https://eolas.fyi/datasets?source=ECan%20%2F%20Canterbury) for the current list.
+- **Hurunui + Selwyn coverage**: limited but growing. As both councils publish more open data, eolas will add layers — see [eolas.nz/datasets?source=ECan+%2F+Canterbury](https://eolas.nz/datasets?source=ECan%20%2F%20Canterbury) for the current list.
 - **Selwyn, Timaru, Waimate**: minimal layers via the cluster's shared Koordinates portal. Their own portals have more — on the eolas roadmap to fold in.
 - **Aerial imagery + LiDAR**: `ecan_aerial_imagery_extents` + `ecan_lidar_collection_extents` are *catalogues* (where coverage exists, when flown) — not the raw imagery / point clouds themselves. Raw data is available via ECan's portal on request.
 
@@ -165,7 +165,7 @@ faults["buffer_20m"] = faults.geometry.buffer(20)
 
 ## Where to find more
 
-- **Canterbury datasets on eolas**: [eolas.fyi/datasets?source=ECan+%2F+Canterbury](https://eolas.fyi/datasets?source=ECan%20%2F%20Canterbury)
+- **Canterbury datasets on eolas**: [eolas.nz/datasets?source=ECan+%2F+Canterbury](https://eolas.nz/datasets?source=ECan%20%2F%20Canterbury)
 - **Canterbury Maps Open Data** (the shared portal): [opendata.canterburymaps.govt.nz](https://opendata.canterburymaps.govt.nz)
 - **ECan data + science**: [www.ecan.govt.nz/data](https://www.ecan.govt.nz/data)
 - **CCC GeoMaps**: [opendata.ccc.govt.nz](https://opendata.ccc.govt.nz)

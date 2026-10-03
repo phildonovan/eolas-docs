@@ -22,7 +22,7 @@ If you're doing Taranaki property research, volcanic-hazard work, or coastal-reg
 - `npdc_dp_operative_devarea` — development areas in NPDC's plan
 - `trc_*_freshwater_*` — water-allocation + freshwater management areas across the ring plain
 
-Browse: [eolas.fyi/datasets?source=Taranaki+Councils](https://eolas.fyi/datasets?source=Taranaki%20Councils).
+Browse: [eolas.nz/datasets?source=Taranaki+Councils](https://eolas.nz/datasets?source=Taranaki%20Councils).
 
 ---
 
@@ -84,7 +84,7 @@ print(f"Combined hazard area: {all_hazards.to_crs('EPSG:2193').area.sum() / 1e6:
 
 ## Where to find more
 
-- **Taranaki datasets on eolas**: [eolas.fyi/datasets?source=Taranaki+Councils](https://eolas.fyi/datasets?source=Taranaki%20Councils)
+- **Taranaki datasets on eolas**: [eolas.nz/datasets?source=Taranaki+Councils](https://eolas.nz/datasets?source=Taranaki%20Councils)
 - **TRC**: [www.trc.govt.nz](https://www.trc.govt.nz)
 - **NPDC**: [data.npdc.govt.nz](https://data.npdc.govt.nz)
 

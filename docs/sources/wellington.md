@@ -118,7 +118,7 @@ meta["source_last_modified_at"]
 
 All Wellington-region council data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; per-council attribution required.
 
-Recommended attribution: *"Source: [Council name], served via eolas (eolas.fyi). CC-BY 4.0."* — use the specific council; for multi-council analysis: *"Source: Wellington-region councils via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: [Council name], served via eolas (eolas.nz). CC-BY 4.0."* — use the specific council; for multi-council analysis: *"Source: Wellington-region councils via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -194,7 +194,7 @@ proposed_decisions = client.wellington("wcdp_amenity_landscapes_decision", as_sf
 
 ## Where to find more
 
-- **Wellington-region datasets on eolas**: [eolas.fyi/datasets?source=Wellington+Region+Councils](https://eolas.fyi/datasets?source=Wellington%20Region%20Councils)
+- **Wellington-region datasets on eolas**: [eolas.nz/datasets?source=Wellington+Region+Councils](https://eolas.nz/datasets?source=Wellington%20Region%20Councils)
 - **GWRC data portal**: [data.gw.govt.nz](https://data.gw.govt.nz)
 - **WCC data portal**: [data.wellingtoncc.govt.nz](https://data.wellingtoncc.govt.nz)
 - **District-plan portals**: each council has its own — check the council's website

@@ -25,7 +25,7 @@ The Co-Lab portal serves each council's own datasets but normalises publishing f
 
 Waikato Regional Council (WRC) — 8 datasets — covers regional environmental + hazard layers.
 
-Browse the full list: [eolas.fyi/datasets?source=Co-Lab+Waikato](https://eolas.fyi/datasets?source=Co-Lab%20Waikato).
+Browse the full list: [eolas.nz/datasets?source=Co-Lab+Waikato](https://eolas.nz/datasets?source=Co-Lab%20Waikato).
 
 ---
 
@@ -44,7 +44,7 @@ meta["last_refreshed_at"]
 
 All Co-Lab + WRC data is **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; per-council attribution required.
 
-Recommended attribution: *"Source: [Council name] via Co-Lab Waikato, served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: [Council name] via Co-Lab Waikato, served via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -94,7 +94,7 @@ print(f"Coastal-risk area in Thames-Coromandel: {combined_area_km2:.0f} km²")
 
 ## Where to find more
 
-- **Co-Lab Waikato datasets on eolas**: [eolas.fyi/datasets?source=Co-Lab+Waikato](https://eolas.fyi/datasets?source=Co-Lab%20Waikato)
+- **Co-Lab Waikato datasets on eolas**: [eolas.nz/datasets?source=Co-Lab+Waikato](https://eolas.nz/datasets?source=Co-Lab%20Waikato)
 - **Co-Lab Waikato Open Data**: [data-waikatocouncils.opendata.arcgis.com](https://data-waikatocouncils.opendata.arcgis.com)
 - **WRC**: [www.waikatoregion.govt.nz](https://www.waikatoregion.govt.nz)
 - **Hamilton City separately**: [data.hamilton.govt.nz](https://data.hamilton.govt.nz)

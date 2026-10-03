@@ -54,7 +54,7 @@ meta["source_last_modified_at"]
 
 LRIS data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)** in most cases — but always check the per-dataset metadata. A few research outputs have stricter or attribution-only licences.
 
-Recommended attribution: *"Source: Manaaki Whenua – Landcare Research / LRIS Portal, served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: Manaaki Whenua – Landcare Research / LRIS Portal, served via eolas (eolas.nz). CC-BY 4.0."*
 
 If you cite LCDB in academic work, Manaaki Whenua publishes a recommended citation per version on the LRIS dataset page.
 
@@ -151,7 +151,7 @@ plt.title("Pastoral beef + sheep intensity (H3 R9)")
 
 ## Where to find more
 
-- **LRIS datasets on eolas**: [eolas.fyi/datasets?source=Manaaki+Whenua](https://eolas.fyi/datasets?source=Manaaki%20Whenua%20%2F%20LRIS)
+- **LRIS datasets on eolas**: [eolas.nz/datasets?source=Manaaki+Whenua](https://eolas.nz/datasets?source=Manaaki%20Whenua%20%2F%20LRIS)
 - **LRIS Portal** (the underlying portal): [lris.scinfo.org.nz](https://lris.scinfo.org.nz)
 - **Manaaki Whenua – Landcare Research**: [www.landcareresearch.co.nz](https://www.landcareresearch.co.nz)
 - **LCDB documentation + classes**: [www.landcareresearch.co.nz/tools-and-resources/mapping/lcdb-v50/](https://www.landcareresearch.co.nz/tools-and-resources/mapping/lcdb-v50/)

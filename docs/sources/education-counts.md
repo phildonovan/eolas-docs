@@ -57,7 +57,7 @@ If you're doing education-policy research, school-performance analysis, demograp
 | `edcounts_pacific_language_in_schooling` | Pacific language education participation. |
 | `edcounts_language_use_in_ece` | Language of instruction in ECE settings. |
 
-Plus 18+ other datasets covering specific programmes + cohorts. Browse: [eolas.fyi/datasets?source=Education+Counts](https://eolas.fyi/datasets?source=Education%20Counts).
+Plus 18+ other datasets covering specific programmes + cohorts. Browse: [eolas.nz/datasets?source=Education+Counts](https://eolas.nz/datasets?source=Education%20Counts).
 
 ---
 
@@ -77,7 +77,7 @@ meta["source_last_modified_at"]
 
 All Education Counts data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: Education Counts (Ministry of Education), served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: Education Counts (Ministry of Education), served via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -136,7 +136,7 @@ print(top)
 
 ## Where to find more
 
-- **Education Counts datasets on eolas**: [eolas.fyi/datasets?source=Education+Counts](https://eolas.fyi/datasets?source=Education%20Counts)
+- **Education Counts datasets on eolas**: [eolas.nz/datasets?source=Education+Counts](https://eolas.nz/datasets?source=Education%20Counts)
 - **Education Counts portal**: [www.educationcounts.govt.nz](https://www.educationcounts.govt.nz)
 - **Ministry of Education**: [www.education.govt.nz](https://www.education.govt.nz)
 

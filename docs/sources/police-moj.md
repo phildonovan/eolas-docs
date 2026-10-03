@@ -43,7 +43,7 @@ meta["source_last_modified_at"]
 
 All Police + MoJ data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: NZ Police"* or *"Source: Ministry of Justice"*, served via eolas (eolas.fyi). CC-BY 4.0.
+Recommended attribution: *"Source: NZ Police"* or *"Source: Ministry of Justice"*, served via eolas (eolas.nz). CC-BY 4.0.
 
 A privacy note: data is aggregated. Small-cell suppression applies where individual case identification might be possible (typically counts ≤4 in specific demographic / location combinations).
 
@@ -118,7 +118,7 @@ print(latest.groupby("anzsoc_division")["charges"].sum().sort_values(ascending=F
 
 ## Where to find more
 
-- **Datasets on eolas**: [eolas.fyi/datasets?source=NZ+Police+%2F+MoJ](https://eolas.fyi/datasets?source=NZ%20Police%20%2F%20MoJ)
+- **Datasets on eolas**: [eolas.nz/datasets?source=NZ+Police+%2F+MoJ](https://eolas.nz/datasets?source=NZ%20Police%20%2F%20MoJ)
 - **NZ Police data**: [www.police.govt.nz/about-us/publications-statistics/data-and-statistics](https://www.police.govt.nz/about-us/publications-statistics/data-and-statistics)
 - **MoJ statistics**: [www.justice.govt.nz/justice-sector-policy/research-data/justice-statistics](https://www.justice.govt.nz/justice-sector-policy/research-data/justice-statistics)
 

@@ -39,7 +39,7 @@ The 32 datasets cover RBNZ's statistical-release tables. The naming convention i
 | `rbnz_m8_overseas_trade` | Goods and services exports / imports. |
 | `rbnz_m9_labour_market` | Employment, wages, productivity proxies (RBNZ's view; differs slightly from Stats NZ). |
 
-For the full list, browse [eolas.fyi/datasets?source=RBNZ](https://eolas.fyi/datasets?source=RBNZ).
+For the full list, browse [eolas.nz/datasets?source=RBNZ](https://eolas.nz/datasets?source=RBNZ).
 
 ---
 
@@ -53,7 +53,7 @@ Daily for the rate/FX tables (B1 exchange rates, B2 wholesale rates), daily chec
 
 All RBNZ statistical data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)** per the [RBNZ Open Data policy](https://www.rbnz.govt.nz/-/media/project/sites/rbnz/files/about-us/copyright-statement.pdf). Commercial use is fine; attribution is required.
 
-Recommended attribution: *"Source: Reserve Bank of New Zealand, via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: Reserve Bank of New Zealand, via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -169,7 +169,7 @@ See the [Bulk downloads](../bulk-downloads.md) guide for cron and Airflow recipe
 
 ## Where to find more
 
-- **RBNZ datasets on eolas**: [eolas.fyi/datasets?source=RBNZ](https://eolas.fyi/datasets?source=RBNZ)
+- **RBNZ datasets on eolas**: [eolas.nz/datasets?source=RBNZ](https://eolas.nz/datasets?source=RBNZ)
 - **RBNZ's own statistics page**: [www.rbnz.govt.nz/statistics](https://www.rbnz.govt.nz/statistics) — original Excel tables, methodology notes
 - **RBNZ OCR decisions**: [www.rbnz.govt.nz/monetary-policy/about-monetary-policy/ocr-decisions](https://www.rbnz.govt.nz/monetary-policy/about-monetary-policy/ocr-decisions)
 

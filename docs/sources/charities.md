@@ -42,7 +42,7 @@ meta["source_last_modified_at"]
 
 All Charities Services data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: Charities Services (Department of Internal Affairs), served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: Charities Services (Department of Internal Affairs), served via eolas (eolas.nz). CC-BY 4.0."*
 
 A privacy note: data is regulator-published — names of officers + registered addresses are in the public registry by statute. Bank account numbers + private contact details are not in the open dataset.
 
@@ -114,7 +114,7 @@ print(combined.groupby("sector_name").size().sort_values(ascending=False))
 
 ## Where to find more
 
-- **Charities datasets on eolas**: [eolas.fyi/datasets?source=Charities+Services](https://eolas.fyi/datasets?source=Charities%20Services)
+- **Charities datasets on eolas**: [eolas.nz/datasets?source=Charities+Services](https://eolas.nz/datasets?source=Charities%20Services)
 - **Charities Services portal**: [www.charities.govt.nz](https://www.charities.govt.nz)
 - **Public registry search**: [register.charities.govt.nz](https://register.charities.govt.nz)
 - **Annual returns + filings**: [www.charities.govt.nz/reporting](https://www.charities.govt.nz/reporting)

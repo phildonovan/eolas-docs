@@ -29,7 +29,7 @@ If you're doing Napier or Whanganui property research, urban-planning analysis, 
 | District plan | `napier_dp_precincts` |
 | Council infrastructure | `napier_council_buildings`, `napier_cemetery_plots`, `napier_building_footprints_2020` |
 
-Browse: [eolas.fyi/datasets?source=Napier+%2B+Whanganui](https://eolas.fyi/datasets?source=Napier%20%2B%20Whanganui).
+Browse: [eolas.nz/datasets?source=Napier+%2B+Whanganui](https://eolas.nz/datasets?source=Napier%20%2B%20Whanganui).
 
 ---
 
@@ -79,7 +79,7 @@ print(aerial.head())
 
 ## Where to find more
 
-- **Cluster datasets on eolas**: [eolas.fyi/datasets?source=Napier+%2B+Whanganui](https://eolas.fyi/datasets?source=Napier%20%2B%20Whanganui)
+- **Cluster datasets on eolas**: [eolas.nz/datasets?source=Napier+%2B+Whanganui](https://eolas.nz/datasets?source=Napier%20%2B%20Whanganui)
 - **Napier City**: [www.napier.govt.nz](https://www.napier.govt.nz)
 - **Whanganui District**: [www.whanganui.govt.nz](https://www.whanganui.govt.nz)
 

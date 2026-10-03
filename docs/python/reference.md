@@ -3,7 +3,7 @@
 ## `Client`
 
 ```python
-class Client(api_key=None, base_url="https://api.eolas.fyi", cache=False)
+class Client(api_key=None, base_url="https://api.eolas.nz", cache=False)
 ```
 
 **Parameters**
@@ -11,7 +11,7 @@ class Client(api_key=None, base_url="https://api.eolas.fyi", cache=False)
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `api_key` | `str \| None` | `None` | Your `vs_...` key. Falls back to `EOLAS_API_KEY` env var. |
-| `base_url` | `str` | `"https://api.eolas.fyi"` | Override for testing. |
+| `base_url` | `str` | `"https://api.eolas.nz"` | Override for testing. |
 | `cache` | `bool` | `False` | Cache responses in memory for the lifetime of the client. |
 
 ---
@@ -141,7 +141,7 @@ The Python client uses Arrow automatically — `client.get("nz_cpi")` returns th
 
 ```bash
 curl -H "X-API-Key: $EOLAS_API_KEY" \
-  "https://api.eolas.fyi/v1/datasets/nzta_cas_crashes/data?format=parquet&limit=100000" \
+  "https://api.eolas.nz/v1/datasets/nzta_cas_crashes/data?format=parquet&limit=100000" \
   -o crashes.parquet
 ```
 
@@ -203,7 +203,7 @@ from eolas_data.exceptions import BulkUpgradeRequired, BulkLicenceRestricted
 try:
     client.download_bulk("nz_cpi", freshness="current")
 except BulkUpgradeRequired:
-    print("Upgrade to Pro for current snapshots: https://eolas.fyi/pricing")
+    print("Upgrade to Pro for current snapshots: https://eolas.nz/pricing")
 ```
 
 ---

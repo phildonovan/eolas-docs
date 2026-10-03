@@ -25,7 +25,7 @@ If you're doing central-North-Island planning, agricultural / horticultural rese
 - `horizons_sites_significance_cultural` — iwi-consented site polygons
 - `horow_dp_coastal_hazard` — Horowhenua's coast (Levin–Foxton–Hokio Beach line)
 
-Browse the full list: [eolas.fyi/datasets?source=Manawat%C5%AB-Whanganui+Councils](https://eolas.fyi/datasets?source=Manawat%C5%AB-Whanganui%20Councils).
+Browse the full list: [eolas.nz/datasets?source=Manawat%C5%AB-Whanganui+Councils](https://eolas.nz/datasets?source=Manawat%C5%AB-Whanganui%20Councils).
 
 ---
 
@@ -80,7 +80,7 @@ print(gw.groupby("mgmt_unit").size())  # zones by management category
 
 ## Where to find more
 
-- **Manawatū-Whanganui datasets on eolas**: [eolas.fyi/datasets?source=Manawat%C5%AB-Whanganui+Councils](https://eolas.fyi/datasets?source=Manawat%C5%AB-Whanganui%20Councils)
+- **Manawatū-Whanganui datasets on eolas**: [eolas.nz/datasets?source=Manawat%C5%AB-Whanganui+Councils](https://eolas.nz/datasets?source=Manawat%C5%AB-Whanganui%20Councils)
 - **Horizons RC data**: [www.horizons.govt.nz/about-us/maps-and-data](https://www.horizons.govt.nz/about-us/maps-and-data)
 - **PNCC**: [data.pncc.govt.nz](https://data.pncc.govt.nz)
 

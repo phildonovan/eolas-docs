@@ -34,7 +34,7 @@ meta["source_last_modified_at"]
 
 All NZ Treasury data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)** per the [Treasury Open Data policy](https://www.treasury.govt.nz/publications/legal/copyright). Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: The Treasury, served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: The Treasury, served via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -101,7 +101,7 @@ Recommended attribution: *"Source: The Treasury, served via eolas (eolas.fyi). C
 
 ## Where to find more
 
-- **NZ Treasury datasets on eolas**: [eolas.fyi/datasets?source=NZ+Treasury](https://eolas.fyi/datasets?source=NZ%20Treasury)
+- **NZ Treasury datasets on eolas**: [eolas.nz/datasets?source=NZ+Treasury](https://eolas.nz/datasets?source=NZ%20Treasury)
 - **Treasury's own data portal**: [www.treasury.govt.nz/information-and-services/nz-economy](https://www.treasury.govt.nz/information-and-services/nz-economy)
 - **Crown Financial Statements**: [www.treasury.govt.nz/publications/financial-statements-government](https://www.treasury.govt.nz/publications/financial-statements-government)
 - **NZSF**: [www.nzsuperfund.nz](https://www.nzsuperfund.nz)

@@ -262,7 +262,7 @@ Output directory defaults to `./eolas-<platform>/`. Existing files are
 preserved unless you pass `--force`.
 
 This is an Enterprise-plan feature. Non-Enterprise keys see a clear
-upgrade pointer with the [pricing URL](https://eolas.fyi/#pricing). The
+upgrade pointer with the [pricing URL](https://eolas.nz/#pricing). The
 gating lives server-side so the capability is bypass-proof.
 
 #### Meltano verification recipe

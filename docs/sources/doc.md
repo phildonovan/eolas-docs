@@ -53,7 +53,7 @@ meta["source_last_modified_at"]
 
 All DOC data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)** via the [DOC Open Data Portal](https://doc-deptconservation.opendata.arcgis.com). Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: Department of Conservation, served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: Department of Conservation, served via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -136,7 +136,7 @@ print("Marine mammal sanctuaries:", mammals.to_crs("EPSG:2193").area.sum() / 1e6
 
 ## Where to find more
 
-- **DOC datasets on eolas**: [eolas.fyi/datasets?source=DOC](https://eolas.fyi/datasets?source=DOC)
+- **DOC datasets on eolas**: [eolas.nz/datasets?source=DOC](https://eolas.nz/datasets?source=DOC)
 - **DOC Open Data Portal**: [doc-deptconservation.opendata.arcgis.com](https://doc-deptconservation.opendata.arcgis.com)
 - **DOC alerts (live)**: [www.doc.govt.nz/parks-and-recreation/places-to-go/alerts](https://www.doc.govt.nz/parks-and-recreation/places-to-go/alerts)
 - **DOC booking system**: [bookings.doc.govt.nz](https://bookings.doc.govt.nz)

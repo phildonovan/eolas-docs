@@ -42,7 +42,7 @@ What this means in practice:
 - **Charging customers for OECD data**: not fine without an OECD agreement.
 - **eolas's stance**: we serve OECD data on the Free and Pro tiers as a convenience for analytical use. **Enterprise customers** are excluded from automated OECD redistribution — if you're building a paid product on top of OECD data, contact us so we can structure the licence appropriately, or query OECD's own API directly.
 
-Recommended attribution: *"Source: OECD, via eolas (eolas.fyi). © OECD."*
+Recommended attribution: *"Source: OECD, via eolas (eolas.nz). © OECD."*
 
 ---
 
@@ -147,7 +147,7 @@ See the [Bulk downloads](../bulk-downloads.md) guide for scheduling and format o
 
 ## Where to find more
 
-- **OECD datasets on eolas**: [eolas.fyi/datasets?source=OECD](https://eolas.fyi/datasets?source=OECD)
+- **OECD datasets on eolas**: [eolas.nz/datasets?source=OECD](https://eolas.nz/datasets?source=OECD)
 - **OECD's own data explorer**: [data-explorer.oecd.org](https://data-explorer.oecd.org)
 - **OECD Terms & Conditions**: [oecd.org/termsandconditions](https://www.oecd.org/termsandconditions/)
 - **SDMX-JSON spec** (if you want to bypass eolas and query OECD directly): [sdmx.org](https://sdmx.org)

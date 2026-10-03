@@ -36,7 +36,7 @@ The shared plan layers — apply across Buller + Grey + Westland:
 - `buller_*` (3 datasets) — Buller-specific overlays
 - `westland_*` (1 dataset) — Westland-specific extra
 
-Browse: [eolas.fyi/datasets?source=West+Coast+%28Te+Tai+o+Poutini%29](https://eolas.fyi/datasets?source=West%20Coast%20%28Te%20Tai%20o%20Poutini%29).
+Browse: [eolas.nz/datasets?source=West+Coast+%28Te+Tai+o+Poutini%29](https://eolas.nz/datasets?source=West%20Coast%20%28Te%20Tai%20o%20Poutini%29).
 
 ---
 
@@ -84,7 +84,7 @@ print(zones["zone_name"].value_counts().head(10))
 
 ## Where to find more
 
-- **West Coast datasets on eolas**: [eolas.fyi/datasets?source=West+Coast+%28Te+Tai+o+Poutini%29](https://eolas.fyi/datasets?source=West%20Coast%20%28Te%20Tai%20o%20Poutini%29)
+- **West Coast datasets on eolas**: [eolas.nz/datasets?source=West+Coast+%28Te+Tai+o+Poutini%29](https://eolas.nz/datasets?source=West%20Coast%20%28Te%20Tai%20o%20Poutini%29)
 - **Te Tai o Poutini Plan**: [www.ttpp.nz](https://www.ttpp.nz)
 - **WCRC**: [www.wcrc.govt.nz](https://www.wcrc.govt.nz)
 

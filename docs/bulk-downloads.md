@@ -2,7 +2,7 @@
 
 Download a whole dataset as a single file (Parquet, gzipped CSV, or GeoParquet) — no per-request row caps, no pagination, no client-side stitching.
 
-The endpoint is `/v1/bulk/{namespace}/{table}` on `api.eolas.fyi`. It's cached behind Cloudflare, so monthly snapshots typically arrive in milliseconds after the first download warms the edge.
+The endpoint is `/v1/bulk/{namespace}/{table}` on `api.eolas.nz`. It's cached behind Cloudflare, so monthly snapshots typically arrive in milliseconds after the first download warms the edge.
 
 ---
 
@@ -117,7 +117,7 @@ Each dataset's licence determines whether bulk is permitted at all:
 - **CC-BY-licensed datasets** (the vast majority — Stats NZ, LINZ, RBNZ, MBIE, NZ Treasury, councils, etc.): bulk download permitted, subject to attribution.
 - **Non-CC-BY datasets** (notably **OECD**, which we serve under terms that prohibit commercial redistribution): bulk returns **403**. Query the data via the live `/data` endpoint instead.
 
-On the [dataset browse page](https://eolas.fyi/datasets), look for the green **"Bulk download"** badge (eligible) vs the slate **"Query-only (licence)"** badge (restricted).
+On the [dataset browse page](https://eolas.nz/datasets), look for the green **"Bulk download"** badge (eligible) vs the slate **"Query-only (licence)"** badge (restricted).
 
 ### Freshness axis
 
@@ -151,17 +151,17 @@ GeoParquet output uses **OGC:CRS84** (WGS84 longitude/latitude) and the GeoParqu
 # Pro: current snapshot of NZ Treasury fiscal spending as Parquet
 curl -H "X-API-Key: vs_..." \
   -o treasury_fiscal_spending.parquet \
-  "https://api.eolas.fyi/v1/bulk/treasury/treasury_fiscal_spending?freshness=current&format=parquet"
+  "https://api.eolas.nz/v1/bulk/treasury/treasury_fiscal_spending?freshness=current&format=parquet"
 
 # Any plan: latest monthly snapshot as gzipped CSV
 curl -H "X-API-Key: vs_..." \
   -o treasury_fiscal_spending.csv.gz \
-  "https://api.eolas.fyi/v1/bulk/treasury/treasury_fiscal_spending?freshness=monthly&format=csv_gz"
+  "https://api.eolas.nz/v1/bulk/treasury/treasury_fiscal_spending?freshness=monthly&format=csv_gz"
 
 # GeoParquet for a Stats NZ Geo layer
 curl -H "X-API-Key: vs_..." \
   -o ta2023.geo.parquet \
-  "https://api.eolas.fyi/v1/bulk/statsnz_geo/territorial_authority_2023?freshness=current&format=geoparquet"
+  "https://api.eolas.nz/v1/bulk/statsnz_geo/territorial_authority_2023?freshness=current&format=geoparquet"
 ```
 
 If you omit `?freshness=`, the API picks the right one for your plan (Free → monthly, Pro → current) and **302-redirects** to the canonical URL. Curl follows by default with `-L`.
@@ -173,7 +173,7 @@ import pandas as pd
 import requests
 
 headers = {"X-API-Key": "vs_..."}
-url = "https://api.eolas.fyi/v1/bulk/treasury/treasury_fiscal_spending?freshness=current"
+url = "https://api.eolas.nz/v1/bulk/treasury/treasury_fiscal_spending?freshness=current"
 # pandas can read remote Parquet directly, but we route through requests
 # so the API key header is included.
 r = requests.get(url, headers=headers, allow_redirects=True)
@@ -190,7 +190,7 @@ import geopandas as gpd
 import requests
 
 headers = {"X-API-Key": "vs_..."}
-url = ("https://api.eolas.fyi/v1/bulk/statsnz_geo/territorial_authority_2023"
+url = ("https://api.eolas.nz/v1/bulk/statsnz_geo/territorial_authority_2023"
        "?freshness=current&format=geoparquet")
 r = requests.get(url, headers=headers, allow_redirects=True)
 r.raise_for_status()
@@ -210,7 +210,7 @@ SELECT count(*) FROM read_parquet('treasury_fiscal_spending.parquet');
 
 ### Browser
 
-On any [dataset page](https://eolas.fyi/datasets), if you're logged in, click the **Parquet** / **CSV.gz** / **GeoParquet** download buttons in the header. Same gate as the API — Free gets the monthly snapshot, Pro gets the current.
+On any [dataset page](https://eolas.nz/datasets), if you're logged in, click the **Parquet** / **CSV.gz** / **GeoParquet** download buttons in the header. Same gate as the API — Free gets the monthly snapshot, Pro gets the current.
 
 ---
 
@@ -266,7 +266,7 @@ Each bulk download also includes:
 1. **A `NOTICE.txt` sidecar** in the eolas-bulk S3 bucket (also retrievable at `{namespace}/{namespace}__{table}@{snapshot_id}.NOTICE.txt`). Contains the source, licence, source URL, snapshot version, "data as of" date, and the attribution clause.
 2. **File-level metadata** embedded in the Parquet/GeoParquet (key-value `geo` block for GeoParquet, standard Parquet metadata for the rest).
 
-The `NOTICE` file **must travel with the data** if you redistribute it — that's how the CC-BY attribution obligation is satisfied. See [Terms §5](https://eolas.fyi/terms#bulk).
+The `NOTICE` file **must travel with the data** if you redistribute it — that's how the CC-BY attribution obligation is satisfied. See [Terms §5](https://eolas.nz/terms#bulk).
 
 ---
 
@@ -294,6 +294,6 @@ If you're systematically pulling many datasets, space requests by ~2 s and you'l
 
 You may redistribute bulk-downloaded files — including in commercial work and on paid platforms — **provided the `NOTICE.txt` sidecar continues to travel with the data**. Removing or altering it breaches the upstream CC-BY licence (not just our terms).
 
-OECD and other non-CC-BY datasets are excluded from bulk; do not attempt to reconstruct them via repeated `/v1/data` calls — that's a breach of our [acceptable use](https://eolas.fyi/terms) and the upstream licence.
+OECD and other non-CC-BY datasets are excluded from bulk; do not attempt to reconstruct them via repeated `/v1/data` calls — that's a breach of our [acceptable use](https://eolas.nz/terms) and the upstream licence.
 
-Full terms: [eolas.fyi/terms §5](https://eolas.fyi/terms#bulk).
+Full terms: [eolas.nz/terms §5](https://eolas.nz/terms#bulk).
