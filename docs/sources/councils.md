@@ -97,9 +97,9 @@ meta["source_last_modified_at"]
 
 The vast majority of council open-data layers are **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. A few specific layers have local restrictions (typically Three Waters infrastructure and cultural sites). Always check the per-dataset metadata before commercial redistribution.
 
-Recommended attribution: *"Source: [Council name], served via eolas (eolas.fyi). CC-BY 4.0."* — substitute the specific council, since each is the licence-holder for its own data.
+Recommended attribution: *"Source: [Council name], served via eolas (eolas.nz). CC-BY 4.0."* — substitute the specific council, since each is the licence-holder for its own data.
 
-For multi-council analysis (e.g. nationwide hazard maps), use a generic attribution: *"Source: NZ Councils via eolas (eolas.fyi). CC-BY 4.0 — see eolas dataset metadata for per-source attribution."*
+For multi-council analysis (e.g. nationwide hazard maps), use a generic attribution: *"Source: NZ Councils via eolas (eolas.nz). CC-BY 4.0 — see eolas dataset metadata for per-source attribution."*
 
 ---
 
@@ -163,7 +163,7 @@ District plans share a common vocabulary (zones, designations, overlays) but eac
 
 ## Where to find more
 
-- **Council datasets on eolas** (filter by cluster): [eolas.fyi/datasets](https://eolas.fyi/datasets) — use the Source filter
+- **Council datasets on eolas** (filter by cluster): [eolas.nz/datasets](https://eolas.nz/datasets) — use the Source filter
 - **NZ local government overview**: [www.lgnz.co.nz](https://www.lgnz.co.nz) — peak body
 - **Council coverage memo** (what we have, what's missing): [github.com/phildonovan/eolas — council-coverage.md](https://github.com/phildonovan/eolas/blob/main/docs/council-coverage.md)
 

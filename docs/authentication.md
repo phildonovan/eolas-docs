@@ -6,9 +6,9 @@ Every API call needs an API key. This page covers how to get one, where to store
 
 ## Get a key
 
-[**Sign up at eolas.fyi/signup**](https://eolas.fyi/signup) — free tier, no credit card. You get an API key (starts with `vs_`) immediately on confirmation.
+[**Sign up at eolas.nz/signup**](https://eolas.nz/signup) — free tier, no credit card. You get an API key (starts with `vs_`) immediately on confirmation.
 
-Your dashboard at [eolas.fyi/dashboard](https://eolas.fyi/dashboard) shows the key, your current plan, this month's usage, and lets you rotate the key if you need to.
+Your dashboard at [eolas.nz/dashboard](https://eolas.nz/dashboard) shows the key, your current plan, this month's usage, and lets you rotate the key if you need to.
 
 ---
 
@@ -213,7 +213,7 @@ For long-running production apps, rotate the key periodically (see below) and up
 
 If a key is compromised — or you just want to cycle it on a schedule — rotate it from the dashboard:
 
-1. Visit [eolas.fyi/dashboard](https://eolas.fyi/dashboard)
+1. Visit [eolas.nz/dashboard](https://eolas.nz/dashboard)
 2. Click **Rotate key**
 3. Your old key stops working immediately; the new key is shown once
 4. Update `EOLAS_API_KEY` everywhere it's set (local `.env`, CI secrets, server env files)

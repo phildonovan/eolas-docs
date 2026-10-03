@@ -10,7 +10,7 @@ Access {{ dataset_count }}+ economic, demographic and geospatial datasets from {
 
 [![PyPI](https://img.shields.io/pypi/v/eolas-data?label=PyPI&color=blue)](https://pypi.org/project/eolas-data/)
 [![R](https://img.shields.io/badge/R-GitHub-blue)](https://github.com/phildonovan/eolas-r)
-[![API](https://img.shields.io/badge/API-api.eolas.fyi-blue)](https://api.eolas.fyi)
+[![API](https://img.shields.io/badge/API-api.eolas.nz-blue)](https://api.eolas.nz)
 
 </div>
 </div>
@@ -28,7 +28,7 @@ Built so you don't have to:
 - Wait for batch CSV exports when you want fresh data
 
 The product promise is **clean** (typed columns, one schema), **current** (automated refresh on
-source cadence — see [status](https://eolas.fyi/status)), and **integrated** (REST, bulk Parquet,
+source cadence — see [status](https://eolas.nz/status)), and **integrated** (REST, bulk Parquet,
 Snowflake share, Meltano/Fivetran/ADF generators). Licence and attribution travel with every
 pull via `X-Eolas-*` headers or the JSON `?envelope=1` wrapper — [documented here](quickstart.md#5-attribution-and-provenance).
 
@@ -107,13 +107,13 @@ If you do data work in NZ — economic, demographic, geospatial, or social — e
 | Fiscal | Government spending, revenue, debt, NZ Super Fund |
 | Geospatial | Land parcels, roads, addresses, territorial authorities |
 
-Data is sourced from **Stats NZ**, the **OECD**, **NZ Treasury**, **RBNZ**, **LINZ**, **MBIE**, **Waka Kotahi (NZTA)**, **MSD**, **NZ Police / MoJ**, **ACC**, **Education Counts**, **WorkSafe NZ**, **Auckland Council**, **Auckland Transport**, **DOC**, **Co-Lab Waikato**, **ECan / Canterbury**, **GeoNet**, **Charities Services**, **Immigration NZ**, **EECA**, **Manaaki Whenua / LRIS**, and 10 regional & district council clusters. Refreshed daily to quarterly depending on source — [live freshness](https://eolas.fyi/status) · [data changelog](https://eolas.fyi/data/changelog) · [Enterprise SLA](sla.md).
+Data is sourced from **Stats NZ**, the **OECD**, **NZ Treasury**, **RBNZ**, **LINZ**, **MBIE**, **Waka Kotahi (NZTA)**, **MSD**, **NZ Police / MoJ**, **ACC**, **Education Counts**, **WorkSafe NZ**, **Auckland Council**, **Auckland Transport**, **DOC**, **Co-Lab Waikato**, **ECan / Canterbury**, **GeoNet**, **Charities Services**, **Immigration NZ**, **EECA**, **Manaaki Whenua / LRIS**, and 10 regional & district council clusters. Refreshed daily to quarterly depending on source — [live freshness](https://eolas.nz/status) · [data changelog](https://eolas.nz/data/changelog) · [Enterprise SLA](sla.md).
 
 ---
 
 ## Get an API key
 
-Free tier requires no credit card. [Get your key →](https://eolas.fyi/signup)
+Free tier requires no credit card. [Get your key →](https://eolas.nz/signup)
 
 | Plan | Price | Requests | Row cap per request | Extras |
 |---|---|---|---|---|
@@ -121,4 +121,4 @@ Free tier requires no credit card. [Get your key →](https://eolas.fyi/signup)
 | Pro | $49/month | Unlimited | Unlimited | Email support |
 | Enterprise | Contact us | Unlimited | Unlimited | Snowflake share · `eolas integrate` connector scaffolding (Meltano / Fivetran / Azure Data Factory) · SLA |
 
-[View pricing →](https://eolas.fyi/#pricing)
+[View pricing →](https://eolas.nz/#pricing)

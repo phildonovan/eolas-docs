@@ -25,7 +25,7 @@ If you're doing East-Coast cyclone-resilience research, Marlborough wine-country
 - `nelson_*_hazard` — Nelson's earthquake / liquefaction / flood layers
 - `mdc_marl_coastal_natural_character_outstanding` — outstanding coastal character (Sounds-specific)
 
-Browse: [eolas.fyi/datasets?source=Gisborne+%2F+Top+of+South+Councils](https://eolas.fyi/datasets?source=Gisborne%20%2F%20Top%20of%20South%20Councils).
+Browse: [eolas.nz/datasets?source=Gisborne+%2F+Top+of+South+Councils](https://eolas.nz/datasets?source=Gisborne%20%2F%20Top%20of%20South%20Councils).
 
 ---
 
@@ -76,7 +76,7 @@ print(f"Gisborne coastal erosion zone: {'YES' if len(hit) else 'no'}")
 
 ## Where to find more
 
-- **Cluster datasets on eolas**: [eolas.fyi/datasets?source=Gisborne+%2F+Top+of+South+Councils](https://eolas.fyi/datasets?source=Gisborne%20%2F%20Top%20of%20South%20Councils)
+- **Cluster datasets on eolas**: [eolas.nz/datasets?source=Gisborne+%2F+Top+of+South+Councils](https://eolas.nz/datasets?source=Gisborne%20%2F%20Top%20of%20South%20Councils)
 - **Nelson**: [data.nelson.govt.nz](https://data.nelson.govt.nz)
 - **MDC**: [arcgis.marlborough.govt.nz](https://arcgis.marlborough.govt.nz)
 - **GDC**: [www.gdc.govt.nz](https://www.gdc.govt.nz)

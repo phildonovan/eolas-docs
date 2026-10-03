@@ -37,7 +37,7 @@ Most layers are AUP "overlays" — areas where additional planning rules apply o
 | `akc_high_use_aquifer_management_areas` | Aquifers under sustained use — water-take rules apply. |
 | `akc_quality_sensitive_aquifer_management_areas` | Aquifers vulnerable to contamination — discharge rules apply. |
 
-Plus 5 additional AUP overlays. Browse [eolas.fyi/datasets?source=Auckland+Council](https://eolas.fyi/datasets?source=Auckland%20Council) for the full list.
+Plus 5 additional AUP overlays. Browse [eolas.nz/datasets?source=Auckland+Council](https://eolas.nz/datasets?source=Auckland%20Council) for the full list.
 
 ---
 
@@ -57,7 +57,7 @@ meta["source_last_modified_at"]
 
 All Auckland Council data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: Auckland Council, served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: Auckland Council, served via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -149,7 +149,7 @@ print(sca["area_name"].value_counts().head(10))
 
 ## Where to find more
 
-- **Auckland Council datasets on eolas**: [eolas.fyi/datasets?source=Auckland+Council](https://eolas.fyi/datasets?source=Auckland%20Council)
+- **Auckland Council datasets on eolas**: [eolas.nz/datasets?source=Auckland+Council](https://eolas.nz/datasets?source=Auckland%20Council)
 - **Auckland Council GeoMaps Open Data**: [data-aucklandcouncil.opendata.arcgis.com](https://data-aucklandcouncil.opendata.arcgis.com)
 - **Auckland Unitary Plan** (the legal document): [unitaryplan.aucklandcouncil.govt.nz](https://unitaryplan.aucklandcouncil.govt.nz)
 - **Auckland Council GeoMaps** (interactive map): [geomapspublic.aucklandcouncil.govt.nz](https://geomapspublic.aucklandcouncil.govt.nz)

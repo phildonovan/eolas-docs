@@ -203,7 +203,7 @@ Hitting the REST API directly for a Parquet file:
 
 ```bash
 curl -H "X-API-Key: $EOLAS_API_KEY" \
-  "https://api.eolas.fyi/v1/datasets/nzta_cas_crashes/data?format=parquet&limit=100000" \
+  "https://api.eolas.nz/v1/datasets/nzta_cas_crashes/data?format=parquet&limit=100000" \
   -o crashes.parquet
 ```
 

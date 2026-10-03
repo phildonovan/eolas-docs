@@ -2,13 +2,13 @@
 
 [Statistics New Zealand](https://www.stats.govt.nz) is the national statistical agency. eolas serves **415 datasets** from Stats NZ — the largest single source in the catalogue — covering everything from quarterly CPI prints to 2023-vintage census meshblock boundaries.
 
-This page is the orientation guide. For specific datasets, browse [eolas.fyi/datasets?source=Stats+NZ](https://eolas.fyi/datasets?source=Stats%20NZ).
+This page is the orientation guide. For specific datasets, browse [eolas.nz/datasets?source=Stats+NZ](https://eolas.nz/datasets?source=Stats%20NZ).
 
 ---
 
 ## What's in the catalogue
 
-Stats NZ datasets fall into seven broad categories. Counts are approximate; check the [live API](https://api.eolas.fyi/v1/datasets) for current totals.
+Stats NZ datasets fall into seven broad categories. Counts are approximate; check the [live API](https://api.eolas.nz/v1/datasets) for current totals.
 
 ### Macroeconomic indicators
 
@@ -128,7 +128,7 @@ meta["source_last_modified_at"]  # when Stats NZ last touched the file (where ca
 
 All Stats NZ data is published under **[Creative Commons Attribution 4.0 (CC-BY 4.0)](https://creativecommons.org/licenses/by/4.0/)**. You can use it commercially, derive from it, and redistribute — with attribution. eolas serves the data unchanged; attribution requirements transfer to you when you redistribute.
 
-Recommended attribution: *"Source: Stats NZ, served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: Stats NZ, served via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -260,7 +260,7 @@ See the [Bulk downloads](../bulk-downloads.md) guide for cron, Airflow, and dbt 
 
 ## Where to find more
 
-- **All Stats NZ datasets on eolas**: [eolas.fyi/datasets?source=Stats+NZ](https://eolas.fyi/datasets?source=Stats%20NZ)
+- **All Stats NZ datasets on eolas**: [eolas.nz/datasets?source=Stats+NZ](https://eolas.nz/datasets?source=Stats%20NZ)
 - **Stats NZ's own data portal**: [www.stats.govt.nz](https://www.stats.govt.nz) — SDMX API, downloads, methodology
 - **Stats NZ Geospatial (Datafinder)**: [datafinder.stats.govt.nz](https://datafinder.stats.govt.nz) — the WFS/Koordinates source for our boundary tables
 - **Open data licence summary**: [data.govt.nz/about/open-data-nzgoal](https://data.govt.nz/about/open-data-nzgoal)

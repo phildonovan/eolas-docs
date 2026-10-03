@@ -1,12 +1,12 @@
 # Enterprise service level agreement
 
-This page summarises the written SLA offered to **Enterprise** customers. Free and Pro plans are best-effort — see [eolas.fyi/terms](https://eolas.fyi/terms).
+This page summarises the written SLA offered to **Enterprise** customers. Free and Pro plans are best-effort — see [eolas.nz/terms](https://eolas.nz/terms).
 
 ## API uptime
 
 | Commitment | Detail |
 |------------|--------|
-| **Target** | 99.5% monthly uptime on the public API surface (`api.eolas.fyi`) |
+| **Target** | 99.5% monthly uptime on the public API surface (`api.eolas.nz`) |
 | **Measurement** | External synthetic checks against `/health` every 3 minutes, plus internal subsystem checks on `/health/full` |
 | **Exclusions** | Scheduled maintenance (announced ≥ 48 hours ahead), customer-side network issues, force majeure, upstream agency outages that do not reflect eolas infrastructure failure |
 
@@ -14,7 +14,7 @@ If monthly uptime falls below 99.5%, Enterprise customers may request a service 
 
 ## Data freshness
 
-eolas maintains automated ETL pipelines for every live source. After each successful run we write a **pipeline heartbeat** to durable storage; the [status page](https://eolas.fyi/status) shows the last successful run per source.
+eolas maintains automated ETL pipelines for every live source. After each successful run we write a **pipeline heartbeat** to durable storage; the [status page](https://eolas.nz/status) shows the last successful run per source.
 
 | Cadence (typical) | Examples | Freshness commitment |
 |-------------------|----------|----------------------|
@@ -39,12 +39,12 @@ Business hours: Mon–Fri, 09:00–17:00 NZST, excluding NZ public holidays. P1 
 
 ## Observability
 
-- **Live status:** [eolas.fyi/status](https://eolas.fyi/status) — subsystem health and per-source pipeline freshness (refreshes every minute).
-- **Changelog:** [eolas.fyi/data/changelog](https://eolas.fyi/data/changelog) — dataset-level ingest events.
-- **Security posture:** [eolas.fyi/security](https://eolas.fyi/security) — residency, subprocessors, breach notification.
+- **Live status:** [eolas.nz/status](https://eolas.nz/status) — subsystem health and per-source pipeline freshness (refreshes every minute).
+- **Changelog:** [eolas.nz/data/changelog](https://eolas.nz/data/changelog) — dataset-level ingest events.
+- **Security posture:** [eolas.nz/security](https://eolas.nz/security) — residency, subprocessors, breach notification.
 
 ## Contract
 
 Enterprise SLAs are incorporated into the signed order form or MSA. This page is a plain-language summary; the contract prevails if anything differs.
 
-For SLA-backed access, [contact us](https://eolas.fyi/contact).
+For SLA-backed access, [contact us](https://eolas.nz/contact).

@@ -180,4 +180,4 @@ The internal write-up lives in `eolas/docs/geoparquet-r-reader.md` (committed `b
 
 ---
 
-*eolas is a New Zealand data API — eolas.fyi. The R client (`eolas`) and Python client (`eolas-data`) are available from GitHub and PyPI respectively.*
+*eolas is a New Zealand data API — eolas.nz. The R client (`eolas`) and Python client (`eolas-data`) are available from GitHub and PyPI respectively.*

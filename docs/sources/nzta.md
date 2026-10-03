@@ -38,7 +38,7 @@ meta["source_last_modified_at"]
 
 All NZTA data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)** via the [NZTA Open Data Portal](https://opendata-nzta.opendata.arcgis.com). Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: Waka Kotahi NZ Transport Agency, served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: Waka Kotahi NZ Transport Agency, served via eolas (eolas.nz). CC-BY 4.0."*
 
 A privacy note for `nzta_cas_crashes`: NZTA has already aggregated/redacted personal information (no driver names, no plate numbers). What you get is incident-level data suitable for analysis.
 
@@ -124,7 +124,7 @@ print(growing.head(20))
 
 ## Where to find more
 
-- **NZTA datasets on eolas**: [eolas.fyi/datasets?source=Waka+Kotahi](https://eolas.fyi/datasets?source=Waka%20Kotahi)
+- **NZTA datasets on eolas**: [eolas.nz/datasets?source=Waka+Kotahi](https://eolas.nz/datasets?source=Waka%20Kotahi)
 - **NZTA Open Data Portal**: [opendata-nzta.opendata.arcgis.com](https://opendata-nzta.opendata.arcgis.com)
 - **Road Toll dashboard**: [www.nzta.govt.nz/safety](https://www.nzta.govt.nz/safety/safety-resources/road-safety-information-and-tools/road-deaths)
 - **TMS site map** (visual): [www.nzta.govt.nz/traffic-and-travel-information](https://www.nzta.govt.nz/traffic-and-travel-information/traffic-volumes)

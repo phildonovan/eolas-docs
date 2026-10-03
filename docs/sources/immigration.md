@@ -74,7 +74,7 @@ meta["source_last_modified_at"]
 
 All Immigration NZ data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: Immigration NZ, served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: Immigration NZ, served via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -164,7 +164,7 @@ This is the SCD2 stream — accumulates over time so each refresh adds new month
 
 ## Where to find more
 
-- **Immigration NZ datasets on eolas**: [eolas.fyi/datasets?source=Immigration+NZ](https://eolas.fyi/datasets?source=Immigration%20NZ)
+- **Immigration NZ datasets on eolas**: [eolas.nz/datasets?source=Immigration+NZ](https://eolas.nz/datasets?source=Immigration%20NZ)
 - **Migration Data Explorer**: [www.immigration.govt.nz/about-us/research-and-statistics/migration-data-explorer](https://www.immigration.govt.nz/about-us/research-and-statistics/migration-data-explorer)
 - **GitHub source**: [github.com/joh024/migration_data_explorer_public](https://github.com/joh024/migration_data_explorer_public)
 - **RSE scheme stats**: [www.immigration.govt.nz/about-us/research-and-statistics/statistics](https://www.immigration.govt.nz/about-us/research-and-statistics/statistics)

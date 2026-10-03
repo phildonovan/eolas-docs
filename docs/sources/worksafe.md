@@ -46,7 +46,7 @@ meta["source_last_modified_at"]
 
 All WorkSafe data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: WorkSafe New Zealand, served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: WorkSafe New Zealand, served via eolas (eolas.nz). CC-BY 4.0."*
 
 A privacy note: data is aggregated. Specific incident details (location, persons involved) are not published in the open dataset — those require formal information requests.
 
@@ -117,7 +117,7 @@ pivot.plot(title="WorkSafe enforcement notices by type")
 
 ## Where to find more
 
-- **WorkSafe datasets on eolas**: [eolas.fyi/datasets?source=WorkSafe+NZ](https://eolas.fyi/datasets?source=WorkSafe%20NZ)
+- **WorkSafe datasets on eolas**: [eolas.nz/datasets?source=WorkSafe+NZ](https://eolas.nz/datasets?source=WorkSafe%20NZ)
 - **WorkSafe Open Data**: [data.worksafe.govt.nz](https://data.worksafe.govt.nz)
 - **HSWA 2015**: [www.worksafe.govt.nz/laws-and-regulations/acts](https://www.worksafe.govt.nz/laws-and-regulations/acts)
 

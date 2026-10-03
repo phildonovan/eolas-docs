@@ -58,7 +58,7 @@ meta["source_last_modified_at"]
 
 All MSD data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: Ministry of Social Development, served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: Ministry of Social Development, served via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -126,7 +126,7 @@ combined.plot(x="date", y="nzs_share", title="NZS recipients / total population"
 
 ## Where to find more
 
-- **MSD datasets on eolas**: [eolas.fyi/datasets?source=MSD](https://eolas.fyi/datasets?source=MSD)
+- **MSD datasets on eolas**: [eolas.nz/datasets?source=MSD](https://eolas.nz/datasets?source=MSD)
 - **MSD Open Data Portal**: [www.msd.govt.nz/about-msd-and-our-work/publications-resources/statistics/index.html](https://www.msd.govt.nz/about-msd-and-our-work/publications-resources/statistics/index.html)
 - **Benefit-fact-sheets** (regular reports): [www.msd.govt.nz/about-msd-and-our-work/publications-resources/statistics/benefit/index.html](https://www.msd.govt.nz/about-msd-and-our-work/publications-resources/statistics/benefit/index.html)
 

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://docs.eolas.fyi/sitemap.xml
+Sitemap: https://docs.eolas.nz/sitemap.xml

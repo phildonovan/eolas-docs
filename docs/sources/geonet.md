@@ -33,7 +33,7 @@ meta["last_refreshed_at"]
 
 All GeoNet data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: GeoNet (GNS Science / Toka Tū Ake EQC / LINZ), served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: GeoNet (GNS Science / Toka Tū Ake EQC / LINZ), served via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -92,7 +92,7 @@ sensors.plot(figsize=(8, 10), markersize=5)
 
 ## Where to find more
 
-- **GeoNet datasets on eolas**: [eolas.fyi/datasets?source=GeoNet](https://eolas.fyi/datasets?source=GeoNet)
+- **GeoNet datasets on eolas**: [eolas.nz/datasets?source=GeoNet](https://eolas.nz/datasets?source=GeoNet)
 - **GeoNet portal**: [www.geonet.org.nz](https://www.geonet.org.nz)
 - **Real-time APIs**: [api.geonet.org.nz](https://api.geonet.org.nz)
 - **Historical quake search**: [www.geonet.org.nz/quakes](https://www.geonet.org.nz/quakes)

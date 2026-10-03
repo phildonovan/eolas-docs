@@ -62,7 +62,7 @@ ACC publishes thematically rather than as one giant table. Each dataset typicall
 | `acc_elective_surgery_data` (ACC-funded surgeries) |
 | `acc_diagnostic_imaging_acc_claims_by_modality` |
 
-Browse the full list: [eolas.fyi/datasets?source=ACC](https://eolas.fyi/datasets?source=ACC).
+Browse the full list: [eolas.nz/datasets?source=ACC](https://eolas.nz/datasets?source=ACC).
 
 ---
 
@@ -82,7 +82,7 @@ meta["source_last_modified_at"]
 
 All ACC data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)** via the [ACC OIA + Open Data Programme](https://www.acc.co.nz/about-us/statistics/open-data-programme). Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: Accident Compensation Corporation, served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: Accident Compensation Corporation, served via eolas (eolas.nz). CC-BY 4.0."*
 
 A privacy note: ACC publishes aggregate counts, not individual claims. Small-cell suppression applies to cells below threshold (typically ≤4 claims) — these appear as `null` with a suppression flag where present.
 
@@ -140,7 +140,7 @@ print(latest.groupby("injury_type")["count"].sum().sort_values(ascending=False).
 
 ## Source-specific notes
 
-- **Lots of small thematic datasets**: ACC publishes per-topic rather than one giant table. To compare across themes (e.g. ACL injuries vs eye injuries) you'll need to load each dataset separately. Use the search filter on [eolas.fyi/datasets?source=ACC](https://eolas.fyi/datasets?source=ACC) to find what's there.
+- **Lots of small thematic datasets**: ACC publishes per-topic rather than one giant table. To compare across themes (e.g. ACL injuries vs eye injuries) you'll need to load each dataset separately. Use the search filter on [eolas.nz/datasets?source=ACC](https://eolas.nz/datasets?source=ACC) to find what's there.
 - **Schemas vary**: ACC datasets are published as OIA responses — each tends to follow the columns the original requestor asked for. Use `client.info(name)` to inspect schema before joining.
 - **Claims ≠ injuries**: an ACC claim is one *interaction* with the scheme; a single injury can generate multiple claims (initial assessment, follow-up, surgery, rehab). Count the right unit for your analysis.
 - **Costs are scheme costs, not full healthcare costs**: ACC funds part of the care (specifically the accident component). Hospital admissions, primary care, and prescriptions outside the ACC scheme aren't reflected.
@@ -151,7 +151,7 @@ print(latest.groupby("injury_type")["count"].sum().sort_values(ascending=False).
 
 ## Where to find more
 
-- **ACC datasets on eolas**: [eolas.fyi/datasets?source=ACC](https://eolas.fyi/datasets?source=ACC)
+- **ACC datasets on eolas**: [eolas.nz/datasets?source=ACC](https://eolas.nz/datasets?source=ACC)
 - **ACC Open Data Programme**: [www.acc.co.nz/about-us/statistics/open-data-programme](https://www.acc.co.nz/about-us/statistics/open-data-programme)
 - **ACC Annual Report** (scheme totals): [www.acc.co.nz/about-us/who-we-are/reports-and-plans](https://www.acc.co.nz/about-us/who-we-are/reports-and-plans)
 

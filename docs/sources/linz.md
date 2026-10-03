@@ -47,7 +47,7 @@ If you're doing property-data, cadastral, or NZ-wide spatial-reference work, LIN
 | `antarctic_geodetic_vertical_marks` | Vertical control marks (heights). |
 | `canterbury_eq_geodetic_marks_2010_11`, `_2016` | Marks affected by the 2010-2011 and 2016 Canterbury earthquakes (movement records). |
 
-For the full list, browse [eolas.fyi/datasets?source=LINZ](https://eolas.fyi/datasets?source=LINZ).
+For the full list, browse [eolas.nz/datasets?source=LINZ](https://eolas.nz/datasets?source=LINZ).
 
 ---
 
@@ -67,7 +67,7 @@ meta["source_last_modified_at"]   # LINZ's Koordinates publish timestamp
 
 All LINZ data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. You can use it commercially, derive from it, and redistribute — with attribution.
 
-Recommended attribution: *"Source: LINZ, served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: LINZ, served via eolas (eolas.nz). CC-BY 4.0."*
 
 LINZ also has specific guidance on derivative works (e.g. for property analytics products) at [www.linz.govt.nz/licensing](https://www.linz.govt.nz/licensing). Worth a look if you're building a commercial product on LINZ data.
 
@@ -195,7 +195,7 @@ See the [Bulk downloads](../bulk-downloads.md) guide for format options, freshne
 ## Source-specific notes
 
 - **SCD2 for cadastral**: parcels, titles, and addresses use SCD2 replication — each refresh adds a new version of any changed rows and marks the old one as expired. The `_eolas_is_current`, `_eolas_valid_from`, and `_eolas_valid_to` columns let you reconstruct the state at any past timestamp. Most users want `WHERE _eolas_is_current = true` to get the current cadastral state.
-- **Size**: `nz_parcels` (~3M) and `nz_addresses` (~3M) exceed the Free tier's 50,000-row cap. For the **full extract** you need **Pro** (`limit=0`, or the uncapped dashboard download) or the **Enterprise [Snowflake share](https://eolas.fyi/#pricing)**. On Free, narrow the query (e.g. by region — a spatial filter is on the roadmap) or accept the 50,000-row sample. *(Free monthly bulk-snapshot file downloads are on the roadmap — not yet available; the dashboard "Download" is a live query and applies the same Free 50k cap.)*
+- **Size**: `nz_parcels` (~3M) and `nz_addresses` (~3M) exceed the Free tier's 50,000-row cap. For the **full extract** you need **Pro** (`limit=0`, or the uncapped dashboard download) or the **Enterprise [Snowflake share](https://eolas.nz/#pricing)**. On Free, narrow the query (e.g. by region — a spatial filter is on the roadmap) or accept the 50,000-row sample. *(Free monthly bulk-snapshot file downloads are on the roadmap — not yet available; the dashboard "Download" is a live query and applies the same Free 50k cap.)*
 - **Koordinates / WFS origin**: most LINZ layers come from the [data.linz.govt.nz](https://data.linz.govt.nz) Koordinates portal via WFS. Some layers (Landonline cadastral working data) come from the LINZ Exports API and are loaded via a different code path.
 - **Earthquake-displaced marks**: the `canterbury_eq_*` datasets capture geodetic marks that moved during the 2010-2011 + 2016 Canterbury quakes — important for surveyors reconciling pre- and post-quake datums.
 - **Antarctic + Ross Dependency**: NZ has Antarctic geodetic responsibility under the Antarctic Treaty; the `antarctic_geodetic_*` datasets are NZ-government data, not third-party.
@@ -204,7 +204,7 @@ See the [Bulk downloads](../bulk-downloads.md) guide for format options, freshne
 
 ## Where to find more
 
-- **LINZ datasets on eolas**: [eolas.fyi/datasets?source=LINZ](https://eolas.fyi/datasets?source=LINZ)
+- **LINZ datasets on eolas**: [eolas.nz/datasets?source=LINZ](https://eolas.nz/datasets?source=LINZ)
 - **LINZ Data Service** (the underlying portal): [data.linz.govt.nz](https://data.linz.govt.nz)
 - **NZGB Gazetteer** (the place-names authority): [gazetteer.linz.govt.nz](https://gazetteer.linz.govt.nz)
 - **LINZ licensing**: [www.linz.govt.nz/licensing](https://www.linz.govt.nz/licensing)

@@ -65,7 +65,7 @@ eolas  (database)
 ```
 
 Each **schema is a source namespace** and each **table is a dataset** — the same names you see
-in the [dataset catalogue](https://eolas.fyi/datasets) and the API. Discover everything from SQL:
+in the [dataset catalogue](https://eolas.nz/datasets) and the API. Discover everything from SQL:
 
 ```sql
 -- every source namespace
@@ -156,7 +156,7 @@ dbt users: point a source at the `eolas` database and reference tables as
 The share is **live** — there is no copy step, so the moment eolas refreshes a dataset it's
 visible in your account. Each dataset refreshes on its source's cadence (daily for FX/rates,
 monthly/quarterly for most official statistics, etc.); the per-dataset cadence and
-"data as of" are on each [dataset page](https://eolas.fyi/datasets) and in the API metadata
+"data as of" are on each [dataset page](https://eolas.nz/datasets) and in the API metadata
 (`refresh_cadence`, `last_refreshed_at`). New datasets we add appear in the share automatically.
 
 !!! info "Licensing"

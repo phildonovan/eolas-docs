@@ -1,4 +1,4 @@
-"""mkdocs-macros hook: fetch live counts from the eolas.fyi API at build time.
+"""mkdocs-macros hook: fetch live counts from the eolas.nz API at build time.
 
 Variables exposed to markdown templates:
     {{ dataset_count }}  rounded-down dataset count, e.g. "710" when live is 717
@@ -10,7 +10,7 @@ Falls back to safe defaults if the API is unreachable so docs builds never break
 """
 import requests
 
-API = "https://api.eolas.fyi/v1/datasets"
+API = "https://api.eolas.nz/v1/datasets"
 FALLBACK = {
     "dataset_count": 1530,
     "sources": (

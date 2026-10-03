@@ -23,7 +23,7 @@ If you're doing Northland property research, cyclone-resilience planning, or bio
 - `fndc_sites_significance_maori` — iwi-consented site locations
 - `kdc_geotechnical_hazard_risk` — landslide / slope-instability hazards (relevant for hill-country dairy farms)
 
-Browse the full list: [eolas.fyi/datasets?source=Northland+Councils](https://eolas.fyi/datasets?source=Northland%20Councils).
+Browse the full list: [eolas.nz/datasets?source=Northland+Councils](https://eolas.nz/datasets?source=Northland%20Councils).
 
 ---
 
@@ -84,7 +84,7 @@ print(f"Highest-priority biodiversity sites: {len(top)}")
 
 ## Where to find more
 
-- **Northland datasets on eolas**: [eolas.fyi/datasets?source=Northland+Councils](https://eolas.fyi/datasets?source=Northland%20Councils)
+- **Northland datasets on eolas**: [eolas.nz/datasets?source=Northland+Councils](https://eolas.nz/datasets?source=Northland%20Councils)
 - **NRC GIS portal**: [nrcgis.maps.arcgis.com](https://nrcgis.maps.arcgis.com)
 - **FNDC**: [www.fndc.govt.nz](https://www.fndc.govt.nz)
 - **WDC**: [www.wdc.govt.nz](https://www.wdc.govt.nz)

@@ -42,7 +42,7 @@ meta["source_last_modified_at"]
 
 All EECA data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: EECA (Energy Efficiency and Conservation Authority), served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: EECA (Energy Efficiency and Conservation Authority), served via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -116,7 +116,7 @@ print(latest.groupby("sector")["energy_pj"].sum().sort_values(ascending=False))
 
 ## Where to find more
 
-- **EECA datasets on eolas**: [eolas.fyi/datasets?source=EECA](https://eolas.fyi/datasets?source=EECA)
+- **EECA datasets on eolas**: [eolas.nz/datasets?source=EECA](https://eolas.nz/datasets?source=EECA)
 - **EECA EV charging open data**: [www.eeca.govt.nz/insights/data-tools-and-resources/ev-charging-infrastructure-database](https://www.eeca.govt.nz/insights/data-tools-and-resources/ev-charging-infrastructure-database)
 - **EECA EEUD**: [www.eeca.govt.nz/insights/data-tools-and-resources/energy-end-use-database](https://www.eeca.govt.nz/insights/data-tools-and-resources/energy-end-use-database)
 

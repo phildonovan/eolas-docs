@@ -73,4 +73,4 @@ Every source goes through the same pipeline: a per-source **Singer tap** pulls f
 
 The pipelines run on AWS Fargate via EventBridge schedules. Each table has metadata describing its source, license, last-refresh time, geometry type (where spatial), and replication mode (overwrite / append / SCD2). The clients surface these on every dataset call.
 
-For specifics of any source not yet linked here — refresh time, license, sample queries — visit [eolas.fyi/datasets](https://eolas.fyi/datasets) and use the source filter.
+For specifics of any source not yet linked here — refresh time, license, sample queries — visit [eolas.nz/datasets](https://eolas.nz/datasets) and use the source filter.

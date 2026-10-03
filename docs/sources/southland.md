@@ -24,7 +24,7 @@ If you're doing Southland property research, water-quality / catchment work, or 
 - `es_tsunami_evacuation_zones` — Southland coastal exposure (Foveaux Strait)
 - `gore_earthquake_priority_buildings` — earthquake-prone building register
 
-Browse: [eolas.fyi/datasets?source=Southland+Councils](https://eolas.fyi/datasets?source=Southland%20Councils).
+Browse: [eolas.nz/datasets?source=Southland+Councils](https://eolas.nz/datasets?source=Southland%20Councils).
 
 ---
 
@@ -85,7 +85,7 @@ print(epb.groupby("status").size())  # remediated, partial, outstanding
 
 ## Where to find more
 
-- **Southland datasets on eolas**: [eolas.fyi/datasets?source=Southland+Councils](https://eolas.fyi/datasets?source=Southland%20Councils)
+- **Southland datasets on eolas**: [eolas.nz/datasets?source=Southland+Councils](https://eolas.nz/datasets?source=Southland%20Councils)
 - **ES data**: [www.es.govt.nz/data](https://www.es.govt.nz/data)
 - **SDC**: [data.southlanddc.govt.nz](https://data.southlanddc.govt.nz)
 

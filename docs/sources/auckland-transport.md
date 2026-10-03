@@ -52,7 +52,7 @@ meta["source_last_modified_at"]
 
 All AT data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: Auckland Transport, served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: Auckland Transport, served via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -142,7 +142,7 @@ print(top.div(1000).round(1).astype(str) + " km")
 
 ## Where to find more
 
-- **Auckland Transport datasets on eolas**: [eolas.fyi/datasets?source=Auckland+Transport](https://eolas.fyi/datasets?source=Auckland%20Transport)
+- **Auckland Transport datasets on eolas**: [eolas.nz/datasets?source=Auckland+Transport](https://eolas.nz/datasets?source=Auckland%20Transport)
 - **AT Open Data Portal**: [data-atgis.opendata.arcgis.com](https://data-atgis.opendata.arcgis.com)
 - **AT GTFS / real-time feeds**: [dev-portal.at.govt.nz](https://dev-portal.at.govt.nz) — for live arrivals + schedule
 - **AT Journey Planner** (consumer-facing): [at.govt.nz/bus-train-ferry/journey-planner](https://at.govt.nz/bus-train-ferry/journey-planner)

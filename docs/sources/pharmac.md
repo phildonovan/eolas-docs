@@ -33,7 +33,7 @@ meta["source_last_modified_at"]
 
 All PHARMAC data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. Commercial use is fine; attribution required.
 
-Recommended attribution: *"Source: Te Pātaka Whaioranga – PHARMAC, served via eolas (eolas.fyi). CC-BY 4.0."*
+Recommended attribution: *"Source: Te Pātaka Whaioranga – PHARMAC, served via eolas (eolas.nz). CC-BY 4.0."*
 
 ---
 
@@ -105,7 +105,7 @@ by_month.plot(title="Estimated CPS subsidy spend by month")
 
 ## Where to find more
 
-- **PHARMAC datasets on eolas**: [eolas.fyi/datasets?source=PHARMAC](https://eolas.fyi/datasets?source=PHARMAC)
+- **PHARMAC datasets on eolas**: [eolas.nz/datasets?source=PHARMAC](https://eolas.nz/datasets?source=PHARMAC)
 - **PHARMAC portal**: [pharmac.govt.nz](https://pharmac.govt.nz)
 - **Current Schedule** (consumer view): [schedule.pharmac.govt.nz](https://schedule.pharmac.govt.nz)
 - **Funding decisions + consultations**: [pharmac.govt.nz/medicines/decisions-and-consultations](https://pharmac.govt.nz/medicines/decisions-and-consultations)

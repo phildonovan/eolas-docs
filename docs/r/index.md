@@ -146,7 +146,7 @@ eolas_integration(
 
 Platforms: `"meltano"`, `"fivetran"`, `"azure-data-factory"`.
 
-This is an Enterprise-plan feature. Non-Enterprise keys see the server's upgrade message surfaced verbatim, with the pricing URL. The gating lives server-side so it's bypass-proof. See <https://eolas.fyi/#pricing>.
+This is an Enterprise-plan feature. Non-Enterprise keys see the server's upgrade message surfaced verbatim, with the pricing URL. The gating lives server-side so it's bypass-proof. See <https://eolas.nz/#pricing>.
 
 ## Error handling
 

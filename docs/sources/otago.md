@@ -26,7 +26,7 @@ If you're doing Otago property research, alpine-tourism planning, or water-alloc
 | `dcc_2gp_zones` | Dunedin's "2nd Generation District Plan" — the operative plan post-2019. |
 | `qldc_*` (suite) | Comprehensive Queenstown-Lakes coverage — alpine + lakeside + airport overlays. |
 
-Browse the full list: [eolas.fyi/datasets?source=Otago+Councils](https://eolas.fyi/datasets?source=Otago%20Councils).
+Browse the full list: [eolas.nz/datasets?source=Otago+Councils](https://eolas.nz/datasets?source=Otago%20Councils).
 
 ---
 
@@ -99,7 +99,7 @@ print(by_class.head(15))
 
 ## Where to find more
 
-- **Otago datasets on eolas**: [eolas.fyi/datasets?source=Otago+Councils](https://eolas.fyi/datasets?source=Otago%20Councils)
+- **Otago datasets on eolas**: [eolas.nz/datasets?source=Otago+Councils](https://eolas.nz/datasets?source=Otago%20Councils)
 - **ORC data**: [data.orc.govt.nz](https://data.orc.govt.nz)
 - **QLDC GIS**: [gis.qldc.govt.nz](https://gis.qldc.govt.nz)
 - **DCC**: [opendata.dunedin.govt.nz](https://opendata.dunedin.govt.nz)
