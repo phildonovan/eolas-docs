@@ -34,7 +34,7 @@ All source methods accept the same parameters as `client.get()` and return a `Da
 | `client.police(name, **kwargs)` | NZ Police / MoJ |
 | `client.immigration(name, **kwargs)` | Immigration NZ |
 | `client.lris(name, **kwargs)` | Manaaki Whenua / LRIS |
-| `client.geonet(name, **kwargs)` | GeoNet |
+| `client.geonet(name, **kwargs)` | GeoNet (withdrawn from the catalogue) |
 | `client.doc(name, **kwargs)` | DOC (Department of Conservation) |
 | `client.akl_council(name, **kwargs)` | Auckland Council |
 | `client.akl_transport(name, **kwargs)` | Auckland Transport |

@@ -115,7 +115,7 @@ Convenience wrappers over `eolas_list(source = ...)`.
 | `eolas_list_police()` | `eolas_list("NZ Police / MoJ")` |
 | `eolas_list_immigration()` | `eolas_list("Immigration NZ")` |
 | `eolas_list_lris()` | `eolas_list("Manaaki Whenua / LRIS")` |
-| `eolas_list_geonet()` | `eolas_list("GeoNet")` |
+| `eolas_list_geonet()` | `eolas_list("GeoNet")` (withdrawn from the catalogue) |
 | `eolas_list_doc()` | `eolas_list("DOC")` |
 | `eolas_list_akl_council()` | `eolas_list("Auckland Council")` |
 | `eolas_list_akl_transport()` | `eolas_list("Auckland Transport")` |
@@ -227,7 +227,7 @@ Each is a named wrapper over `eolas_get()` that tags the result with the source 
 | `eolas_get_police(name, start, end, limit, as_sf, as_arrow)` | NZ Police / MoJ |
 | `eolas_get_immigration(name, start, end, limit, as_sf, as_arrow)` | Immigration NZ |
 | `eolas_get_lris(name, start, end, limit, as_sf, as_arrow)` | Manaaki Whenua / LRIS |
-| `eolas_get_geonet(name, start, end, limit, as_sf, as_arrow)` | GeoNet |
+| `eolas_get_geonet(name, start, end, limit, as_sf, as_arrow)` | GeoNet (withdrawn from the catalogue) |
 | `eolas_get_doc(name, start, end, limit, as_sf, as_arrow)` | DOC (Department of Conservation) |
 | `eolas_get_akl_council(name, start, end, limit, as_sf, as_arrow)` | Auckland Council |
 | `eolas_get_akl_transport(name, start, end, limit, as_sf, as_arrow)` | Auckland Transport |
