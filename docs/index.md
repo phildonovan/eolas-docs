@@ -107,7 +107,7 @@ If you do data work in NZ — economic, demographic, geospatial, or social — e
 | Fiscal | Government spending, revenue, debt, NZ Super Fund |
 | Geospatial | Land parcels, roads, addresses, territorial authorities |
 
-Data is sourced from **Stats NZ**, the **OECD**, **NZ Treasury**, **RBNZ**, **LINZ**, **MBIE**, **Waka Kotahi (NZTA)**, **MSD**, **NZ Police / MoJ**, **ACC**, **Education Counts**, **WorkSafe NZ**, **Auckland Council**, **Auckland Transport**, **DOC**, **Co-Lab Waikato**, **ECan / Canterbury**, **GeoNet**, **Charities Services**, **Immigration NZ**, **EECA**, **Manaaki Whenua / LRIS**, and 10 regional & district council clusters. Refreshed daily to quarterly depending on source — [live freshness](https://eolas.nz/status) · [data changelog](https://eolas.nz/data/changelog) · [Enterprise SLA](sla.md).
+Data is sourced from **Stats NZ**, the **OECD**, **NZ Treasury**, **RBNZ**, **LINZ**, **MBIE**, **Waka Kotahi (NZTA)**, **MSD**, **NZ Police / MoJ**, **ACC**, **Education Counts**, **WorkSafe NZ**, **Auckland Council**, **Auckland Transport**, **DOC**, **Co-Lab Waikato**, **ECan / Canterbury**, **Charities Services**, **Immigration NZ**, **EECA**, **Manaaki Whenua / LRIS**, and 10 regional & district council clusters. Refreshed daily to quarterly depending on source — [live freshness](https://eolas.nz/status) · [data changelog](https://eolas.nz/data/changelog) · [Enterprise SLA](sla.md).
 
 ---
 

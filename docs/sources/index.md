@@ -42,7 +42,6 @@ See the [Councils overview](councils.md) for the full coverage model — how clu
 | [Canterbury / ECan](canterbury.md) | 85 | Weekly | ECan + Ashburton, Christchurch, Hurunui, Selwyn, Timaru, Waimakariri, Waimate councils |
 | [Co-Lab Waikato](colab-waikato.md) | 79 | Weekly | Hamilton, Hauraki, Matamata-Piako, Otorohanga, Rotorua-Lakes, South Waikato, Taupō, Waikato, Waipa, Waitomo |
 | [DOC](doc.md) | 10 | Weekly | Campsites, huts, marine reserves, tracks, walking experiences, public conservation land |
-| [GeoNet](geonet.md) | 3 | Weekly | Recent quakes, strong-motion sensors, volcanic alert levels |
 | [Hawke's Bay](hawkes-bay.md) | 33 | Weekly | HBRC + CHBDC + Hastings councils |
 | [Manawatū-Whanganui](manawatu-whanganui.md) | 46 | Weekly | Horizons + Horowhenua, Manawatū, Palmerston North, Rangitīkei, Ruapehu, Tararua, Whanganui |
 | [Napier + Whanganui](napier-whanganui.md) | 20 | Weekly | NCC + WDC city-council layers |
