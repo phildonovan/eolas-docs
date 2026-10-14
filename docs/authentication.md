@@ -19,6 +19,8 @@ Every API call needs an API key. This page covers how to get one, where to store
 | `expired` | Metadata and the catalogue still work. `/data`, `/changes`, bulk and integrations return **402** until you upgrade. |
 | `pro` / `enterprise` | Unlimited. If you upgrade within 7 days of your trial ending, you get 20% off the first 3 months, applied automatically at checkout. |
 
+Trial, legacy and expired keys also get the plan in `X-Eolas-Plan` (plus `X-Eolas-Trial-Ends` and the allowance used so far) on every keyed response. JSON error bodies for those keys carry a `notice` object (`plan`, `trial_ends_at`, `row_cap`, `message`, `upgrade_url`) and, for plan refusals, an `error_code`: `trial_expired` (402), `bulk_not_in_plan` (403) or `trial_soft_cap` (429).
+
 The clients tell you where you stand. `eolas auth set-key` / `eolas_key_save()` print your plan after saving, `Client().me()` returns it, and `GET /v1/me` is the raw endpoint.
 
 ---
