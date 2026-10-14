@@ -285,7 +285,7 @@ The `NOTICE` file **must travel with the data** if you redistribute it — that'
 
 | Layer | Limit |
 |---|---|
-| App-level monthly quota | Free: 10 req/month total (bulk counts). Pro/Enterprise: unlimited. |
+| App-level monthly quota | Free: 10 req/month total (bulk counts). Pro/Team/Enterprise: unlimited. |
 | Per-IP at the edge | 5 req per 10 s (Cloudflare zone rule). Bursty downloads get a 10 s 429; spread requests if scripting. |
 
 If you're systematically pulling many datasets, space requests by ~2 s and you'll never trip the per-IP rule.

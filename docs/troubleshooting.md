@@ -119,7 +119,7 @@ Options:
 # Check whether your result was truncated
 df = client.statsnz("nz_addresses")
 df.eolas_truncated  # True if you hit the cap
-df.eolas_row_cap    # 50000 on Free, None on Pro/Enterprise
+df.eolas_row_cap    # 50000 on Free, None on Pro/Team/Enterprise
 ```
 
 ### "Geometry isn't returning as `sf` / `GeoDataFrame`"
