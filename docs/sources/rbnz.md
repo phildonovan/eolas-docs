@@ -45,7 +45,7 @@ For the full list, browse [eolas.nz/datasets?source=RBNZ](https://eolas.nz/datas
 
 ## Refresh schedule
 
-Daily for the rate/FX tables (B1 exchange rates, B2 wholesale rates), daily checks with monthly/quarterly source cadence for the rest (the pipeline's change detection skips unchanged source files). One exception: `rbnz_m13_inflation_expectations` is **archived** — RBNZ discontinued its source file in June 2022, so the dataset is the 1995–2022 historical series and no longer updates.
+Daily for the rate/FX tables (B1 exchange rates, B2 wholesale rates), daily checks with monthly/quarterly source cadence for the rest (the pipeline's change detection skips unchanged source files). `rbnz_m13_inflation_expectations` is quarterly from 1995 to the latest survey. RBNZ renamed the table from M13 to **H1** (Tara-ā-Whare Household Expectations Survey) in 2022, and the dataset now follows H1; the name is unchanged. The 5-year-ahead question was reworded in March 2022, so the 5-year series have a break there.
 
 ---
 
