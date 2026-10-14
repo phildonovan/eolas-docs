@@ -168,6 +168,25 @@ except NotFoundError:
 | `NotFoundError` | 404 | Series identifier not found |
 | `APIError` | other | Unexpected API error |
 
+### Plan notices and `PlanError`
+
+```python
+import warnings
+from eolas_data import Client, PlanError, PlanNotice
+
+client = Client()
+client.me()            # {'plan': 'trial', 'trial_ends_at': ..., 'row_cap': 50000, 'bulk': False, ...}
+
+try:
+    client.download_bulk("nz_cpi")
+except PlanError as e:  # subclass of APIError
+    print(e.code, e.upgrade_url)   # "bulk_not_in_plan", "https://eolas.nz/pricing"
+
+warnings.filterwarnings("ignore", category=PlanNotice)  # silence the trial notice
+```
+
+The `X-Eolas-Notice` trial message is shown once per `Client` as a `PlanNotice` warning. Requires `eolas-data` 1.14.0 or later.
+
 ## Attribution and provenance
 
 Every `/data` response carries `X-Eolas-Attribution`, `X-Eolas-Licence`, and related

@@ -25,6 +25,21 @@ Or add to `.Renviron` for permanent, session-free access:
 EOLAS_API_KEY=your_eolas_key
 ```
 
+## Plan notices and `eolas_plan_error`
+
+```r
+eolas_key_status()   # also prints your plan, e.g. "plan: trial - Pro trial: ... ends 2026-10-28"
+
+tryCatch(
+  eolas_download_bulk("nz_cpi"),
+  eolas_plan_error = function(e) message(e$code, ": upgrade at ", e$upgrade_url)
+)
+
+suppressWarnings(eolas_get("nz_cpi"), classes = "eolas_plan_notice")
+```
+
+The trial message (`X-Eolas-Notice`) is shown once per session as a warning of class `eolas_plan_notice`. Requires `eolas` 1.14.0 or later.
+
 ## Source-specific helpers
 
 The recommended way to fetch data — the source is encoded in the function name, making code self-documenting and autocomplete-friendly in RStudio:
