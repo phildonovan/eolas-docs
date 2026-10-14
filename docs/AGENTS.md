@@ -91,7 +91,7 @@ columns, and the large-dataset routing rules below.
    contains geometry *and* you passed no `start`/`end`. This is deliberate — use the
    bulk endpoint (`/v1/bulk/{namespace}/{name}`, or `client.download_bulk()` /
    `eolas_download_bulk()`) for whole-dataset pulls. Adding a date filter also clears
-   the guard. **Bulk download requires Pro, Team or Enterprise** — Free and trial keys get `402`, and
+   the guard. **Bulk download requires Pro or Enterprise** (Team seats count as Pro) — Free and trial keys get `402`, and
    should page the live API with an explicit `limit` instead.
 
 3. **Free tier caps at 50,000 rows per request and 10 requests per month.**
