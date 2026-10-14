@@ -14,7 +14,8 @@ Base URL `https://api.eolas.nz`; data routes under `/v1`; auth via an
   parameters, tier caps, the HTTP 413 large-dataset guard, provenance headers, and
   the mistakes that cost a retry. Read this first.
 - [Getting started](https://docs.eolas.nz/quickstart/): install and first query
-- [Authentication](https://docs.eolas.nz/authentication/): API keys and headers
+- [Authentication](https://docs.eolas.nz/authentication/): API keys (shown once), plans and the
+  14-day Pro trial (`GET /v1/me`, `X-Eolas-Notice`)
 
 ## Reference
 
