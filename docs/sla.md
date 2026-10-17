@@ -20,7 +20,7 @@ eolas maintains automated ETL pipelines for every live source. After each succes
 |-------------------|----------|----------------------|
 | Daily | RBNZ, OECD | Successful check within **2×** the declared cadence |
 | Weekly | Stats NZ, LINZ, most councils | Successful check within **2×** the declared cadence |
-| Monthly / quarterly | Treasury, some MBIE series | Successful check within **2×** the declared cadence |
+| Monthly / quarterly | Treasury, some MBIE datasets | Successful check within **2×** the declared cadence |
 | Static / load-once | Some boundary layers | No refresh commitment — labelled `static` in dataset metadata |
 
 A **successful check** means the pipeline ran to completion and verified upstream availability, even when the change-gate skipped a heavy re-download because data was unchanged. This is stricter than "data row changed" and matches what the heartbeat records.

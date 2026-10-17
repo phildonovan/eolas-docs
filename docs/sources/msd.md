@@ -44,7 +44,7 @@ If you're doing labour-market analysis, social-policy research, housing-affordab
 
 ## Refresh schedule
 
-Weekly, Wednesday morning NZ time. MSD publishes most series quarterly; student support is annual (calendar year, after the academic year closes).
+Weekly, Wednesday morning NZ time. MSD publishes most datasets quarterly; student support is annual (calendar year, after the academic year closes).
 
 ```python
 meta = client.info("msd_main_benefit_summary")
@@ -115,10 +115,10 @@ combined.plot(x="date", y="nzs_share", title="NZS recipients / total population"
 
 ## Source-specific notes
 
-- **Working-age = 18-64**: the "main benefit" series excludes NZS (65+) and student support. Use the appropriate series for your question.
+- **Working-age = 18-64**: the "main benefit" datasets exclude NZS (65+) and student support. Use the appropriate dataset for your question.
 - **Sanctions data starts 2021**: prior years don't have a comparable sanctions series. Don't read pre-2021 zeros as actual zero sanctions.
-- **TA boundaries vary by vintage**: the `ta_name` field in `msd_*_by_ta` series uses TA boundaries as of the publication quarter. Pre-2017 data uses the pre-amalgamation Auckland names; recent uses single Auckland Council.
-- **Population denominators**: many ratios you'll calculate (e.g. benefit recipients per 1000 working-age) need a denominator from Stats NZ — use the `popes_*` series with matched dates.
+- **TA boundaries vary by vintage**: the `ta_name` field in `msd_*_by_ta` datasets uses TA boundaries as of the publication quarter. Pre-2017 data uses the pre-amalgamation Auckland names; recent uses single Auckland Council.
+- **Population denominators**: many ratios you'll calculate (e.g. benefit recipients per 1000 working-age) need a denominator from Stats NZ — use the `popes_*` datasets with matched dates.
 - **NZS includes Veteran's Pension**: `msd_nzs_vp_summary` is the combined total. They're administered together but legislated separately. For NZS-only analysis, check the recipient_characteristics breakdown.
 - **Sole Parent Support previously called "Domestic Purposes Benefit (DPB)"**: the 2013 reforms renamed and restructured benefits. Historical data is conformed forward where comparable, but cross-2013 series should be read with care.
 

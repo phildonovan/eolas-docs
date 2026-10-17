@@ -63,7 +63,7 @@ Plus 18+ other datasets covering specific programmes + cohorts. Browse: [eolas.n
 
 ## Refresh schedule
 
-Quarterly. Education Counts publishes most series annually (after each academic year closes), with quarterly updates to attendance + enrolment series. Our refresh runs weekly to catch new releases promptly.
+Quarterly. Education Counts publishes most datasets annually (after each academic year closes), with quarterly updates to attendance + enrolment datasets. Our refresh runs weekly to catch new releases promptly.
 
 ```python
 meta = client.info("edcounts_number_of_schools")
@@ -126,8 +126,8 @@ print(top)
 ## Source-specific notes
 
 - **NZ school year = calendar year**: terms 1-4 run February-December. "2024" data means full 2024 academic year.
-- **Decile system retired in 2023**: schools are now classified by Equity Index (EQI) — a continuous score. Older Education Counts datasets reference decile; newer use EQI. Some series carry both for continuity.
-- **Attendance rates**: "regular" = present > 90% of half-days. "Provisional" = > 80%. Different rates aren't directly comparable across series — check the methodology in source metadata.
+- **Decile system retired in 2023**: schools are now classified by Equity Index (EQI) — a continuous score. Older Education Counts datasets reference decile; newer use EQI. Some datasets carry both for continuity.
+- **Attendance rates**: "regular" = present > 90% of half-days. "Provisional" = > 80%. Different rates aren't directly comparable across datasets — check the methodology in source metadata.
 - **State-integrated vs state**: state schools are fully state-funded; state-integrated (often religious) have some private character but accept state funding. Count separately for compositional analysis.
 - **ORS funding cohort is small but high-cost**: ~10,000 students receive ORS funding for high learning needs. Per-student cost much higher than mainstream.
 - **Tertiary data lags**: most tertiary statistics are 12-18 months after the calendar year (allows for full enrolment + completion reconciliation). 2023 data was published mid-to-late 2024.

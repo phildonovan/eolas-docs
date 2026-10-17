@@ -12,7 +12,7 @@ Stats NZ datasets fall into seven broad categories. Counts are approximate; chec
 
 ### Macroeconomic indicators
 
-CPI, GDP, unemployment, balance-of-payments. Quarterly series for most. See also the [OECD source guide](oecd.md) — OECD provides the same headline indicators with international comparability.
+CPI, GDP, unemployment, balance-of-payments. Quarterly datasets for most. See also the [OECD source guide](oecd.md) — OECD provides the same headline indicators with international comparability.
 
 ```python
 df = client.statsnz("nz_cpi", start="2020-01-01")

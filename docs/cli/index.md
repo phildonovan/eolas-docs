@@ -275,7 +275,7 @@ cd /tmp/eolas-meltano-test
 export EOLAS_API_KEY=your_enterprise_key
 meltano install
 meltano run tap-eolas target-jsonl
-ls output/             # → nz_cpi.jsonl with the CPI series in it
+ls output/             # → nz_cpi.jsonl with the CPI dataset in it
 ```
 
 If records land in `output/nz_cpi.jsonl`, the generated `meltano.yml` is provably
