@@ -64,7 +64,7 @@ df.eolas_source  # "Stats NZ"
 
 ### `client.list(source=None)`
 
-Return metadata for all available series.
+Return metadata for all available datasets.
 
 ```python
 all_series = client.list()
@@ -83,7 +83,7 @@ nz_series  = client.list("Stats NZ")
 
 ### `client.info(name)`
 
-Return metadata for a single series.
+Return metadata for a single dataset.
 
 ```python
 meta = client.info("nz_cpi")
@@ -94,10 +94,10 @@ meta = client.info("nz_cpi")
 
 | Name | Type | Description |
 |---|---|---|
-| `name` | `str` | Series identifier, e.g. `"nz_cpi"` |
+| `name` | `str` | Dataset identifier, e.g. `"nz_cpi"` |
 
 **Returns:** `dict`  
-**Raises:** `NotFoundError` if the series does not exist.
+**Raises:** `NotFoundError` if the dataset does not exist.
 
 ---
 
@@ -320,7 +320,7 @@ A `pandas.DataFrame` subclass returned by all data-fetching methods.
 
 | Attribute | Type | Description |
 |---|---|---|
-| `eolas_name` | `str` | Series identifier, e.g. `"nz_cpi"` |
+| `eolas_name` | `str` | Dataset identifier, e.g. `"nz_cpi"` |
 | `eolas_source` | `str` | Source label, e.g. `"Stats NZ"` |
 
 **Plotting**

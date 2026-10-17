@@ -80,10 +80,10 @@ eolas_key_status()
 
 ### `eolas_list(source = NULL)`
 
-Return metadata for all available series.
+Return metadata for all available datasets.
 
 ```r
-eolas_list()              # all series
+eolas_list()              # all datasets
 eolas_list("Stats NZ")   # Stats NZ only
 ```
 
@@ -140,7 +140,7 @@ Convenience wrappers over `eolas_list(source = ...)`.
 
 ### `eolas_info(name)`
 
-Return metadata for a single series.
+Return metadata for a single dataset.
 
 ```r
 meta <- eolas_info("nz_cpi")
@@ -152,10 +152,10 @@ meta$source  # "Stats NZ"
 
 | Name | Type | Description |
 |---|---|---|
-| `name` | character | Series identifier, e.g. `"nz_cpi"` |
+| `name` | character | Dataset identifier, e.g. `"nz_cpi"` |
 
 **Returns:** Named `list`.  
-**Errors:** Stops with `"Not found: ..."` if the series does not exist.
+**Errors:** Stops with `"Not found: ..."` if the dataset does not exist.
 
 ---
 

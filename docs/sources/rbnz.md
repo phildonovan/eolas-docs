@@ -124,7 +124,7 @@ The two interest rates every analyst tracks:
 
 ## Pipeline use
 
-RBNZ datasets are full-snapshot — each RBNZ release replaces the whole table. Most RBNZ tables are small (exchange-rate series are a few hundred KB; the larger balance-sheet tables top out around 5 MB), so full re-downloads are fast.
+RBNZ datasets are full-snapshot — each RBNZ release replaces the whole table. Most RBNZ tables are small (exchange-rate datasets are a few hundred KB; the larger balance-sheet tables top out around 5 MB), so full re-downloads are fast.
 
 Use `sync_bulk` / `eolas_sync_bulk` to keep a local file fresh — it issues a lightweight HEAD check and only re-downloads when the snapshot has changed. In weeks where RBNZ hasn't published a new release, the call returns "unchanged" and transfers zero bytes.
 
@@ -175,5 +175,5 @@ See the [Bulk downloads](../bulk-downloads.md) guide for cron and Airflow recipe
 
 ## Related
 
-- [Stats NZ source guide](statsnz.md) — for the labour, GDP, BOP series Stats NZ publishes (overlaps with RBNZ's M-series)
+- [Stats NZ source guide](statsnz.md) — for the labour, GDP and BOP datasets Stats NZ publishes (overlaps with RBNZ's M-series)
 - [Examples](../examples/index.md) — worked code recipes
