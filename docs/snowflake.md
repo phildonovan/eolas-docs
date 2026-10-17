@@ -15,7 +15,7 @@ offboarding.
 
 | Requirement | Detail |
 |---|---|
-| **eolas plan** | Enterprise. [Talk to us](mailto:phil@eolas.fyi?subject=Snowflake%20share) to enable it. |
+| **eolas plan** | Enterprise. [Talk to us](mailto:support@eolas.nz?subject=Snowflake%20share) to enable it. |
 | **Cloud + region** | Your Snowflake account must be on **AWS `ap-southeast-2` (Sydney)** — the share is region- and cloud-local. |
 | **Role** | An `ACCOUNTADMIN` (or a role with `IMPORT SHARE` + `CREATE DATABASE`) to mount the share. |
 
@@ -29,7 +29,7 @@ offboarding.
 
 ## 2. Request the share
 
-Email **phil@eolas.fyi** with:
+Email **support@eolas.nz** with:
 
 1. Your **Snowflake account identifier** — run this in your account and paste the result:
    ```sql
@@ -174,4 +174,4 @@ is zero-copy. Tell us and we'll remove your account from the share access list.
 ---
 
 Questions, a non-Sydney account, or a custom dataset request?
-**[phil@eolas.fyi](mailto:phil@eolas.fyi?subject=Snowflake%20share)**.
+**[support@eolas.nz](mailto:support@eolas.nz?subject=Snowflake%20share)**.
