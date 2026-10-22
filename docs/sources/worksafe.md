@@ -32,7 +32,7 @@ For *insurance claims* on workplace injuries (the cost side), see [ACC](acc.md).
 
 ## Refresh schedule
 
-Monthly. WorkSafe publishes most series quarterly; our refresh runs weekly to catch new releases promptly.
+Monthly. WorkSafe publishes most datasets quarterly; our refresh runs weekly to catch new releases promptly.
 
 ```python
 meta = client.info("worksafe_fatalities")

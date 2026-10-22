@@ -105,7 +105,7 @@ columns, and the large-dataset routing rules below.
    never read or transferred, and the response sets `X-Eolas-Geometry-Omitted: true`.
    This also clears the 413 guard for small spatial tables.
 
-5. **Dataset shape varies by upstream format.** Some series are long
+5. **Dataset shape varies by upstream format.** Some datasets are long
    (`date, period, value`), others are wide (one column per series, e.g.
    `rbnz_b1_exchange_rates_monthly` has 21). Call `info()` before assuming a shape.
 

@@ -75,7 +75,7 @@ The whole point of using OECD data is cross-country comparability. Here, NZ CPI 
 
 For multi-country comparisons (NZ vs Australia vs US), you currently need to query the OECD KEI dataflow directly — that's on the eolas roadmap as a separate `client.oecd_compare()` helper.
 
-### All four interest-rate / GDP / unemployment series at once
+### All four interest-rate / GDP / unemployment datasets at once
 
 === "Python"
 
