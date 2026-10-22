@@ -127,6 +127,8 @@ On the [dataset browse page](https://eolas.nz/datasets), look for the green **"B
 | **Pro** | The **current** Iceberg snapshot (generated on first request, served from cache thereafter). |
 | **Enterprise** | Same as Pro, plus the Snowflake zero-copy share for direct warehouse access. |
 
+**Trial and grandfathered Free keys** (`trial`, `free_legacy`) get no bulk downloads at all. The response is **403** with `X-Eolas-Error-Code: bulk_not_in_plan`; Python raises `PlanError` and R raises an `eolas_plan_error` condition. Use the live `/data` endpoint (50,000 rows per request) or upgrade. `/changes` behaves the same way.
+
 If a Free user requests `?freshness=current`, the response is **402** with a link to /pricing. If a Pro user requests `?freshness=monthly` they get the monthly snapshot (sometimes useful for reproducibility).
 
 ---
@@ -283,7 +285,7 @@ The `NOTICE` file **must travel with the data** if you redistribute it — that'
 
 | Layer | Limit |
 |---|---|
-| App-level monthly quota | Free: 10 req/month total (bulk counts). Pro/Enterprise: unlimited. |
+| App-level monthly quota | Free: 10 req/month total (bulk counts). Pro/Team/Enterprise: unlimited. |
 | Per-IP at the edge | 5 req per 10 s (Cloudflare zone rule). Bursty downloads get a 10 s 429; spread requests if scripting. |
 
 If you're systematically pulling many datasets, space requests by ~2 s and you'll never trip the per-IP rule.

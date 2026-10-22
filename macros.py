@@ -1,7 +1,7 @@
 """mkdocs-macros hook: fetch live counts from the eolas.nz API at build time.
 
 Variables exposed to markdown templates:
-    {{ dataset_count }}  rounded-down dataset count, e.g. "710" when live is 717
+    {{ dataset_count }}  live dataset count from the API, e.g. 1537
     {{ sources }}        human-readable source list, e.g. "Stats NZ, OECD, RBNZ, ..."
     {{ source_count }}   number of distinct sources
     {{ series_count }}   alias for dataset_count, kept for back-compat with old docs
@@ -12,7 +12,7 @@ import requests
 
 API = "https://api.eolas.nz/v1/datasets"
 FALLBACK = {
-    "dataset_count": 1530,
+    "dataset_count": 1537,  # fallback only; refresh occasionally
     "sources": (
         "Stats NZ, OECD, RBNZ, NZ Treasury, LINZ, Stats NZ Geospatial, MBIE, Waka Kotahi, "
         "MSD, NZ Police / MoJ, ACC, Education Counts, WorkSafe NZ, PHARMAC, EECA, DOC, "
@@ -28,7 +28,7 @@ def _fetch():
     data = r.json()
     sources = sorted({s["source"] for s in data})
     return {
-        "dataset_count": (len(data) // 10) * 10,
+        "dataset_count": len(data),
         "sources": ", ".join(sources),
         "source_count": len(sources),
     }
