@@ -2,7 +2,7 @@
 
 <div class="hero" markdown>
 
-**Official Python, R, and command-line clients for the eolas statistical data API.**
+**Official Python, R, and command-line clients for the eolas data API.**
 
 Access {{ dataset_count }}+ economic, demographic and geospatial datasets from {{ sources }} — in two lines of code, returning a data frame ready for analysis. Or schedule cron jobs and generate Meltano / Fivetran / Azure Data Factory connector configs from the command line.
 
