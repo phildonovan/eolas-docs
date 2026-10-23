@@ -116,9 +116,9 @@ Pre-built Parquet/CSV artifacts include a `NOTICE.txt` sidecar with identical te
 Dataset-level metadata (`GET /v1/datasets/{name}`) also exposes `source`, `licence`,
 `attribution_text`, and `source_url` fields when stamped in Glue.
 
-The 35 namespaces: `rbnz`, `stats_nz`, `treasury`, `oecd`, `linz`, `statsnz_geo`, `lris`, `nzta`,
+The 34 namespaces: `rbnz`, `stats_nz`, `treasury`, `oecd`, `linz`, `statsnz_geo`, `lris`, `nzta`,
 `doc`, `mbie`, `msd`, `acc`, `police`, `edcounts`, `worksafe`, `charities`, `immigration`,
-`pharmac`, `eeca`, `geonet`, plus the regional-council namespaces (`akl_council`, `akl_transport`,
+`pharmac`, `eeca`, plus the regional-council namespaces (`akl_council`, `akl_transport`,
 `bay_of_plenty`, `colab_waikato`, `ecan_canterbury`, `hawkes_bay`, `manawatu_whanganui`,
 `napier_whanganui`, `northland`, `otago`, `southland`, `taranaki`, `top_of_south`, `wellington`,
 `west_coast`).
