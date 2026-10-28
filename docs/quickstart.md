@@ -176,7 +176,7 @@ Use source-specific helpers so your code is self-documenting:
 
 ## 5. Attribution and provenance
 
-Most eolas datasets are free at the source (Stats NZ, RBNZ, OECD, etc.) but **CC-BY requires the credit to travel with your copy of the data**. Every API pull carries the same attribution whether you use JSON, CSV, Arrow, or Parquet.
+Most eolas datasets are free at the source (Stats NZ, OECD, etc.) but **CC-BY requires the credit to travel with your copy of the data**. Every API pull carries the same attribution whether you use JSON, CSV, Arrow, or Parquet.
 
 ### Response headers (all formats)
 
