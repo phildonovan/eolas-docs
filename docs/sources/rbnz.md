@@ -51,9 +51,18 @@ Daily for the rate/FX tables (B1 exchange rates, B2 wholesale rates), daily chec
 
 ## License
 
-All RBNZ statistical data is published under **[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)** per the [RBNZ Open Data policy](https://www.rbnz.govt.nz/-/media/project/sites/rbnz/files/about-us/copyright-statement.pdf). Commercial use is fine; attribution is required.
+RBNZ statistics are published under the Reserve Bank's [terms of use](https://www.rbnz.govt.nz/about-our-site/terms-of-use) (the copyright section; the same page is served at [rbnz.govt.nz/copyright](https://www.rbnz.govt.nz/copyright)). Unless otherwise indicated, material on the Bank's website is the copyright of the Reserve Bank of New Zealand. It may be reproduced on these conditions:
 
-Recommended attribution: *"Source: Reserve Bank of New Zealand, via eolas (eolas.nz). CC-BY 4.0."*
+- When the material is published or issued to others, the Reserve Bank is acknowledged as the source and copyright owner.
+- The material is reproduced accurately and is not used in a misleading way.
+
+Those conditions do not impose a non-commercial restriction on the statistics themselves. They do not cover material identified as the copyright of a third party.
+
+Recommended attribution: *"Source: Reserve Bank of New Zealand, via eolas (eolas.nz)."*
+
+The [M1 Consumers Price Index](https://www.rbnz.govt.nz/statistics/series/economic-indicators/prices), [M5 GDP](https://www.rbnz.govt.nz/statistics/series/economic-indicators/gross-domestic-product) and [M9 employment](https://www.rbnz.govt.nz/statistics/series/economic-indicators/labour-market) tables are Statistics New Zealand data that RBNZ republishes. Statistics NZ holds the copyright in those series. The M1 table also includes a house price index from PropertyIQ and factor models produced by the Reserve Bank; those parts are outside Statistics NZ's copyright.
+
+Recommended attribution for the Statistics NZ series in M1, M5 and M9: *"Source: Statistics New Zealand, republished by the Reserve Bank of New Zealand, via eolas (eolas.nz)."*
 
 ---
 

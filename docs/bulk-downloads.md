@@ -114,7 +114,7 @@ The bulk path has **two axes**: licence (set per dataset, not by you) and freshn
 
 Each dataset's licence determines whether bulk is permitted at all:
 
-- **CC-BY-licensed datasets** (the vast majority — Stats NZ, LINZ, RBNZ, MBIE, NZ Treasury, councils, etc.): bulk download permitted, subject to attribution.
+- **CC-BY-licensed datasets** (the vast majority — Stats NZ, LINZ, MBIE, NZ Treasury, councils, etc.) and **RBNZ** (under its own [terms of use](https://www.rbnz.govt.nz/about-our-site/terms-of-use)): bulk download permitted, subject to attribution.
 - **Non-CC-BY datasets** (notably **OECD**, which we serve under terms that prohibit commercial redistribution): bulk returns **403**. Query the data via the live `/data` endpoint instead.
 
 On the [dataset browse page](https://eolas.nz/datasets), look for the green **"Bulk download"** badge (eligible) vs the slate **"Query-only (licence)"** badge (restricted).
