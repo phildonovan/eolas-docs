@@ -17,7 +17,7 @@ Every API call needs an API key. This page covers how to get one, where to store
 | `trial` (14 days) | Pro data access with a 50,000-row cap per request and an allowance of about 1,000 requests. No bulk Parquet/CSV, no `/changes` feed, no Snowflake share. Large pulls are paginated and slow on trial. |
 | `free_legacy` | Existing Free keys keep today's limits until the sunset date shown in `X-Eolas-Plan-Sunset`. |
 | `expired` | Metadata and the catalogue still work. `/data`, `/changes`, bulk and integrations return **402** until you upgrade. |
-| `pro` / `enterprise` | Unlimited. If you upgrade within 7 days of your trial ending, you get 20% off the first 3 months, applied automatically at checkout. |
+| `pro` / `enterprise` | Unlimited. If you upgrade within 7 days of your trial ending, you get NZ$24 off, so NZ$25/month for your first 6 months, applied automatically at checkout. |
 
 Trial, legacy and expired keys also get the plan in `X-Eolas-Plan` (plus `X-Eolas-Trial-Ends` and the allowance used so far) on every keyed response. JSON error bodies for those keys carry a `notice` object (`plan`, `trial_ends_at`, `row_cap`, `message`, `upgrade_url`) and, for plan refusals, an `error_code`: `trial_expired` (402), `bulk_not_in_plan` (403) or `trial_soft_cap` (429).
 
