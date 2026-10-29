@@ -12,6 +12,8 @@ The API returns standard HTTP codes. Each maps to a Python exception class (and 
 |---|---|---|---|
 | **401** | `AuthenticationError` | Missing or wrong API key | Check `EOLAS_API_KEY` env var or `Client(api_key=...)`. Keys start with `vs_`; if yours doesn't, regenerate from [your dashboard](https://eolas.nz/settings). |
 | **403** | `AuthenticationError` | API key is valid but your plan doesn't include this endpoint (e.g. `/v1/integrations/*` is Enterprise-only) | Check your plan at [eolas.nz/dashboard](https://eolas.nz/dashboard). Upgrade if needed, or use a generic endpoint that's available on your plan. |
+| **402** | `PlanError` (`code="trial_expired"`) or `BulkUpgradeRequired` | Your trial has ended (data endpoints), or bulk freshness needs Pro | Metadata still works. Upgrade at [eolas.nz/pricing](https://eolas.nz/pricing); within 7 days of expiry you get NZ$24 off, so NZ$25/month for your first 6 months. |
+| **403** | `PlanError` (`code="bulk_not_in_plan"`) | Bulk or `/changes` on a trial or grandfathered Free key | Use `/data` (paginated, 50,000 rows per request) or upgrade. In R, catch it with `tryCatch(..., eolas_plan_error = )`. |
 | **404** | `NotFoundError` | Dataset name doesn't exist | Double-check the spelling. Run `client.list()` to see all available names, or browse [eolas.nz/datasets](https://eolas.nz/datasets). Names are case-sensitive. |
 | **413** | `APIError` (status_code=413) | Unbounded full-dataset pull on a large/geo dataset | Live JSON refuses `limit=0` with no date filter on datasets over 100,000 rows or with geometry — the detail message names the bulk endpoint to use instead. Either add a `limit=`/`start=`/`end=` filter or switch to `/v1/bulk/...`. (Plan **row caps** are separate: when a 200 response is truncated to your plan's 50,000-row cap it carries `X-Eolas-Truncated: true`, `X-Plan-Row-Cap`, and `X-Plan`.) |
 | **429** | `RateLimitError` | Monthly request quota reached | Free is 10/month, Pro is unlimited. Wait until next month, upgrade, or contact us if you think the count is wrong. Free-tier responses carry `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` (Unix epoch of the reset) on **every** request, so you can see your quota before you hit the wall; the 429 itself also includes `Retry-After` (seconds until reset). |
@@ -32,6 +34,12 @@ Beyond rate-limit headers (Free tier), successful data responses often include:
 | `X-Eolas-Namespace` | same | API namespace / Glue database id. |
 | `X-Eolas-Truncated` | `/data` when plan-capped | `true` if your Free-tier row cap shortened the result; pair with `X-Plan-Row-Cap` and `X-Plan`. |
 | `X-RateLimit-Remaining` | every authenticated call (Free) | Requests left this month. |
+| `X-Eolas-Plan` | every authenticated call on `trial` / `free_legacy` / `expired` | Your plan as the API sees it. |
+| `X-Eolas-Notice` | same | One-line plan message (trial end date, row cap, Free sunset). The Python and R clients show it once per session as a warning. |
+| `X-Eolas-Trial-Ends` | `trial` | ISO-8601 time the trial ends. |
+| `X-Eolas-Plan-Sunset` | `free_legacy` | ISO-8601 date the grandfathered Free plan ends. |
+| `X-Eolas-Trial-Requests-Used` / `-Allowance` | `trial` | Requests used against the trial allowance (1,000). |
+| `X-Eolas-Error-Code` | plan refusals | `bulk_not_in_plan` (403), `trial_expired` (402), `trial_soft_cap` (429). |
 
 For JSON-only provenance in the response body, use `?envelope=1` on `/v1/datasets/{name}/data`
 (`format=json` only). Details: [Getting started §5](quickstart.md#5-attribution-and-provenance).
@@ -111,7 +119,7 @@ Options:
 # Check whether your result was truncated
 df = client.statsnz("nz_addresses")
 df.eolas_truncated  # True if you hit the cap
-df.eolas_row_cap    # 50000 on Free, None on Pro/Enterprise
+df.eolas_row_cap    # 50000 on Free, None on Pro/Team/Enterprise
 ```
 
 ### "Geometry isn't returning as `sf` / `GeoDataFrame`"

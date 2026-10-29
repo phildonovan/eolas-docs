@@ -4,7 +4,7 @@
 
 **Official Python, R, and command-line clients for the eolas data API.**
 
-Access {{ dataset_count }}+ economic, demographic and geospatial datasets from {{ sources }} — in two lines of code, returning a data frame ready for analysis. Or schedule cron jobs and generate Meltano / Fivetran / Azure Data Factory connector configs from the command line.
+Access {{ dataset_count }} economic, demographic and geospatial datasets from {{ sources }} — in two lines of code, returning a data frame ready for analysis. Or schedule cron jobs and generate Meltano / Fivetran / Azure Data Factory connector configs from the command line.
 
 <div class="badge-row" markdown>
 
@@ -113,12 +113,15 @@ Data is sourced from **Stats NZ**, the **OECD**, **NZ Treasury**, **RBNZ**, **LI
 
 ## Get an API key
 
-Free tier requires no credit card. [Get your key →](https://eolas.nz/signup)
+Every new account starts with a **14-day Pro trial** — no credit card. [Get your key →](https://eolas.nz/signup)
 
-| Plan | Price | Requests | Row cap per request | Extras |
-|---|---|---|---|---|
-| Free | $0 | 10/month | 50,000 | — |
-| Pro | $49/month | Unlimited | Unlimited | Email support |
-| Enterprise | Contact us | Unlimited | Unlimited | Snowflake share · `eolas integrate` connector scaffolding (Meltano / Fivetran / Azure Data Factory) · SLA |
+| Plan | Price | Requests | Row cap per request | Bulk downloads | Extras |
+|---|---|---|---|---|---|
+| Pro trial | Free for 14 days | About 1,000 | 50,000 | No | No `/changes` feed or Snowflake share |
+| Pro | NZD $49/month | Unlimited | Unlimited | Yes | Email support |
+| Team | NZD $39/seat/month | Unlimited | Unlimited | Yes | Everything in Pro per seat · shared workspace · single invoice |
+| Enterprise | Contact us | Unlimited | Unlimited | Yes | **Snowflake data share** · **SLA** · **custom datasets** · `eolas integrate` connector scaffolding (Meltano / Fivetran / Azure Data Factory) |
+
+The Python, R and CLI clients work on every plan.
 
 [View pricing →](https://eolas.nz/#pricing)

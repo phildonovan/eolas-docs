@@ -91,13 +91,18 @@ columns, and the large-dataset routing rules below.
    contains geometry *and* you passed no `start`/`end`. This is deliberate — use the
    bulk endpoint (`/v1/bulk/{namespace}/{name}`, or `client.download_bulk()` /
    `eolas_download_bulk()`) for whole-dataset pulls. Adding a date filter also clears
-   the guard. **Bulk download requires Pro or Enterprise** — Free keys get `402`, and
+   the guard. **Bulk download requires Pro or Enterprise** (Team seats count as Pro) — Free and trial keys get `402`, and
    should page the live API with an explicit `limit` instead.
 
 3. **Free tier caps at 50,000 rows per request and 10 requests per month.**
-   Pro and Enterprise are unlimited on both. A truncated response sets
+   Pro, Team and Enterprise are unlimited on both. A truncated response sets
    `X-Eolas-Truncated: true` and `X-Plan-Row-Cap` — check them rather than assuming
    you got everything.
+   **Pro trial keys** (`X-Eolas-Plan: trial`) get the same 50,000-row cap with
+   no bulk downloads and no `/changes` (`403`, `X-Eolas-Error-Code: bulk_not_in_plan`),
+   so page `/data` with an explicit `limit` instead. An `expired` trial gets `402`
+   (`trial_expired`) on data endpoints, but metadata still works. `GET /v1/me`
+   returns the plan, and `X-Eolas-Notice` carries a one-line explanation.
 
 4. **Two-thirds of datasets carry a `geometry_wkt` column** (WKT, EPSG:4326, lon-lat)
    and it usually dwarfs the rest of the row. **Pass `geometry=false`** if you only
@@ -162,7 +167,9 @@ different again: which snapshot tier you're entitled to (`monthly` or `current`)
 |---|---|---|
 | `401` | Missing/invalid `X-API-Key` | Check the key; it starts with `vs_` |
 | `402` | Bulk download on a Free key | Upgrade, or page `/data` with an explicit `limit` |
+| `402` | Trial expired (`X-Eolas-Error-Code: trial_expired`) | Metadata still works; tell the user to upgrade |
 | `403` | Licence forbids bulk redistribution | Query `/data` instead; no plan unlocks it |
+| `403` | `bulk_not_in_plan` (trial / grandfathered Free) | Page `/data` with an explicit `limit` |
 | `404` | No such dataset | `search()` for the right name — don't guess |
 | `413` | Unbounded pull on a large/geo dataset | Use bulk, or add `start`/`end`/`limit` |
 | `429` | Rate limited | Back off. Check `X-RateLimit-*` and `cf-ray` |

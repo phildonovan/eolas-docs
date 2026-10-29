@@ -6,9 +6,22 @@ Every API call needs an API key. This page covers how to get one, where to store
 
 ## Get a key
 
-[**Sign up at eolas.nz/signup**](https://eolas.nz/signup) — free tier, no credit card. You get an API key (starts with `vs_`) immediately on confirmation.
+[**Sign up at eolas.nz/signup**](https://eolas.nz/signup) — no credit card. You get an API key (starts with `vs_`) immediately on confirmation, with a **14-day Pro trial** where it's enabled (see [Plans and the Pro trial](#plans-and-the-pro-trial)).
 
-Your dashboard at [eolas.nz/dashboard](https://eolas.nz/dashboard) shows the key, your current plan, this month's usage, and lets you rotate the key if you need to.
+**Your key is shown once.** We store only a hash of it, so copy it when it's displayed. Your dashboard at [eolas.nz/dashboard](https://eolas.nz/dashboard) shows the key's prefix, your current plan and this month's usage. If you lose the key, click **New key**: you get a fresh key (shown once) and the old one stops working immediately.
+
+### Plans and the Pro trial
+
+| Plan | What you get |
+|---|---|
+| `trial` (14 days) | Pro data access with a 50,000-row cap per request and an allowance of about 1,000 requests. No bulk Parquet/CSV, no `/changes` feed, no Snowflake share. Large pulls are paginated and slow on trial. |
+| `free_legacy` | Existing Free keys keep today's limits until the sunset date shown in `X-Eolas-Plan-Sunset`. |
+| `expired` | Metadata and the catalogue still work. `/data`, `/changes`, bulk and integrations return **402** until you upgrade. |
+| `pro` / `enterprise` | Unlimited. If you upgrade within 7 days of your trial ending, you get NZ$24 off, so NZ$25/month for your first 6 months, applied automatically at checkout. |
+
+Trial, legacy and expired keys also get the plan in `X-Eolas-Plan` (plus `X-Eolas-Trial-Ends` and the allowance used so far) on every keyed response. JSON error bodies for those keys carry a `notice` object (`plan`, `trial_ends_at`, `row_cap`, `message`, `upgrade_url`) and, for plan refusals, an `error_code`: `trial_expired` (402), `bulk_not_in_plan` (403) or `trial_soft_cap` (429).
+
+The clients tell you where you stand. `eolas auth set-key` / `eolas_key_save()` print your plan after saving, `Client().me()` returns it, and `GET /v1/me` is the raw endpoint.
 
 ---
 
