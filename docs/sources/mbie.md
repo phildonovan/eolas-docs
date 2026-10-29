@@ -12,7 +12,7 @@ If you're doing energy-market analysis, government-procurement research, or rent
 
 | Dataset | Description |
 |---|---|
-| `fuel_prices_weekly` | Weekly retail petrol + diesel prices across all main centres + nationally. The series energy analysts and journalists track. |
+| `fuel_prices_weekly` | Weekly retail petrol + diesel prices across all main centres + nationally. The dataset energy analysts and journalists track. |
 | `gas_monthly_stats` | Monthly natural gas production, consumption, and storage. Sourced from MBIE's gas statistics workbook. |
 
 ### Government procurement (GETS)
@@ -44,7 +44,7 @@ Plus 4 additional MBIE datasets covering ancillary topics (browse the [live cata
 
 ## Refresh schedule
 
-Weekly, Wednesday morning NZ time. MBIE publishes most series on a monthly or quarterly cadence — the weekly refresh catches new releases promptly.
+Weekly, Wednesday morning NZ time. MBIE publishes most datasets on a monthly or quarterly cadence — the weekly refresh catches new releases promptly.
 
 ```python
 meta = client.info("fuel_prices_weekly")

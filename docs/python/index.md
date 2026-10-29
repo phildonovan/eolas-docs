@@ -108,7 +108,7 @@ Requires `matplotlib`: `pip install matplotlib`.
 
 ## Cache
 
-Pass `cache=True` to avoid re-fetching the same series in a notebook session:
+Pass `cache=True` to avoid re-fetching the same dataset in a notebook session:
 
 ```python
 client = Client("your_eolas_key", cache=True)
@@ -158,14 +158,14 @@ except RateLimitError:
 except AuthenticationError:
     print("Check your API key")
 except NotFoundError:
-    print("Series does not exist")
+    print("Dataset does not exist")
 ```
 
 | Exception | HTTP status | When raised |
 |---|---|---|
 | `AuthenticationError` | 401, 403 | Invalid or inactive key |
 | `RateLimitError` | 429 | Daily limit reached |
-| `NotFoundError` | 404 | Series identifier not found |
+| `NotFoundError` | 404 | Dataset identifier not found |
 | `APIError` | other | Unexpected API error |
 
 ## Attribution and provenance

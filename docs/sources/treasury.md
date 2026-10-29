@@ -108,6 +108,6 @@ Recommended attribution: *"Source: The Treasury, served via eolas (eolas.nz). CC
 
 ## Related
 
-- [Stats NZ source guide](statsnz.md) — for the official GDP series and macro indicators
+- [Stats NZ source guide](statsnz.md) — for the official GDP datasets and macro indicators
 - [RBNZ source guide](rbnz.md) — for monetary-policy adjacent data (OCR, mortgages, money supply)
 - [Examples](../examples/index.md)

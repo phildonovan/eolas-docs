@@ -36,7 +36,7 @@ The canonical "I just want a chart" recipe.
 
 ---
 
-## Compare two series side-by-side
+## Compare two datasets side-by-side
 
 Useful for inflation-vs-unemployment, mortgage-rates-vs-house-prices, etc.
 

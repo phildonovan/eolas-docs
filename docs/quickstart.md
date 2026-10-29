@@ -85,7 +85,7 @@ Sign up at [eolas.nz](https://eolas.nz/signup). Your key will start with `vs_`.
     # source: ~/.eolas/config.json
     ```
 
-## 4. Fetch your first series
+## 4. Fetch your first dataset
 
 Use source-specific helpers so your code is self-documenting:
 
@@ -321,19 +321,19 @@ Available regional helpers: `akl_council`, `akl_transport`, `bay_of_plenty`, `ch
     ggplot(df, aes(date, value)) + geom_line() + labs(title = "NZ CPI")
     ```
 
-## 8. Browse available series
+## 8. Browse available datasets
 
 === "Python"
 
     ```python
-    client.list()              # all series
+    client.list()              # all datasets
     client.list("Stats NZ")   # Stats NZ only
     ```
 
 === "R"
 
     ```r
-    eolas_list()            # all series
+    eolas_list()            # all datasets
     eolas_list_statsnz()    # Stats NZ only
     eolas_list_oecd()       # OECD only
     eolas_list_treasury()   # NZ Treasury only

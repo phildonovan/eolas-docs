@@ -161,7 +161,7 @@ tryCatch(
 |---|---|
 | `"Authentication error: ..."` | Invalid or inactive key |
 | `"Rate limit reached. ..."` | Daily limit reached |
-| `"Not found: ..."` | Series identifier not found |
+| `"Not found: ..."` | Dataset identifier not found |
 | `"API error (HTTP ...): ..."` | Unexpected API error |
 
 ## Attribution and provenance
