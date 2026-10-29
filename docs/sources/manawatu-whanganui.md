@@ -71,7 +71,7 @@ print(gw.groupby("mgmt_unit").size())  # zones by management category
 
 ## Source-specific notes
 
-- **Ruapehu District includes Mt Ruapehu**: active volcano + ski areas — volcanic-hazard layers from GeoNet (separate source) + DOC conservation land overlay are relevant for tourism / consenting in this area.
+- **Ruapehu District includes Mt Ruapehu**: active volcano + ski areas — GeoNet was withdrawn from eolas on 2026-10-04 (see [GeoNet](geonet.md) for GeoNet's own live API); the DOC conservation land overlay is relevant for tourism / consenting in this area.
 - **Manawatū River flood history**: the 2004 + 2015 floods drive much of the current flood mapping. `horizons_floodways_flood_prone_land` is the regulatory hazard layer; for historic events use council records.
 - **Whanganui District is split**: most Whanganui council data lives in the [Napier + Whanganui cluster](napier-whanganui.md) (because both publish via the WhanganuiData portal), not this cluster.
 - **Iwi cultural sites**: `horizons_sites_significance_cultural` has iwi-agreed publication boundaries. Treat as authoritative for the geometry but check the source metadata for any access restrictions.
