@@ -6,7 +6,7 @@ Every API call needs an API key. This page covers how to get one, where to store
 
 ## Get a key
 
-[**Sign up at eolas.nz/signup**](https://eolas.nz/signup) — free tier, no credit card. You get an API key (starts with `vs_`) immediately on confirmation.
+[**Sign up at eolas.nz/signup**](https://eolas.nz/signup) — 14-day Pro trial, no credit card. You get an API key (starts with `vs_`) immediately on confirmation.
 
 Your dashboard at [eolas.nz/dashboard](https://eolas.nz/dashboard) shows the key, your current plan, this month's usage, and lets you rotate the key if you need to.
 
@@ -227,9 +227,9 @@ There's no per-plan limit on rotations. Rotate as often as your security posture
 Each eolas account has one active API key at a time. To isolate dev from prod, use separate **accounts** (not separate keys on one account):
 
 - Production account on Pro: `vs_prod_...`
-- Personal / dev account on Free: `vs_dev_...`
+- Personal / dev account on the Pro trial: `vs_dev_...`
 
-Then your dev environment sets `EOLAS_API_KEY=vs_dev_...` and your prod env sets `EOLAS_API_KEY=vs_prod_...`. Quotas and rate limits are per-account, so dev experiments don't burn through prod's monthly budget.
+Then your dev environment sets `EOLAS_API_KEY=vs_dev_...` and your prod env sets `EOLAS_API_KEY=vs_prod_...`. Quotas are per-account, so dev experiments don't draw on the production account.
 
 (Multi-key-per-account is on the roadmap. If you're an Enterprise customer needing this now, get in touch.)
 

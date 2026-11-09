@@ -164,7 +164,7 @@ except NotFoundError:
 | Exception | HTTP status | When raised |
 |---|---|---|
 | `AuthenticationError` | 401, 403 | Invalid or inactive key |
-| `RateLimitError` | 429 | Daily limit reached |
+| `RateLimitError` | 429 | Request quota reached (Pro trial: up to 1,000 requests) |
 | `NotFoundError` | 404 | Dataset identifier not found |
 | `APIError` | other | Unexpected API error |
 

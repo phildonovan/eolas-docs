@@ -91,13 +91,17 @@ columns, and the large-dataset routing rules below.
    contains geometry *and* you passed no `start`/`end`. This is deliberate — use the
    bulk endpoint (`/v1/bulk/{namespace}/{name}`, or `client.download_bulk()` /
    `eolas_download_bulk()`) for whole-dataset pulls. Adding a date filter also clears
-   the guard. **Bulk download requires Pro or Enterprise** — Free keys get `402`, and
-   should page the live API with an explicit `limit` instead.
+   the guard. **Bulk download requires Pro, Team, or Enterprise.** The 14-day Pro
+   trial does not include it — a trial key gets `402`, and should page the live
+   API with an explicit `limit` instead.
 
-3. **Free tier caps at 50,000 rows per request and 10 requests per month.**
-   Pro and Enterprise are unlimited on both. A truncated response sets
-   `X-Eolas-Truncated: true` and `X-Plan-Row-Cap` — check them rather than assuming
-   you got everything.
+3. **The 14-day Pro trial caps at 50,000 rows per request and 1,000 requests.**
+   A request is one successful `/v1/datasets/{name}/data` call; metadata and
+   previews do not count. Pro, Team, and Enterprise are unlimited on both rows
+   and requests. The trial does not include bulk downloads or the `/changes`
+   feed. When it ends, data calls stop and dataset metadata stays available.
+   A truncated response sets `X-Eolas-Truncated: true` and `X-Plan-Row-Cap` —
+   check them rather than assuming you got everything.
 
 4. **Two-thirds of datasets carry a `geometry_wkt` column** (WKT, EPSG:4326, lon-lat)
    and it usually dwarfs the rest of the row. **Pass `geometry=false`** if you only
@@ -161,7 +165,7 @@ different again: which snapshot tier you're entitled to (`monthly` or `current`)
 | Code | Meaning | Do this |
 |---|---|---|
 | `401` | Missing/invalid `X-API-Key` | Check the key; it starts with `vs_` |
-| `402` | Bulk download on a Free key | Upgrade, or page `/data` with an explicit `limit` |
+| `402` | Bulk download on a Pro trial key | Upgrade, or page `/data` with an explicit `limit` |
 | `403` | Licence forbids bulk redistribution | Query `/data` instead; no plan unlocks it |
 | `404` | No such dataset | `search()` for the right name — don't guess |
 | `413` | Unbounded pull on a large/geo dataset | Use bulk, or add `start`/`end`/`limit` |

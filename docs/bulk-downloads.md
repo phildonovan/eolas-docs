@@ -102,7 +102,7 @@ See the [Python reference](python/reference.md) and [R reference](r/reference.md
 | **The full dataset as one file** | **`/v1/bulk/{ns}/{table}`** (this page) |
 | The data joined live into your warehouse | Snowflake share (Enterprise) — see [Snowflake share](snowflake.md) |
 
-The live `/data` endpoint is capped (Free: 50,000 rows/request). For multi-million-row geospatial datasets like LINZ parcels, the bulk endpoint is the right tool — it lazy-generates the snapshot file once and serves it from CDN thereafter.
+The live `/data` endpoint is capped on the Pro trial (50,000 rows/request). Pro, Team, and Enterprise are uncapped. For multi-million-row geospatial datasets like LINZ parcels, the bulk endpoint is the right tool — it lazy-generates the snapshot file once and serves it from CDN thereafter. The Pro trial does not include bulk downloads.
 
 ---
 
@@ -123,11 +123,12 @@ On the [dataset browse page](https://eolas.nz/datasets), look for the green **"B
 
 | Plan | Freshness |
 |---|---|
-| **Free** | Latest **monthly** snapshot (generated 1st of each month at 14:00 UTC). |
-| **Pro** | The **current** Iceberg snapshot (generated on first request, served from cache thereafter). |
+| **Pro trial** | No bulk downloads. Use the live API (up to 50,000 rows per request, up to 1,000 requests). |
+| **Pro** | Fresh bulk snapshots: the **current** snapshot as Parquet, CSV, or GeoParquet. |
+| **Team** | Same as Pro. |
 | **Enterprise** | Same as Pro, plus the Snowflake zero-copy share for direct warehouse access. |
 
-If a Free user requests `?freshness=current`, the response is **402** with a link to /pricing. If a Pro user requests `?freshness=monthly` they get the monthly snapshot (sometimes useful for reproducibility).
+If a Pro trial key requests bulk, the response is **402** with a link to /pricing. If a Pro user requests `?freshness=monthly` they get the monthly snapshot (sometimes useful for reproducibility).
 
 ---
 
@@ -153,7 +154,7 @@ curl -H "X-API-Key: vs_..." \
   -o treasury_fiscal_spending.parquet \
   "https://api.eolas.nz/v1/bulk/treasury/treasury_fiscal_spending?freshness=current&format=parquet"
 
-# Any plan: latest monthly snapshot as gzipped CSV
+# Pro: monthly snapshot as gzipped CSV, when you pass freshness=monthly
 curl -H "X-API-Key: vs_..." \
   -o treasury_fiscal_spending.csv.gz \
   "https://api.eolas.nz/v1/bulk/treasury/treasury_fiscal_spending?freshness=monthly&format=csv_gz"
@@ -164,7 +165,7 @@ curl -H "X-API-Key: vs_..." \
   "https://api.eolas.nz/v1/bulk/statsnz_geo/territorial_authority_2023?freshness=current&format=geoparquet"
 ```
 
-If you omit `?freshness=`, the API picks the right one for your plan (Free → monthly, Pro → current) and **302-redirects** to the canonical URL. Curl follows by default with `-L`.
+If you omit `?freshness=`, a Pro, Team, or Enterprise key gets the current snapshot and the API **302-redirects** to the canonical URL. Curl follows by default with `-L`. The Pro trial has no bulk downloads.
 
 ### Python (pandas)
 
@@ -210,7 +211,7 @@ SELECT count(*) FROM read_parquet('treasury_fiscal_spending.parquet');
 
 ### Browser
 
-On any [dataset page](https://eolas.nz/datasets), if you're logged in, click the **Parquet** / **CSV.gz** / **GeoParquet** download buttons in the header. Same gate as the API — Free gets the monthly snapshot, Pro gets the current.
+On any [dataset page](https://eolas.nz/datasets), if you're logged in, click the **Parquet** / **CSV.gz** / **GeoParquet** download buttons in the header. Same gate as the API — the Pro trial has no bulk downloads; Pro, Team, and Enterprise get the current snapshot.
 
 ---
 
@@ -283,7 +284,7 @@ The `NOTICE` file **must travel with the data** if you redistribute it — that'
 
 | Layer | Limit |
 |---|---|
-| App-level monthly quota | Free: 10 req/month total (bulk counts). Pro/Enterprise: unlimited. |
+| App-level request quota | Pro trial: up to 1,000 `/data` requests, and no bulk downloads. Pro, Team, and Enterprise: unlimited. |
 | Per-IP at the edge | 5 req per 10 s (Cloudflare zone rule). Bursty downloads get a 10 s 429; spread requests if scripting. |
 
 If you're systematically pulling many datasets, space requests by ~2 s and you'll never trip the per-IP rule.

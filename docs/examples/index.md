@@ -127,7 +127,7 @@ Spatial datasets auto-return as `GeoDataFrame` (Python) or `sf` (R) when the opt
     ```
 
     ```python
-    # 2023 meshblock boundaries — small enough to fit on Free tier with date filter
+    # 2023 meshblock boundaries — small enough to fit under the Pro trial row cap with a date filter
     mb = client.statsnz_geo("nz_meshblock_2023", as_sf=True)
 
     # Quick map
@@ -153,7 +153,7 @@ Spatial datasets auto-return as `GeoDataFrame` (Python) or `sf` (R) when the opt
     ggplot(wellington) + geom_sf() + theme_void()
     ```
 
-> **Heads up**: Meshblock 2023 has ~57k features. Free tier row cap is 50,000 — this dataset will truncate. Filter via the API (`start` / `end` only work on time series; for spatial you need a region/bbox filter — not yet in v1.0). For the **full dataset** use **Pro** (`limit=0`) or the **Enterprise Snowflake share**. *(Free monthly bulk-snapshot file downloads are on the roadmap — not yet available; the dashboard "Download" is a live query and applies the same Free 50k cap.)*
+> **Heads up**: Meshblock 2023 has ~57k features. The Pro trial row cap is 50,000 — this dataset will truncate. Filter via the API (`start` / `end` only work on time series; for spatial you need a region/bbox filter — not yet in v1.0). For the **full dataset** use **Pro** or **Team** (`limit=0`, or bulk download) or the **Enterprise Snowflake share**. The Pro trial does not include bulk downloads.
 
 ---
 
@@ -280,7 +280,7 @@ from eolas_data.exceptions import RateLimitError, NotFoundError
 try:
     df = client.statsnz("nz_cpi", start="2010-01-01")
 except RateLimitError:
-    print("Quota hit — backing off until next month")
+    print("Request cap reached — backing off")
     raise
 except NotFoundError:
     print(f"Dataset name was wrong; available similar: {[d['name'] for d in client.list() if 'cpi' in d['name']]}")
@@ -289,7 +289,7 @@ except NotFoundError:
 
 ### Detect row-cap truncation
 
-When you query a large dataset on the Free tier, the response is silently capped at 50,000 rows. Check for it:
+When you query a large dataset on the Pro trial, the response is silently capped at 50,000 rows. Pro, Team, and Enterprise are uncapped. Check for it:
 
 ```python
 df = client.statsnz("nz_addresses")     # ~3M rows — will be capped

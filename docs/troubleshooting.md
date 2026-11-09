@@ -14,14 +14,14 @@ The API returns standard HTTP codes. Each maps to a Python exception class (and 
 | **403** | `AuthenticationError` | API key is valid but your plan doesn't include this endpoint (e.g. `/v1/integrations/*` is Enterprise-only) | Check your plan at [eolas.nz/dashboard](https://eolas.nz/dashboard). Upgrade if needed, or use a generic endpoint that's available on your plan. |
 | **404** | `NotFoundError` | Dataset name doesn't exist | Double-check the spelling. Run `client.list()` to see all available names, or browse [eolas.nz/datasets](https://eolas.nz/datasets). Names are case-sensitive. |
 | **413** | `APIError` (status_code=413) | Unbounded full-dataset pull on a large/geo dataset | Live JSON refuses `limit=0` with no date filter on datasets over 100,000 rows or with geometry — the detail message names the bulk endpoint to use instead. Either add a `limit=`/`start=`/`end=` filter or switch to `/v1/bulk/...`. (Plan **row caps** are separate: when a 200 response is truncated to your plan's 50,000-row cap it carries `X-Eolas-Truncated: true`, `X-Plan-Row-Cap`, and `X-Plan`.) |
-| **429** | `RateLimitError` | Monthly request quota reached | Free is 10/month, Pro is unlimited. Wait until next month, upgrade, or contact us if you think the count is wrong. Free-tier responses carry `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` (Unix epoch of the reset) on **every** request, so you can see your quota before you hit the wall; the 429 itself also includes `Retry-After` (seconds until reset). |
+| **429** | `RateLimitError` | Request quota reached | The 14-day Pro trial allows up to 1,000 requests. A request is a successful `/v1/datasets/<name>/data` call; metadata and previews do not count. Pro, Team, and Enterprise are unlimited. Upgrade, or check usage on the dashboard. Responses carry `X-RateLimit-Remaining` (and `X-RateLimit-Limit` / `X-RateLimit-Reset`); a 429 also includes `Retry-After` (seconds). |
 | **5xx** | `APIError` | Server issue on our end | Retry once or twice — the client doesn't auto-retry. If it persists, check the [status page](https://eolas.nz/status) and report via GitHub. |
 
 ---
 
 ## Response headers worth knowing
 
-Beyond rate-limit headers (Free tier), successful data responses often include:
+Beyond rate-limit headers, successful data responses often include:
 
 | Header | When | Meaning |
 |---|---|---|
@@ -30,8 +30,8 @@ Beyond rate-limit headers (Free tier), successful data responses often include:
 | `X-Eolas-Licence` | same | Licence id when stamped. |
 | `X-Eolas-Source-URL` | same | Link to the upstream dataset. |
 | `X-Eolas-Namespace` | same | API namespace / Glue database id. |
-| `X-Eolas-Truncated` | `/data` when plan-capped | `true` if your Free-tier row cap shortened the result; pair with `X-Plan-Row-Cap` and `X-Plan`. |
-| `X-RateLimit-Remaining` | every authenticated call (Free) | Requests left this month. |
+| `X-Eolas-Truncated` | `/data` when plan-capped | `true` if the Pro trial's 50,000-row cap shortened the result; pair with `X-Plan-Row-Cap` and `X-Plan`. |
+| `X-RateLimit-Remaining` | authenticated calls | Requests remaining on the current quota. |
 
 For JSON-only provenance in the response body, use `?envelope=1` on `/v1/datasets/{name}/data`
 (`format=json` only). Details: [Getting started §5](quickstart.md#5-attribution-and-provenance).
@@ -59,7 +59,7 @@ try:
 except AuthenticationError:
     print("API key isn't working — get one at https://eolas.nz/signup")
 except RateLimitError:
-    print("Out of free-tier requests this month — upgrade or wait")
+    print("Trial request cap reached — upgrade or check the dashboard")
 except NotFoundError:
     print("That dataset name doesn't exist — try client.list()")
 except APIError as e:
@@ -99,19 +99,19 @@ eolas_key("vs_...")
 
 ### "I'm getting fewer rows than I expected"
 
-You're probably hitting the **50,000 row cap** on the Free tier. The response is truncated — no error is raised, but the cap is signalled in the `X-Plan-Row-Cap` and `X-Truncated` HTTP headers.
+You're probably hitting the **50,000 row cap** on the Pro trial. The response is truncated — no error is raised, but the cap is signalled in the `X-Plan-Row-Cap` and `X-Truncated` HTTP headers. Pro, Team, and Enterprise are uncapped.
 
 Options:
 
 1. **Narrow the query**: add `start` / `end` to filter by date, or filter by region / category in your own code.
-2. **Upgrade to Pro** ($49/mo) — caps removed entirely.
+2. **Upgrade to Pro** (NZD $49 / mo) or **Team** (NZD $39 / seat / mo) — the row cap is removed.
 3. **Use the Snowflake share** (Enterprise) — zero-copy access to the full warehouse, no API in the loop.
 
 ```python
 # Check whether your result was truncated
 df = client.statsnz("nz_addresses")
 df.eolas_truncated  # True if you hit the cap
-df.eolas_row_cap    # 50000 on Free, None on Pro/Enterprise
+df.eolas_row_cap    # 50000 on the Pro trial, None on Pro/Team/Enterprise
 ```
 
 ### "Geometry isn't returning as `sf` / `GeoDataFrame`"

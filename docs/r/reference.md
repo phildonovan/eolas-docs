@@ -177,7 +177,7 @@ df  <- eolas_get("nz_addresses", limit = 1000)
 | `name` | character | — | Dataset identifier |
 | `start` | character \| NULL | `NULL` | ISO date lower bound, e.g. `"2020-01-01"`. |
 | `end` | character \| NULL | `NULL` | ISO date upper bound. |
-| `limit` | integer \| NULL | `NULL` | Max rows. `NULL` requests the full dataset. Free plan is capped server-side at 50,000 rows; Pro is unlimited. |
+| `limit` | integer \| NULL | `NULL` | Max rows. `NULL` requests the full dataset. The Pro trial is capped server-side at 50,000 rows; Pro, Team, and Enterprise are unlimited. |
 | `as_sf` | logical \| NULL | `NULL` | Return an `sf` object for geospatial datasets. `NULL` auto-converts when geometry is present and the `sf` package is installed. `TRUE` forces conversion (errors if missing). `FALSE` keeps the raw `geometry_wkt` string column. Install with `install.packages("sf")`. Mutually exclusive with `as_arrow = TRUE`. |
 | `as_arrow` | logical | `FALSE` | Return an `arrow::Table` instead of a data frame or `sf` object. Skips all geometry materialisation — geometry stays as character WKT. Works on all datasets and all `eolas_get_*()` source helpers. Mutually exclusive with `as_sf = TRUE`. |
 
@@ -288,7 +288,7 @@ eolas_download_bulk("nz_cpi", freshness = "monthly", path = "nz_cpi.parquet")
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `name` | character | — | Dataset identifier, e.g. `"nz_cpi"` |
-| `freshness` | character | `"auto"` | `"auto"` — server picks based on plan (Free→monthly, Pro→current). `"monthly"` or `"current"` to override. |
+| `freshness` | character | `"auto"` | `"auto"` — bulk is not included on the Pro trial; Pro, Team, and Enterprise receive the current snapshot. `"monthly"` or `"current"` to override. |
 | `format` | character | `"parquet"` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. GeoParquet only available on geospatial datasets. |
 | `path` | character \| NULL | `NULL` | Write to this path and return it invisibly. `NULL` returns the raw bytes as a `raw` vector. Parent directories are created automatically. |
 | `progress` | logical \| NULL | `NULL` | Control the download progress bar. `NULL` auto-detects: shown when `interactive()` is `TRUE`, hidden in batch/CI. `TRUE` forces the bar on; `FALSE` forces it off. Also suppressed by `EOLAS_NO_PROGRESS=1` env var. When `path = NULL` (bytes mode) progress is always disabled. |
