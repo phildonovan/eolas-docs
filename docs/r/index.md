@@ -160,7 +160,7 @@ tryCatch(
 | Condition | When raised |
 |---|---|
 | `"Authentication error: ..."` | Invalid or inactive key |
-| `"Rate limit reached. ..."` | Daily limit reached |
+| `"Rate limit reached. ..."` | Request quota reached (Pro trial: up to 1,000 requests) |
 | `"Not found: ..."` | Dataset identifier not found |
 | `"API error (HTTP ...): ..."` | Unexpected API error |
 

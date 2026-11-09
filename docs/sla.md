@@ -1,6 +1,6 @@
 # Enterprise service level agreement
 
-This page summarises the written SLA offered to **Enterprise** customers. Free and Pro plans are best-effort — see [eolas.nz/terms](https://eolas.nz/terms).
+This page summarises the written SLA offered to **Enterprise** customers. The Pro trial, Pro, and Team are best-effort — see [eolas.nz/terms](https://eolas.nz/terms).
 
 ## API uptime
 

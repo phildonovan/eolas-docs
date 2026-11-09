@@ -120,7 +120,7 @@ df = client.get("nz_addresses", limit=1000)
 | `end` | `str \| None` | `None` | ISO date upper bound. |
 | `format` | `str` | `"json"` | `"json"` or `"csv"`. You don't need to set this for speed — the client transparently negotiates Apache Arrow over the wire for the DataFrame path (see *Performance*). |
 | `engine` | `str` | `"pandas"` | `"pandas"` or `"polars"` |
-| `limit` | `int \| None` | `None` | Max rows to return. `None` requests the full dataset. Free plan is capped server-side at 50,000 rows; Pro is unlimited. |
+| `limit` | `int \| None` | `None` | Max rows to return. `None` requests the full dataset. The Pro trial is capped server-side at 50,000 rows; Pro, Team, and Enterprise are unlimited. |
 | `as_geo` | `bool \| None` | `None` | Return a `geopandas.GeoDataFrame` for geospatial datasets. `None` auto-converts when geometry is present and `geopandas` is importable. `True` forces conversion (errors if missing). `False` keeps the raw `geometry_wkt` string column. Install with `pip install eolas-data[geo]`. Mutually exclusive with `as_arrow=True`. |
 | `as_arrow` | `bool` | `False` | Return a `pyarrow.Table` instead of a DataFrame or GeoDataFrame. Skips all shapely allocation — geometry stays as Arrow buffers. Works on all datasets and all source helpers. Mutually exclusive with `as_geo=True`. |
 
@@ -180,7 +180,7 @@ client.download_bulk("nz_cpi", freshness="monthly", path="nz_cpi.parquet")
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `name` | `str` | — | Dataset identifier, e.g. `"nz_cpi"` |
-| `freshness` | `str` | `"auto"` | `"auto"` — server picks based on plan (Free→monthly, Pro→current). `"monthly"` or `"current"` to override. |
+| `freshness` | `str` | `"auto"` | `"auto"` — bulk is not included on the Pro trial; Pro, Team, and Enterprise receive the current snapshot. `"monthly"` or `"current"` to override. |
 | `format` | `str` | `"parquet"` | `"parquet"`, `"csv_gz"`, or `"geoparquet"`. GeoParquet only available on geospatial datasets. |
 | `path` | `str \| Path \| None` | `None` | Write to this path and return the resolved `Path`. `None` returns raw bytes. Parent directories are created automatically. |
 | `progress` | `bool \| None` | `None` | Control the download progress bar. `None` auto-detects: shown when `sys.stdout.isatty()` is `True` (terminal or VSCode notebook), hidden otherwise. `True` forces the bar on; `False` forces it off. Also suppressed by `EOLAS_NO_PROGRESS=1` env var. When `path=None` (bytes mode) progress is always disabled. |

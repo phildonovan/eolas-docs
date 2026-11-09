@@ -127,7 +127,7 @@ eolas download nz_cpi --freshness current                # Pro plan — current 
 | Flag | Values | Default | Description |
 |---|---|---|---|
 | `--format`, `-f` | `parquet`, `csv`, `geoparquet` | `parquet` | Output format. `csv` writes a `.csv.gz` file. GeoParquet requires a geospatial dataset. |
-| `--freshness` | `auto`, `monthly`, `current` | `auto` | `auto` — server picks based on plan (Free→monthly, Pro→current). |
+| `--freshness` | `auto`, `monthly`, `current` | `auto` | `auto` — bulk is not included on the Pro trial; Pro, Team, and Enterprise receive the current snapshot. |
 | `--out`, `-o` | PATH | `<name>.<ext>` in cwd | Destination file path. |
 | `--api-key` | KEY | resolved from env / config | Override API key. |
 

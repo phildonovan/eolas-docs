@@ -4,7 +4,7 @@
 
 **Official Python, R, and command-line clients for the eolas data API.**
 
-Access {{ dataset_count }}+ economic, demographic and geospatial datasets from {{ sources }} — in two lines of code, returning a data frame ready for analysis. Or schedule cron jobs and generate Meltano / Fivetran / Azure Data Factory connector configs from the command line.
+Access 1,500+ economic, demographic and geospatial datasets from {{ sources }} — in two lines of code, returning a data frame ready for analysis. Or schedule cron jobs and generate Meltano / Fivetran / Azure Data Factory connector configs from the command line.
 
 <div class="badge-row" markdown>
 
@@ -113,12 +113,15 @@ Data is sourced from **Stats NZ**, the **OECD**, **NZ Treasury**, **RBNZ**, **LI
 
 ## Get an API key
 
-Free tier requires no credit card. [Get your key →](https://eolas.nz/signup)
+Every new account starts with a [14-day Pro trial](https://eolas.nz/pricing) — no card required, and it ends automatically. [Get your key →](https://eolas.nz/signup)
 
-| Plan | Price | Requests | Row cap per request | Extras |
+| Plan | Price | Requests | Rows per request | Includes |
 |---|---|---|---|---|
-| Free | $0 | 10/month | 50,000 | — |
-| Pro | $49/month | Unlimited | Unlimited | Email support |
-| Enterprise | Contact us | Unlimited | Unlimited | Snowflake share · `eolas integrate` connector scaffolding (Meltano / Fivetran / Azure Data Factory) · SLA |
+| Pro trial | 14 days free | Up to 1,000 | Up to 50,000 | JSON, CSV, Arrow, and Parquet. No bulk downloads, no `/changes` feed, no Snowflake share. |
+| Pro | NZD $49 / mo | Unlimited | Unlimited | JSON and CSV, fresh bulk snapshots (Parquet, CSV, GeoParquet), email support. For one person. |
+| Team | NZD $39 / seat / mo | Unlimited | Unlimited | Everything in Pro. 2-seat minimum. Shared team workspace, one bill. |
+| Enterprise | Custom | Unlimited | Unlimited | Snowflake data share, SLA and dedicated support, custom datasets, invoiced billing. Everything in Pro. |
 
-[View pricing →](https://eolas.nz/#pricing)
+Prices are in NZD and include 15% GST where applicable. A request is a successful call to `/v1/datasets/<name>/data`; metadata calls and previews do not count. After the trial, dataset metadata stays available and data calls stop until you subscribe.
+
+[View pricing →](https://eolas.nz/pricing)

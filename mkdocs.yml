@@ -93,9 +93,6 @@ markdown_extensions:
   - md_in_html
   - tables
 
-hooks:
-  - hooks.py
-
 plugins:
   - search
   - macros:

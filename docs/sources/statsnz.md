@@ -164,7 +164,7 @@ The classic geo-demographic pattern: load boundaries, join your own data:
 === "Python"
 
     ```python
-    # 2023 SA2 boundaries (about 2,000 polygons, fits in Free tier)
+    # 2023 SA2 boundaries (about 2,000 polygons, under the Pro trial's 50,000-row cap)
     sa2 = client.statsnz_geo("nz_statistical_area_2_2023", as_sf=True)
 
     # Your own analysis data (with sa2_code_2023 column)

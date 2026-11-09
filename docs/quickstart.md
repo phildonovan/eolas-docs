@@ -354,6 +354,8 @@ You can also browse interactively at [eolas.nz/datasets](https://eolas.nz/datase
 ---
 
 !!! tip "Rate limits"
-    Free keys allow **10 requests per month** at up to 50,000 rows per request. [Pro](https://eolas.nz/#pricing) ($49/month) is unlimited requests and unlimited rows. Enterprise adds Snowflake share + connector scaffolding + SLA.
+    New accounts start on a **14-day Pro trial**: up to **1,000 requests** and **50,000 rows per request**. A request is a successful call to `/v1/datasets/<name>/data`; metadata and previews do not count. [Pro](https://eolas.nz/pricing) (NZD $49 / month) is unlimited requests and unlimited rows, and adds bulk downloads. Team is NZD $39 per seat per month (2-seat minimum) and includes everything in Pro. Enterprise adds the Snowflake share, an SLA, and custom datasets.
 
-    Every Free-tier response tells you where you stand: check the `X-RateLimit-Remaining` header (and `X-RateLimit-Reset`, the Unix epoch when the count rolls over) so a script never burns the quota by surprise.
+    The trial has no bulk downloads and no `/changes` feed. It ends automatically; afterwards dataset metadata stays available, and data calls stop until you subscribe.
+
+    Check the `X-RateLimit-Remaining` header (and `X-RateLimit-Reset`, the Unix epoch on that header) so a script never burns the trial quota by surprise.
