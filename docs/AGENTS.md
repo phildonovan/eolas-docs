@@ -37,7 +37,7 @@ columns, and the large-dataset routing rules below.
 === "R"
 
     ```r
-    remotes::install_github("phildonovan/eolas-r")
+    install.packages("eolas", repos = c("https://phildonovan.r-universe.dev", "https://cloud.r-project.org"))
     ```
 
     ```r

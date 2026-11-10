@@ -37,7 +37,7 @@ client = Client("your_eolas_key", cache=True)
 The recommended way to fetch data — the source is encoded in the method name, making code self-documenting and autocomplete-friendly:
 
 ```python
-df  = client.statsnz("nz_cpi", start="2020-01-01")   # Stats NZ
+df  = client.oecd("nz_cpi", start="2020-01-01")   # OECD annual % change
 df  = client.oecd("nz_gdp_growth")                    # OECD
 df  = client.rbnz("rbnz_b2_wholesale_rates_monthly")  # RBNZ
 df  = client.treasury("treasury_fiscal_spending")     # NZ Treasury
@@ -82,17 +82,15 @@ client.search("cpi")             # ranks rbnz_m1_prices before nz_cpi; prints CP
 All data-fetching methods return a `Dataset` — a pandas DataFrame subclass with extra metadata:
 
 ```python
-df = client.statsnz("nz_cpi", start="2020-01-01")
+df = client.oecd("nz_cpi", start="2020-01-01")
 
 print(df)
-# Dataset: nz_cpi [Stats NZ]
-# 20 rows
-#          date  period   value
-# 0  2020-01-01  2020Q1  1010.0
-# ...
+# Dataset: nz_cpi [OECD]
+# columns: date, period, value
+# value is the annual percent change
 
 df.eolas_name    # "nz_cpi"
-df.eolas_source  # "Stats NZ"
+df.eolas_source  # "OECD"
 ```
 
 ### Plotting
@@ -101,7 +99,7 @@ df.eolas_source  # "Stats NZ"
 
 ```python
 ax = df.plot(x="date", y="value")
-ax.set_ylabel("Index (base 1000)")
+ax.set_ylabel("Annual % change")
 ```
 
 Requires `matplotlib`: `pip install matplotlib`.
@@ -113,8 +111,8 @@ Pass `cache=True` to avoid re-fetching the same dataset in a notebook session:
 ```python
 client = Client("your_eolas_key", cache=True)
 
-df1 = client.statsnz("nz_cpi")   # hits the API
-df2 = client.statsnz("nz_cpi")   # returned from cache
+df1 = client.oecd("nz_cpi")   # hits the API
+df2 = client.oecd("nz_cpi")   # returned from cache
 ```
 
 ## Working with large geo datasets
@@ -152,7 +150,7 @@ Requires `polars`: `pip install polars`.
 from eolas_data.exceptions import RateLimitError, AuthenticationError, NotFoundError
 
 try:
-    df = client.statsnz("nz_cpi")
+    df = client.oecd("nz_cpi")
 except RateLimitError:
     print("Upgrade to Pro for unlimited requests")
 except AuthenticationError:

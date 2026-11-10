@@ -1,6 +1,6 @@
 # Stats NZ data via eolas
 
-[Statistics New Zealand](https://www.stats.govt.nz) is the national statistical agency. eolas serves **415 datasets** from Stats NZ — the largest single source in the catalogue — covering everything from quarterly CPI prints to 2023-vintage census meshblock boundaries.
+[Statistics New Zealand](https://www.stats.govt.nz) is the national statistical agency. eolas serves Stats NZ data, the largest single source in the catalogue, from business demography to 2023 census meshblock boundaries.
 
 This page is the orientation guide. For specific datasets, browse [eolas.nz/datasets?source=Stats+NZ](https://eolas.nz/datasets?source=Stats%20NZ).
 
@@ -12,11 +12,11 @@ Stats NZ datasets fall into seven broad categories. Counts are approximate; chec
 
 ### Macroeconomic indicators
 
-CPI, GDP, unemployment, balance-of-payments. Quarterly datasets for most. See also the [OECD source guide](oecd.md) — OECD provides the same headline indicators with international comparability.
+The headline CPI, GDP growth and unemployment series (`nz_cpi`, `nz_gdp_growth`, `nz_unemployment`) come from the OECD, not Stats NZ. Use the OECD helpers. See the [OECD source guide](oecd.md).
 
 ```python
-df = client.statsnz("nz_cpi", start="2020-01-01")
-df = client.statsnz("nz_gdp_growth")
+df = client.oecd("nz_cpi", start="2020-01-01")   # annual % change
+df = client.oecd("nz_gdp_growth")
 ```
 
 ### Business demography (BDS)
@@ -117,7 +117,7 @@ Most Stats NZ pipelines run **weekly, Wednesday morning NZ time**. Stats NZ itse
 You can check the freshness of any specific dataset via the metadata endpoint:
 
 ```python
-meta = client.info("nz_cpi")
+meta = client.info("nz_population_estimates")
 meta["last_refreshed_at"]        # our last pull
 meta["source_last_modified_at"]  # when Stats NZ last touched the file (where capturable)
 ```
@@ -141,8 +141,8 @@ Recommended attribution: *"Source: Stats NZ, served via eolas (eolas.nz). CC-BY 
     ```python
     import matplotlib.pyplot as plt
 
-    cpi = client.statsnz("nz_cpi", start="2010-01-01")
-    cpi.plot(x="date", y="value", title="NZ CPI", figsize=(10, 4))
+    cpi = client.oecd("nz_cpi", start="2010-01-01")
+    cpi.plot(x="date", y="value", title="NZ CPI inflation", figsize=(10, 4))
     plt.show()
     ```
 
@@ -151,10 +151,10 @@ Recommended attribution: *"Source: Stats NZ, served via eolas (eolas.nz). CC-BY 
     ```r
     library(ggplot2)
 
-    cpi <- eolas_get_statsnz("nz_cpi", start = "2010-01-01")
+    cpi <- eolas_get_oecd("nz_cpi", start = "2010-01-01")
     ggplot(cpi, aes(date, value)) +
       geom_line() +
-      labs(title = "NZ CPI", y = "Index")
+      labs(title = "NZ CPI inflation", y = "Annual % change")
     ```
 
 ### Census boundary + value join

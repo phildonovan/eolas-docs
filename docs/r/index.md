@@ -5,7 +5,7 @@ The `eolas-data` R package provides a family of functions that wrap the eolas RE
 ## Installation
 
 ```r
-remotes::install_github("phildonovan/eolas-r")
+install.packages("eolas", repos = c("https://phildonovan.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
 Requires R 4.1+ and `httr2` 1.0+.
@@ -30,7 +30,7 @@ EOLAS_API_KEY=your_eolas_key
 The recommended way to fetch data — the source is encoded in the function name, making code self-documenting and autocomplete-friendly in RStudio:
 
 ```r
-df  <- eolas_get_statsnz("nz_cpi", start = "2020-01-01")   # Stats NZ
+df  <- eolas_get_oecd("nz_cpi", start = "2020-01-01")   # OECD annual % change
 df  <- eolas_get_oecd("nz_gdp_growth")                      # OECD
 df  <- eolas_get_rbnz("rbnz_b2_wholesale_rates_monthly")    # RBNZ
 df  <- eolas_get_treasury("treasury_fiscal_spending")       # NZ Treasury
@@ -75,16 +75,14 @@ eolas_search("cpi")          # ranks rbnz_m1_prices before nz_cpi; prints CPI gu
 All data-fetching functions return a `eolas_dataset` — a data frame with name and source metadata:
 
 ```r
-df <- eolas_get_statsnz("nz_cpi", start = "2020-01-01")
+df <- eolas_get_oecd("nz_cpi", start = "2020-01-01")
 df
-# eolas_dataset: nz_cpi [Stats NZ]
-# 20 rows
-#         date period  value
-# 1 2020-01-01 2020Q1 1010.0
-# ...
+# eolas_dataset: nz_cpi [OECD]
+# columns: date, period, value
+# value is the annual percent change
 
 attr(df, "eolas_name")    # "nz_cpi"
-attr(df, "eolas_source")  # "Stats NZ"
+attr(df, "eolas_source")  # "OECD"
 ```
 
 `eolas_dataset` is fully compatible with dplyr, ggplot2, and any function that accepts a data frame.
@@ -96,11 +94,11 @@ attr(df, "eolas_source")  # "Stats NZ"
 ```r
 library(ggplot2)
 
-df <- eolas_get_statsnz("nz_cpi", start = "2010-01-01")
+df <- eolas_get_oecd("nz_cpi", start = "2010-01-01")
 
 ggplot(df, aes(date, value)) +
   geom_line() +
-  ggplot2::labs(y = "Index (base 1000)")
+  ggplot2::labs(y = "Annual % change")
 ```
 
 Requires `ggplot2`: `install.packages("ggplot2")`.
@@ -152,7 +150,7 @@ This is an Enterprise-plan feature. Non-Enterprise keys see the server's upgrade
 
 ```r
 tryCatch(
-  eolas_get_statsnz("nz_cpi"),
+  eolas_get_oecd("nz_cpi"),
   error = function(e) message("Error: ", conditionMessage(e))
 )
 ```

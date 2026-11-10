@@ -144,8 +144,8 @@ Return metadata for a single dataset.
 
 ```r
 meta <- eolas_info("nz_cpi")
-meta$title   # "NZ Consumer Price Index"
-meta$source  # "Stats NZ"
+meta$title   # "NZ CPI inflation (annual % change)"
+meta$source  # "OECD"
 ```
 
 **Arguments**
@@ -249,8 +249,8 @@ Each is a named wrapper over `eolas_get()` that tags the result with the source 
 | `eolas_get_west_coast(name, start, end, limit, as_sf, as_arrow)` | West Coast (Te Tai o Poutini) |
 
 ```r
-df <- eolas_get_statsnz("nz_cpi", start = "2015-01-01")
-attr(df, "eolas_source")   # "Stats NZ"
+df <- eolas_get_oecd("nz_cpi", start = "2015-01-01")
+attr(df, "eolas_source")   # "OECD"
 ```
 
 ---
@@ -460,11 +460,11 @@ eolas_library_clear()
 ```r
 library(ggplot2)
 
-df <- eolas_get_statsnz("nz_cpi", start = "2010-01-01")
+df <- eolas_get_oecd("nz_cpi", start = "2010-01-01")
 
 ggplot(df, aes(date, value)) +
   geom_line() +
-  labs(y = "Index (base 1000)")
+  labs(y = "Annual % change")
 ```
 
 ---
@@ -479,8 +479,8 @@ library(eolas)
 
 eolas_key("vs_your_key")
 
-eolas_get_statsnz("nz_cpi", start = "2015-01-01") |>
-  filter(value > 1050) |>
+eolas_get_oecd("nz_cpi", start = "2015-01-01") |>
+  filter(!is.na(value)) |>
   arrange(date)
 ```
 
@@ -489,11 +489,11 @@ eolas_get_statsnz("nz_cpi", start = "2015-01-01") |>
 ```r
 library(ggplot2)
 
-df <- eolas_get_statsnz("nz_cpi", start = "2010-01-01")
+df <- eolas_get_oecd("nz_cpi", start = "2010-01-01")
 
 ggplot(df, aes(date, value)) +
   geom_line(colour = "#3b82f6") +
-  labs(title = "NZ Consumer Price Index", x = NULL, y = "Index") +
+  labs(title = "NZ CPI inflation", x = NULL, y = "Annual % change") +
   theme_minimal()
 ```
 
@@ -505,9 +505,9 @@ library(eolas)
 eolas_key(Sys.getenv("EOLAS_API_KEY"))
 ```
 
-```{r cpi-chart, fig.cap="NZ Consumer Price Index"}
+```{r cpi-chart, fig.cap="NZ CPI inflation"}
 library(ggplot2)
-df <- eolas_get_statsnz("nz_cpi", start = "2015-01-01")
+df <- eolas_get_oecd("nz_cpi", start = "2015-01-01")
 ggplot(df, aes(date, value)) + geom_line()
 ```
 ````

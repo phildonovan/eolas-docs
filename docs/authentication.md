@@ -21,7 +21,7 @@ In precedence order — whichever the client finds first, wins:
 | **1. Explicit argument** | Quick scripts, notebooks where the key is a placeholder you'll fill in | `Client(api_key="vs_...")` (Python) / `eolas_key("vs_...")` (R) |
 | **2. `EOLAS_API_KEY` environment variable** | Production code, CI, anything you don't want hard-coded | `export EOLAS_API_KEY=vs_...` (or set in `.env` / `.Renviron`) |
 | **3. OS keyring (workstation)** | Persistent, encrypted-at-rest — one-shot setup, never paste your key again | `eolas auth save-key` (Python CLI) / `eolas_key_save()` (R) |
-| **4. Config file (CLI only)** | Plaintext fallback when OS keyring is unavailable | `eolas auth set-key` and it'll write to `~/.config/eolas/config.json` |
+| **4. Config file** | Plaintext fallback when the OS keyring is unavailable | `eolas auth set-key` writes `api_key` to `~/.eolas/config.json` (mode 0600) |
 
 Below, more on each.
 
@@ -37,7 +37,7 @@ The most direct path. Useful for one-off scripts, exploratory notebooks, or when
     from eolas_data import Client
 
     client = Client(api_key="vs_your_key_here")
-    df = client.statsnz("nz_cpi")
+    df = client.oecd("nz_cpi")
     ```
 
 === "R"
@@ -46,7 +46,7 @@ The most direct path. Useful for one-off scripts, exploratory notebooks, or when
     library(eolas)
 
     eolas_key("vs_your_key_here")
-    df <- eolas_get_statsnz("nz_cpi")
+    df <- eolas_get_oecd("nz_cpi")
     ```
 
 **Don't commit the literal key to git.** If your script lives in a repo, prefer Method 2.
@@ -154,13 +154,13 @@ The Python CLI and R package share the same keyring slot (`service="eolas"`, `us
     df <- eolas_get("nz_cpi")  # key found from OS keyring automatically
     ```
 
-**Headless / CI environments:** the keyring backend is typically unavailable in Docker containers, GitHub Actions, and cron jobs. The clients fall through to the env var silently — Method 2 is the right choice for those environments.
+**Headless / CI environments:** the keyring backend is typically unavailable in Docker containers, GitHub Actions, and cron jobs. A key in `EOLAS_API_KEY` or `~/.eolas/config.json` is still used. Method 2 is the usual choice for those environments.
 
 ---
 
-## Method 4 — Config file (CLI)
+## Method 4 — Config file
 
-The CLI has a one-shot setup that writes the key to `~/.eolas/config.json` as plaintext (chmod 600). Use this as a fallback when the OS keyring is unavailable.
+`eolas auth set-key` writes the key to `~/.eolas/config.json` as plaintext (mode 0600). Use this when the OS keyring is unavailable.
 
 ```bash
 pip install eolas-data[cli]
@@ -171,13 +171,25 @@ eolas auth status   # confirm — masks the key for safety
 eolas datasets list # any successful call confirms auth
 ```
 
-The Python `Client` and R `eolas_*` functions **don't** read this config file — it's CLI-only. Use Method 2 (env var) or Method 3 (OS keyring) if you want one credential shared across Python, R, and the CLI on the same machine.
+Python, R, and the CLI all read `api_key` from that file. It is the last place they look.
+
+| Client | Order |
+|---|---|
+| Python `Client()` | `api_key=` argument, then `EOLAS_API_KEY`, then the OS keyring, then `~/.eolas/config.json`. If none of those is set, the next request is sent with an empty key and the API returns 401. |
+| Python CLI | `--api-key`, then `EOLAS_API_KEY`, then the OS keyring, then `~/.eolas/config.json`. |
+| R | `eolas_key()` for this session, then `EOLAS_API_KEY`, then the OS keyring, then `~/.eolas/config.json`. If none of those is set, the call stops with "No API key found". |
+
+The keyring slot is the same in both languages: service `eolas`, username `api-key`.
+
+R reads `api_key` from the file. Only `eolas auth set-key` writes it, and that command replaces the whole file with a JSON object that contains only `api_key`. If you had already set `library_dir` in that file, run `eolas library set` again afterwards.
+
+The library directory is a different key, `library_dir`, in the same file. Both languages read and write that key. See below.
 
 ---
 
 ## CI / production environments
 
-Headless environments (Docker containers, GitHub Actions, CI runners, cron jobs) won't have an OS keyring or interactive shell — Method 2 (env var) is the only path.
+Headless environments (Docker containers, GitHub Actions, CI runners, cron jobs) won't have an OS keyring or an interactive shell. Set `EOLAS_API_KEY`. A copy of `~/.eolas/config.json` on the machine is also read.
 
 {% raw %}
 === "GitHub Actions"
