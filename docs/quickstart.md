@@ -15,7 +15,7 @@ Sign up at [eolas.nz](https://eolas.nz/signup). Your key will start with `vs_`.
 === "R"
 
     ```r
-    remotes::install_github("phildonovan/eolas-r")
+    install.packages("eolas", repos = c("https://phildonovan.r-universe.dev", "https://cloud.r-project.org"))
     ```
 
 === "CLI"
@@ -85,6 +85,8 @@ Sign up at [eolas.nz](https://eolas.nz/signup). Your key will start with `vs_`.
     # source: ~/.eolas/config.json
     ```
 
+Python `Client()` and the R package read this same file. They look for an explicit key first, then `EOLAS_API_KEY`, then the OS keyring, then `~/.eolas/config.json`. Details are on the [Authentication](authentication.md) page.
+
 ## 4. Fetch your first dataset
 
 Use source-specific helpers so your code is self-documenting:
@@ -92,8 +94,8 @@ Use source-specific helpers so your code is self-documenting:
 === "Python"
 
     ```python
-    # Stats NZ
-    df = client.statsnz("nz_cpi", start="2020-01-01")
+    # OECD. nz_cpi is the annual percent change, not an index level.
+    df = client.oecd("nz_cpi", start="2020-01-01")
 
     # OECD
     df = client.oecd("nz_gdp_growth")
@@ -117,18 +119,16 @@ Use source-specific helpers so your code is self-documenting:
     ev_ta    = client.eeca("eeca_ev_metrics_district")     # EV penetration by territorial authority
 
     print(df)
-    # Dataset: nz_cpi [Stats NZ]
-    # 20 rows
-    #          date  period   value
-    # 0  2020-01-01  2020Q1  1010.0
-    # ...
+    # Dataset: nz_cpi [OECD]
+    # columns: date, period, value
+    # value is the annual percent change
     ```
 
 === "R"
 
     ```r
-    # Stats NZ
-    df <- eolas_get_statsnz("nz_cpi", start = "2020-01-01")
+    # OECD. nz_cpi is the annual percent change, not an index level.
+    df <- eolas_get_oecd("nz_cpi", start = "2020-01-01")
 
     # OECD
     df <- eolas_get_oecd("nz_gdp_growth")
@@ -152,11 +152,9 @@ Use source-specific helpers so your code is self-documenting:
     ev_ta    <- eolas_get_eeca("eeca_ev_metrics_district")     # EV penetration by territorial authority
 
     df
-    # eolas_dataset: nz_cpi [Stats NZ]
-    # 20 rows
-    #         date period  value
-    # 1 2020-01-01 2020Q1 1010.0
-    # ...
+    # eolas_dataset: nz_cpi [OECD]
+    # columns: date, period, value
+    # value is the annual percent change
     ```
 
 === "CLI"
@@ -309,7 +307,7 @@ Available regional helpers: `akl_council`, `akl_transport`, `bay_of_plenty`, `ch
 === "Python"
 
     ```python
-    df = client.statsnz("nz_cpi", start="2010-01-01")
+    df = client.oecd("nz_cpi", start="2010-01-01")
     df.plot(x="date", y="value", title="NZ CPI")   # pandas .plot — returns Axes
     ```
 
@@ -317,7 +315,7 @@ Available regional helpers: `akl_council`, `akl_transport`, `bay_of_plenty`, `ch
 
     ```r
     library(ggplot2)
-    df <- eolas_get_statsnz("nz_cpi", start = "2010-01-01")
+    df <- eolas_get_oecd("nz_cpi", start = "2010-01-01")
     ggplot(df, aes(date, value)) + geom_line() + labs(title = "NZ CPI")
     ```
 

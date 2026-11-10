@@ -55,7 +55,7 @@ from eolas_data.exceptions import (
 client = Client()
 
 try:
-    df = client.statsnz("nz_cpi", start="2020-01-01")
+    df = client.oecd("nz_cpi", start="2020-01-01")
 except AuthenticationError:
     print("API key isn't working — get one at https://eolas.nz/signup")
 except RateLimitError:
@@ -199,7 +199,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 # requests + urllib3 will log every request / response
-df = client.statsnz("nz_cpi")
+df = client.oecd("nz_cpi")
 ```
 
 ### Check what columns a dataset has before fetching

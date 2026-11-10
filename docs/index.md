@@ -2,9 +2,9 @@
 
 <div class="hero" markdown>
 
-**Official Python, R, and command-line clients for the eolas data API.**
+**Python, R, and command-line clients for the eolas API.**
 
-Access 1,500+ economic, demographic and geospatial datasets from {{ sources }} — in two lines of code, returning a data frame ready for analysis. Or schedule cron jobs and generate Meltano / Fivetran / Azure Data Factory connector configs from the command line.
+1,500+ New Zealand economic, demographic and geospatial datasets, from Stats NZ, RBNZ, LINZ, Waka Kotahi (NZTA) and other agencies, as a data frame in two lines of code.
 
 <div class="badge-row" markdown>
 
@@ -19,20 +19,13 @@ Access 1,500+ economic, demographic and geospatial datasets from {{ sources }} �
 
 ## What is eolas?
 
-**eolas** is a unified REST API over New Zealand's fragmented official-data landscape, plus reliable Python and R clients on top of it. The same datasets that normally require separate scrapers / API integrations / Excel downloads from Stats NZ, RBNZ, the OECD, LINZ, MBIE, NZTA, ACC, the regional councils, and 20+ other sources are all available behind one consistent endpoint with one API key.
+eolas is one API for official New Zealand data, with Python and R clients. The tables you would otherwise scrape or download from Stats NZ, RBNZ, LINZ and the rest come back through the same API.
 
-Built so you don't have to:
+Columns are typed. Dates are ISO, and column names are snake_case, on every source. Pipelines run on each agency's schedule (see the [status page](https://eolas.nz/status)). The REST API is on every plan. Bulk Parquet downloads are on Pro, Team, and Enterprise, not on the trial. The Snowflake share is Enterprise only.
 
-- Maintain N source-specific scrapers and watch them break when an agency redesigns its website
-- Reconcile dozens of date formats, region codes, and naming conventions
-- Wait for batch CSV exports when you want fresh data
+Licence and attribution travel with every pull, in the `X-Eolas-*` response headers or the JSON `?envelope=1` wrapper. See [Getting started](quickstart.md#5-attribution-and-provenance).
 
-The product promise is **clean** (typed columns, one schema), **current** (automated refresh on
-source cadence — see [status](https://eolas.nz/status)), and **integrated** (REST, bulk Parquet,
-Snowflake share, Meltano/Fivetran/ADF generators). Licence and attribution travel with every
-pull via `X-Eolas-*` headers or the JSON `?envelope=1` wrapper — [documented here](quickstart.md#5-attribution-and-provenance).
-
-If you do data work in NZ — economic, demographic, geospatial, or social — eolas is the layer that gets the data into your pandas / dplyr / SQL pipeline without you babysitting it.
+If you work with New Zealand economic, demographic or geospatial data, eolas gets it into pandas, dplyr or SQL so you do not have to keep the pipelines running.
 
 ---
 
@@ -49,18 +42,18 @@ If you do data work in NZ — economic, demographic, geospatial, or social — e
 
     client = Client("your_eolas_key")
 
-    # Source-specific helpers
-    df = client.statsnz("nz_cpi", start="2020-01-01")
+    # Source-specific helpers. nz_cpi is the OECD annual percent change.
+    df = client.oecd("nz_cpi", start="2020-01-01")
     df = client.oecd("nz_gdp_growth")
 
-    # It's a pandas DataFrame — plot, filter, join as you like
-    df.plot(x="date", y="value", title="NZ CPI")
+    # It's a pandas DataFrame. Plot, filter, or join as you like.
+    df.plot(x="date", y="value", title="NZ CPI inflation")
     ```
 
 === "R"
 
     ```r
-    remotes::install_github("phildonovan/eolas-r")
+    install.packages("eolas", repos = c("https://phildonovan.r-universe.dev", "https://cloud.r-project.org"))
     ```
 
     ```r
@@ -68,10 +61,10 @@ If you do data work in NZ — economic, demographic, geospatial, or social — e
 
     eolas_key("your_eolas_key")
 
-    # Source-specific helpers
-    df <- eolas_get_statsnz("nz_cpi", start = "2020-01-01")
+    # Source-specific helpers. nz_cpi is the OECD annual percent change.
+    df <- eolas_get_oecd("nz_cpi", start = "2020-01-01")
 
-    # It's a tibble — plot with ggplot, dplyr-pipe, anything
+    # It's a data frame. Plot with ggplot2, or pipe with dplyr.
     library(ggplot2)
     ggplot(df, aes(date, value)) + geom_line()
     ```

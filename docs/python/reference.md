@@ -56,8 +56,8 @@ All source methods accept the same parameters as `client.get()` and return a `Da
 | `client.west_coast(name, **kwargs)` | West Coast (Te Tai o Poutini) |
 
 ```python
-df = client.statsnz("nz_cpi", start="2020-01-01")
-df.eolas_source  # "Stats NZ"
+df = client.oecd("nz_cpi", start="2020-01-01")
+df.eolas_source  # "OECD"
 ```
 
 ---
@@ -87,7 +87,7 @@ Return metadata for a single dataset.
 
 ```python
 meta = client.info("nz_cpi")
-# {"name": "nz_cpi", "title": "NZ Consumer Price Index", "source": "Stats NZ", ...}
+# {"name": "nz_cpi", "title": "NZ CPI inflation (annual % change)", "source": "OECD", ...}
 ```
 
 **Parameters**

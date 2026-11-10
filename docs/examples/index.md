@@ -14,10 +14,10 @@ The canonical "I just want a chart" recipe.
     from eolas_data import Client
 
     client = Client()  # picks up EOLAS_API_KEY env var
-    df = client.statsnz("nz_cpi", start="2010-01-01")
+    df = client.oecd("nz_cpi", start="2010-01-01")
 
-    df.plot(x="date", y="value", title="NZ Consumer Price Index",
-            ylabel="Index", figsize=(10, 4))
+    df.plot(x="date", y="value", title="NZ CPI inflation",
+            ylabel="Annual % change", figsize=(10, 4))
     ```
 
 === "R"
@@ -26,11 +26,11 @@ The canonical "I just want a chart" recipe.
     library(eolas)
     library(ggplot2)
 
-    df <- eolas_get_statsnz("nz_cpi", start = "2010-01-01")
+    df <- eolas_get_oecd("nz_cpi", start = "2010-01-01")
 
     ggplot(df, aes(date, value)) +
       geom_line() +
-      labs(title = "NZ Consumer Price Index", y = "Index") +
+      labs(title = "NZ CPI inflation", y = "Annual % change") +
       theme_minimal()
     ```
 
@@ -45,7 +45,7 @@ Useful for inflation-vs-unemployment, mortgage-rates-vs-house-prices, etc.
     ```python
     import matplotlib.pyplot as plt
 
-    cpi  = client.statsnz("nz_cpi",          start="2015-01-01")
+    cpi  = client.oecd("nz_cpi",          start="2015-01-01")
     unem = client.oecd("nz_unemployment",    start="2015-01-01")
 
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 6), sharex=True)
@@ -60,7 +60,7 @@ Useful for inflation-vs-unemployment, mortgage-rates-vs-house-prices, etc.
     ```r
     library(patchwork)
 
-    cpi  <- eolas_get_statsnz("nz_cpi",        start = "2015-01-01")
+    cpi  <- eolas_get_oecd("nz_cpi",        start = "2015-01-01")
     unem <- eolas_get_oecd("nz_unemployment",  start = "2015-01-01")
 
     p1 <- ggplot(cpi,  aes(date, value)) + geom_line() + labs(title = "NZ CPI")
@@ -195,14 +195,14 @@ eolas schedule add nz_cpi \
 === "Python"
 
     ```python
-    df = client.statsnz("nz_cpi", start="2020-01-01")
+    df = client.oecd("nz_cpi", start="2020-01-01")
     df.to_csv("nz_cpi.csv", index=False)
     ```
 
 === "R"
 
     ```r
-    df <- eolas_get_statsnz("nz_cpi", start = "2020-01-01")
+    df <- eolas_get_oecd("nz_cpi", start = "2020-01-01")
     write.csv(df, "nz_cpi.csv", row.names = FALSE)
     ```
 
@@ -223,8 +223,8 @@ Re-running cells shouldn't re-hit the API. Both clients support per-client cachi
     ```python
     client = Client(cache=True)
 
-    df = client.statsnz("nz_cpi")    # fetched
-    df = client.statsnz("nz_cpi")    # from cache (no HTTP call)
+    df = client.oecd("nz_cpi")    # fetched
+    df = client.oecd("nz_cpi")    # from cache (no HTTP call)
     ```
 
 === "R Markdown / Quarto"
@@ -232,7 +232,7 @@ Re-running cells shouldn't re-hit the API. Both clients support per-client cachi
     ````markdown
     ```{r load-data, cache=TRUE}
     library(eolas)
-    df <- eolas_get_statsnz("nz_cpi", start = "2015-01-01")
+    df <- eolas_get_oecd("nz_cpi", start = "2015-01-01")
     ```
     ````
 
@@ -251,11 +251,11 @@ library(ggplot2)
 # EOLAS_API_KEY is picked up from .Renviron — no need to call eolas_key()
 ```
 
-```{r cpi, fig.cap="NZ Consumer Price Index since 2010"}
-eolas_get_statsnz("nz_cpi", start = "2010-01-01") |>
+```{r cpi, fig.cap="NZ CPI inflation since 2010"}
+eolas_get_oecd("nz_cpi", start = "2010-01-01") |>
   ggplot(aes(date, value)) +
     geom_line() +
-    labs(y = "Index (base 1000)") +
+    labs(y = "Annual % change") +
     theme_minimal()
 ```
 
@@ -278,7 +278,7 @@ eolas_get_oecd("nz_unemployment", start = "2010-01-01") |>
 from eolas_data.exceptions import RateLimitError, NotFoundError
 
 try:
-    df = client.statsnz("nz_cpi", start="2010-01-01")
+    df = client.oecd("nz_cpi", start="2010-01-01")
 except RateLimitError:
     print("Request cap reached — backing off")
     raise
@@ -314,7 +314,7 @@ step  = timedelta(days=365)
 cur = start
 while cur < end:
     nxt = min(cur + step, end)
-    df = client.statsnz("nz_cpi", start=cur.isoformat(), end=nxt.isoformat())
+    df = client.oecd("nz_cpi", start=cur.isoformat(), end=nxt.isoformat())
     chunks.append(df)
     cur = nxt
 
