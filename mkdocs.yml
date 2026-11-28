@@ -105,7 +105,7 @@ plugins:
       autoclean: false
       preprocess: llmstxt_preprocess.py
       markdown_description: |
-        eolas serves cleaned, versioned New Zealand and OECD public data (1,500+ datasets) as JSON, CSV, Arrow or Parquet. The API is read-only. The base URL is https://api.eolas.nz, data routes are under /v1, and every data request needs an X-API-Key header. The official clients are eolas-data for Python and eolas for R. Both read the EOLAS_BASE_URL environment variable. The main website is https://eolas.nz, and it has its own summary at https://eolas.nz/llms.txt.
+        eolas serves cleaned, versioned New Zealand and OECD public data (1,500+ datasets) as JSON, CSV, Arrow or Parquet. The API is read-only. The base URL is https://api.eolas.nz and data routes are under /v1. The API key goes in the X-API-Key header only. Data, change feeds, bulk and /v1/me need a key. Listing, metadata, preview and health need no key. The official clients are eolas-data for Python and eolas for R. Both read the EOLAS_BASE_URL environment variable. The main website is https://eolas.nz, and it has its own summary at https://eolas.nz/llms.txt.
       sections:
         Start here:
           - AGENTS.md: Endpoints, query parameters, plan limits, the large-dataset guard, provenance headers and the mistakes that cost a retry. Read this first.

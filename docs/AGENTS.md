@@ -62,7 +62,7 @@ columns, and the large-dataset routing rules below.
 |---|---|---|
 | `GET /v1/datasets` | none | List every dataset with metadata |
 | `GET /v1/datasets/{name}` | none | One dataset: schema, columns, provenance, snapshot id |
-| `GET /v1/datasets/{name}/preview` | none | Up to 10 rows, cheap shape check |
+| `GET /v1/datasets/{name}/preview` | none | Up to 10 rows, or 5 if bulk export class is none or the licence forbids commercial redistribution (currently the 5 OECD tables) |
 | `GET /v1/datasets/{name}/data` | key | The rows |
 | `GET /v1/datasets/{name}/changes` | key | Incremental changes since a watermark |
 | `GET /v1/bulk/{namespace}/{name}` | key | Whole-dataset file download |
