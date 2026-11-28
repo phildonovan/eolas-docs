@@ -3,3 +3,4 @@ mkdocs>=1.5
 pymdown-extensions>=10.0
 mkdocs-macros-plugin>=1.0
 requests>=2.31
+mkdocs-llmstxt>=0.5
