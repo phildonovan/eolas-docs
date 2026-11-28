@@ -10,7 +10,7 @@ A read-only HTTP API serving cleaned, versioned New Zealand and OECD public data
 one date format across every agency.
 
 - **Base URL:** `https://api.eolas.nz` — all data routes are under `/v1`
-- **Auth:** `X-API-Key: vs_...` header on every `/v1` request
+- **Auth:** the API key goes in the `X-API-Key: vs_...` header only. List, metadata, preview and health need no key. Data, changes, bulk and `/v1/me` do.
 - **Override the host** with the `EOLAS_BASE_URL` env var (both clients honour it)
 
 ## Fastest correct path
@@ -60,12 +60,13 @@ columns, and the large-dataset routing rules below.
 
 | Route | Auth | Purpose |
 |---|---|---|
-| `GET /v1/datasets` | key | List every dataset with metadata |
-| `GET /v1/datasets/{name}` | key | One dataset: schema, columns, provenance, snapshot id |
-| `GET /v1/datasets/{name}/preview` | **none** | Up to 10 rows — cheap shape check |
+| `GET /v1/datasets` | none | List every dataset with metadata |
+| `GET /v1/datasets/{name}` | none | One dataset: schema, columns, provenance, snapshot id |
+| `GET /v1/datasets/{name}/preview` | none | Up to 10 rows, cheap shape check |
 | `GET /v1/datasets/{name}/data` | key | The rows |
 | `GET /v1/datasets/{name}/changes` | key | Incremental changes since a watermark |
 | `GET /v1/bulk/{namespace}/{name}` | key | Whole-dataset file download |
+| `GET /v1/me` | key | Plan, limits and quota for the calling key |
 | `GET /health` | none | Liveness |
 
 ### `/data` query parameters
