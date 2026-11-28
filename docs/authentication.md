@@ -1,6 +1,8 @@
 # Authentication
 
-Every API call needs an API key. This page covers how to get one, where to store it, and how the clients find it at runtime.
+Send your API key in the `X-API-Key` header to fetch data, change feeds, or bulk downloads. Listing datasets, reading metadata, and the dataset preview do not need a key. Requests are allowed from any origin.
+
+This page covers how to get a key, where to store it, and how the clients find it at runtime.
 
 ---
 
