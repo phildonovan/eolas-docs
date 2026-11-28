@@ -1,0 +1,33 @@
+# eolas
+
+> Python (eolas-data) and R (eolas) clients for the eolas.nz data API
+
+eolas serves cleaned, versioned New Zealand and OECD public data (1,500+ datasets) as JSON, CSV, Arrow or Parquet. The API is read-only. The base URL is https://api.eolas.nz and data routes are under /v1. The API key goes in the X-API-Key header only. Data, change feeds, bulk and /v1/me need a key. Listing, metadata, preview and health need no key. The official clients are eolas-data for Python and eolas for R. Both read the EOLAS_BASE_URL environment variable. The main website is https://eolas.nz, and it has its own summary at https://eolas.nz/llms.txt.
+
+
+## Start here
+
+- [For coding agents](https://docs.eolas.nz/AGENTS/index.md): Endpoints, query parameters, plan limits, the large-dataset guard, provenance headers and the mistakes that cost a retry. Read this first.
+- [Getting started](https://docs.eolas.nz/quickstart/index.md): Install a client and make a first query
+- [Authentication](https://docs.eolas.nz/authentication/index.md): API keys and request headers
+
+## Clients and downloads
+
+- [Overview](https://docs.eolas.nz/python/index.md): Python client, eolas-data
+- [API reference](https://docs.eolas.nz/python/reference/index.md): Python client reference
+- [Overview](https://docs.eolas.nz/r/index.md): R client, eolas
+- [API reference](https://docs.eolas.nz/r/reference/index.md): R client reference
+- [Reference](https://docs.eolas.nz/cli/index.md): Command line tool
+- [Bulk downloads](https://docs.eolas.nz/bulk-downloads/index.md): Whole-dataset files for paid plans
+
+## Data and sharing
+
+- [Overview](https://docs.eolas.nz/sources/index.md): Which agencies we cover, and the licence for each
+- [Snowflake share](https://docs.eolas.nz/snowflake/index.md): Snowflake share for Enterprise customers
+
+## Optional
+
+- [Examples](https://docs.eolas.nz/examples/index.md): Worked examples
+- [Troubleshooting](https://docs.eolas.nz/troubleshooting/index.md): Common errors and fixes
+- [Enterprise SLA](https://docs.eolas.nz/sla/index.md): Enterprise service levels
+

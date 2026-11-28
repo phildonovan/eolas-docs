@@ -1,0 +1,355 @@
+# Getting started
+
+## 1. Get an API key
+
+Sign up at [eolas.nz](https://eolas.nz/signup). Your key will start with `vs_`.
+
+## 2. Install the client
+
+**Python**
+
+```
+pip install eolas-data
+```
+
+**R**
+
+```
+install.packages("eolas", repos = c("https://phildonovan.r-universe.dev", "https://cloud.r-project.org"))
+```
+
+**CLI**
+
+```
+pip install eolas-data[cli]
+```
+
+Installs `eolas` on PATH. Same install on Linux, macOS, and Windows. See the [CLI reference](https://docs.eolas.nz/cli/index.md) for the full command list.
+
+## 3. Set your key
+
+**Python**
+
+Pass it directly:
+
+```
+from eolas_data import Client
+client = Client("vs_your_key")
+```
+
+Or set the environment variable and omit the argument:
+
+```
+export EOLAS_API_KEY=vs_your_key
+```
+
+```
+client = Client()  # reads EOLAS_API_KEY automatically
+```
+
+**R**
+
+Call `eolas_key()` once per session:
+
+```
+library(eolas)
+eolas_key("vs_your_key")
+```
+
+Or add it to your `.Renviron` for permanent access:
+
+```
+EOLAS_API_KEY=vs_your_key
+```
+
+**CLI**
+
+One-time interactive setup (writes `~/.eolas/config.json` with mode 0600):
+
+```
+eolas auth set-key
+# Prompts: API key: vs_your_key
+```
+
+Or use the env var — overrides the config file:
+
+```
+export EOLAS_API_KEY=vs_your_key
+```
+
+Check status any time:
+
+```
+eolas auth status
+# key:    vs_yourk…
+# source: ~/.eolas/config.json
+```
+
+Python `Client()` and the R package read this same file. They look for an explicit key first, then `EOLAS_API_KEY`, then the OS keyring, then `~/.eolas/config.json`. Details are on the [Authentication](https://docs.eolas.nz/authentication/index.md) page.
+
+## 4. Fetch your first dataset
+
+Use source-specific helpers so your code is self-documenting:
+
+**Python**
+
+```
+# OECD. nz_cpi is the annual percent change, not an index level.
+df = client.oecd("nz_cpi", start="2020-01-01")
+
+# OECD
+df = client.oecd("nz_gdp_growth")
+
+# NZ Treasury
+df = client.treasury("treasury_fiscal_spending")
+
+# Manaaki Whenua / LRIS (land cover — returns a GeoDataFrame when geopandas is installed)
+gdf = client.lris("lcdb_v6_mainland")
+
+# DOC (Department of Conservation — returns a GeoDataFrame when geopandas is installed)
+huts = client.doc("doc_huts")   # 1,429 DOC huts across NZ
+
+# PHARMAC (NZ pharmaceutical schedule — 840k rows of subsidy history back to 2006)
+schedule = client.pharmac("pharmac_schedule")          # current month's funded medicines
+history  = client.pharmac("pharmac_schedule_history")  # 2006-present archive, ~512k rows
+
+# EECA (energy use, EV chargers, regional heat demand)
+chargers = client.eeca("eeca_ev_chargers_public")      # 2,050 public EV chargers (point geometry)
+energy   = client.eeca("eeca_energy_end_use")          # NZ energy by sector x fuel x end-use x year
+ev_ta    = client.eeca("eeca_ev_metrics_district")     # EV penetration by territorial authority
+
+print(df)
+# Dataset: nz_cpi [OECD]
+# columns: date, period, value
+# value is the annual percent change
+```
+
+**R**
+
+```
+# OECD. nz_cpi is the annual percent change, not an index level.
+df <- eolas_get_oecd("nz_cpi", start = "2020-01-01")
+
+# OECD
+df <- eolas_get_oecd("nz_gdp_growth")
+
+# NZ Treasury
+df <- eolas_get_treasury("treasury_fiscal_spending")
+
+# Manaaki Whenua / LRIS (land cover — returns an sf object when the sf package is installed)
+gdf <- eolas_get_lris("lcdb_v6_mainland")
+
+# DOC (Department of Conservation — returns an sf object when the sf package is installed)
+huts <- eolas_get_doc("doc_huts")   # 1,429 DOC huts across NZ
+
+# PHARMAC (NZ pharmaceutical schedule — 840k rows of subsidy history back to 2006)
+schedule <- eolas_get_pharmac("pharmac_schedule")          # current month's funded medicines
+history  <- eolas_get_pharmac("pharmac_schedule_history")  # 2006-present archive, ~512k rows
+
+# EECA (energy use, EV chargers, regional heat demand)
+chargers <- eolas_get_eeca("eeca_ev_chargers_public")      # 2,050 public EV chargers (Point geometry)
+energy   <- eolas_get_eeca("eeca_energy_end_use")          # NZ energy by sector x fuel x end-use x year
+ev_ta    <- eolas_get_eeca("eeca_ev_metrics_district")     # EV penetration by territorial authority
+
+df
+# eolas_dataset: nz_cpi [OECD]
+# columns: date, period, value
+# value is the annual percent change
+```
+
+**CLI**
+
+```
+# CSV to stdout — pipe into anything
+eolas get nz_cpi --start 2020-01-01 --format csv > cpi.csv
+
+# JSON streamed to jq
+eolas get nz_cpi --format json | jq '.[].value'
+
+# Parquet straight to a file
+eolas get nz_meshblock_2023 --format parquet --out sa2.parquet
+```
+
+Output auto-detects piping: rich tables in an interactive terminal, NDJSON / CSV when stdout is redirected. Pass `--json` to force NDJSON.
+
+## 5. Attribution and provenance
+
+Most eolas datasets are free at the source (Stats NZ, OECD, etc.) but **CC-BY requires the credit to travel with your copy of the data**. Every API pull carries the same attribution whether you use JSON, CSV, Arrow, or Parquet.
+
+### Response headers (all formats)
+
+Authenticated requests to `/v1/datasets/{name}/data` include:
+
+| Header                | Meaning                                                                                         |
+| --------------------- | ----------------------------------------------------------------------------------------------- |
+| `X-Eolas-Attribution` | Full citation string — e.g. `Source: OECD (data-explorer.oecd.org), OECD Terms and Conditions.` |
+| `X-Eolas-Source`      | Publisher label (`Stats NZ`, `RBNZ`, …)                                                         |
+| `X-Eolas-Licence`     | Licence identifier when stamped (`CC-BY 4.0`, …)                                                |
+| `X-Eolas-Source-URL`  | Link to the upstream dataset or portal                                                          |
+| `X-Eolas-Namespace`   | Glue namespace / API source id (`oecd`, `rbnz`, …)                                              |
+
+The same headers appear on `/v1/datasets/{name}/changes` and `/v1/bulk/{namespace}/{table}`. Bulk downloads also ship a `NOTICE.txt` sidecar with identical wording.
+
+**Python**
+
+```
+import httpx
+
+r = httpx.get(
+    "https://api.eolas.nz/v1/datasets/nz_cpi/data",
+    headers={"X-API-Key": "vs_your_key"},
+    params={"limit": 5},
+)
+print(r.headers["X-Eolas-Attribution"])
+# → Source: OECD (data-explorer.oecd.org), OECD Terms and Conditions.
+```
+
+**CLI**
+
+```
+curl -sD - "https://api.eolas.nz/v1/datasets/nz_cpi/data?limit=5" \
+  -H "X-API-Key: vs_your_key" -o /dev/null | grep -i x-eolas
+```
+
+### JSON envelope (opt-in)
+
+Default JSON is a bare array of rows (backward compatible). Pass `?envelope=1` to wrap licence metadata alongside the data — useful for agents and pipelines that need provenance in the body, not just headers:
+
+```
+{
+  "data_sources": [{
+    "dataset": "nz_cpi",
+    "namespace": "oecd",
+    "source": "OECD",
+    "licence": "OECD Terms and Conditions",
+    "attribution": "Source: OECD (data-explorer.oecd.org), OECD Terms and Conditions.",
+    "source_url": "https://data-explorer.oecd.org/"
+  }],
+  "data": [{"date": "2023-01-01", "period": "2023Q1", "value": 100.0}]
+}
+```
+
+`envelope=1` only works with `format=json` (the default). Arrow, Parquet, and CSV keep using headers + dataset metadata (`GET /v1/datasets/{name}`).
+
+### Snowflake Enterprise share
+
+Raw Iceberg tables do not repeat licence text in every row. Query `eolas.EOLAS_META.ATTRIBUTIONS` instead — see [Snowflake share](https://docs.eolas.nz/snowflake/#licence-and-attribution).
+
+### Freshness and status
+
+- [eolas.nz/status](https://eolas.nz/status) — API subsystem health and **last successful ETL run per source**
+- [eolas.nz/data/changelog](https://eolas.nz/data/changelog) — dataset-level ingest events
+- [Enterprise SLA](https://docs.eolas.nz/sla/index.md) — uptime and refresh-cadence commitments
+
+## 6. Access regional council data
+
+Each of New Zealand's regional and city/district council groups has a dedicated source helper, making it easy to discover and fetch geospatial planning, hazard, and environmental layers by region.
+
+**Python**
+
+```
+# Auckland
+gdf = client.akl_council("akc_significant_ecological_areas_overlay")
+gdf = client.akl_transport("akt_cycle_facility_network")
+
+# Bay of Plenty
+gdf = client.bay_of_plenty("boprc_historic_flood_extents")
+
+# Canterbury
+gdf = client.ecan_canterbury("ecan_liquefaction_susceptibility_final")
+
+# Wellington
+gdf = client.wellington("wcc_flood_hazard_operative")
+
+# Otago
+gdf = client.otago("orc_otago_land_use_2024")
+
+# Discover all datasets in a region
+client.list("Auckland Council")          # returns list of dicts
+client.list("Wellington Region Councils")
+```
+
+**R**
+
+```
+# Auckland
+gdf <- eolas_get_akl_council("akc_significant_ecological_areas_overlay")
+gdf <- eolas_get_akl_transport("akt_cycle_facility_network")
+
+# Bay of Plenty
+gdf <- eolas_get_bay_of_plenty("boprc_historic_flood_extents")
+
+# Canterbury
+gdf <- eolas_get_ecan_canterbury("ecan_liquefaction_susceptibility_final")
+
+# Wellington
+gdf <- eolas_get_wellington("wcc_flood_hazard_operative")
+
+# Otago
+gdf <- eolas_get_otago("orc_otago_land_use_2024")
+
+# Discover all datasets in a region
+eolas_list_akl_council()
+eolas_list_wellington()
+```
+
+Available regional helpers: `akl_council`, `akl_transport`, `bay_of_plenty`, `charities`, `colab_waikato`, `ecan_canterbury`, `hawkes_bay`, `manawatu_whanganui`, `napier_whanganui`, `northland`, `otago`, `southland`, `taranaki`, `top_of_south`, `wellington`, `west_coast`. See the [Python reference](https://docs.eolas.nz/python/reference/index.md) or [R reference](https://docs.eolas.nz/r/reference/index.md) for the full list.
+
+______________________________________________________________________
+
+## 7. Plot it
+
+**Python**
+
+```
+df = client.oecd("nz_cpi", start="2010-01-01")
+df.plot(x="date", y="value", title="NZ CPI")   # pandas .plot — returns Axes
+```
+
+**R**
+
+```
+library(ggplot2)
+df <- eolas_get_oecd("nz_cpi", start = "2010-01-01")
+ggplot(df, aes(date, value)) + geom_line() + labs(title = "NZ CPI")
+```
+
+## 8. Browse available datasets
+
+**Python**
+
+```
+client.list()              # all datasets
+client.list("Stats NZ")   # Stats NZ only
+```
+
+**R**
+
+```
+eolas_list()            # all datasets
+eolas_list_statsnz()    # Stats NZ only
+eolas_list_oecd()       # OECD only
+eolas_list_treasury()   # NZ Treasury only
+```
+
+**CLI**
+
+```
+eolas datasets list                           # rich table in TTY, NDJSON when piped
+eolas datasets list --source "Stats NZ"
+eolas datasets list --search cpi --json | jq '.[].name'
+eolas datasets info nz_cpi
+eolas datasets preview nz_cpi --limit 5
+```
+
+You can also browse interactively at [eolas.nz/datasets](https://eolas.nz/datasets).
+
+______________________________________________________________________
+
+Rate limits
+
+New accounts start on a **14-day Pro trial**: up to **1,000 requests** and **50,000 rows per request**. A request is a successful call to `/v1/datasets/<name>/data`; metadata and previews do not count. [Pro](https://eolas.nz/pricing) (NZD $49 / month) is unlimited requests and unlimited rows, and adds bulk downloads. Team is NZD $39 per seat per month (2-seat minimum) and includes everything in Pro. Enterprise adds the Snowflake share, an SLA, and custom datasets.
+
+The trial has no bulk downloads and no `/changes` feed. It ends automatically; afterwards dataset metadata stays available, and data calls stop until you subscribe.
+
+Check the `X-RateLimit-Remaining` header (and `X-RateLimit-Reset`, the Unix epoch on that header) so a script never burns the trial quota by surprise.

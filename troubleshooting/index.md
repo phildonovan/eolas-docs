@@ -1,0 +1,226 @@
+# Troubleshooting
+
+Common errors, what they mean, and how to fix them. If something here doesn't match what you're seeing, [open an issue](https://github.com/phildonovan/eolas-data/issues) or email phil@virtus-solutions.io.
+
+______________________________________________________________________
+
+## HTTP status codes
+
+The API returns standard HTTP codes. Each maps to a Python exception class (and an R error message).
+
+| Code    | Python class                 | When you'll see it                                                                                          | What to do                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **401** | `AuthenticationError`        | Missing or wrong API key                                                                                    | Check `EOLAS_API_KEY` env var or `Client(api_key=...)`. Keys start with `vs_`; if yours doesn't, regenerate from [your dashboard](https://eolas.nz/settings).                                                                                                                                                                                                                                                |
+| **403** | `AuthenticationError`        | API key is valid but your plan doesn't include this endpoint (e.g. `/v1/integrations/*` is Enterprise-only) | Check your plan at [eolas.nz/dashboard](https://eolas.nz/dashboard). Upgrade if needed, or use a generic endpoint that's available on your plan.                                                                                                                                                                                                                                                             |
+| **404** | `NotFoundError`              | Dataset name doesn't exist                                                                                  | Double-check the spelling. Run `client.list()` to see all available names, or browse [eolas.nz/datasets](https://eolas.nz/datasets). Names are case-sensitive.                                                                                                                                                                                                                                               |
+| **413** | `APIError` (status_code=413) | Unbounded full-dataset pull on a large/geo dataset                                                          | Live JSON refuses `limit=0` with no date filter on datasets over 100,000 rows or with geometry — the detail message names the bulk endpoint to use instead. Either add a `limit=`/`start=`/`end=` filter or switch to `/v1/bulk/...`. (Plan **row caps** are separate: when a 200 response is truncated to your plan's 50,000-row cap it carries `X-Eolas-Truncated: true`, `X-Plan-Row-Cap`, and `X-Plan`.) |
+| **429** | `RateLimitError`             | Request quota reached                                                                                       | The 14-day Pro trial allows up to 1,000 requests. A request is a successful `/v1/datasets/<name>/data` call; metadata and previews do not count. Pro, Team, and Enterprise are unlimited. Upgrade, or check usage on the dashboard. Responses carry `X-RateLimit-Remaining` (and `X-RateLimit-Limit` / `X-RateLimit-Reset`); a 429 also includes `Retry-After` (seconds).                                    |
+| **5xx** | `APIError`                   | Server issue on our end                                                                                     | Retry once or twice — the client doesn't auto-retry. If it persists, check the [status page](https://eolas.nz/status) and report via GitHub.                                                                                                                                                                                                                                                                 |
+
+______________________________________________________________________
+
+## Response headers worth knowing
+
+Beyond rate-limit headers, successful data responses often include:
+
+| Header                  | When                                                   | Meaning                                                                                                 |
+| ----------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| `X-Eolas-Attribution`   | `/v1/datasets/{name}/data`, `/changes`, `/v1/bulk/...` | Full upstream citation — **preserve this** when you store or republish rows (CC-BY obligation).         |
+| `X-Eolas-Source`        | same                                                   | Publisher label (`Stats NZ`, `RBNZ`, …).                                                                |
+| `X-Eolas-Licence`       | same                                                   | Licence id when stamped.                                                                                |
+| `X-Eolas-Source-URL`    | same                                                   | Link to the upstream dataset.                                                                           |
+| `X-Eolas-Namespace`     | same                                                   | API namespace / Glue database id.                                                                       |
+| `X-Eolas-Truncated`     | `/data` when plan-capped                               | `true` if the Pro trial's 50,000-row cap shortened the result; pair with `X-Plan-Row-Cap` and `X-Plan`. |
+| `X-RateLimit-Remaining` | authenticated calls                                    | Requests remaining on the current quota.                                                                |
+
+For JSON-only provenance in the response body, use `?envelope=1` on `/v1/datasets/{name}/data` (`format=json` only). Details: [Getting started §5](https://docs.eolas.nz/quickstart/#5-attribution-and-provenance).
+
+______________________________________________________________________
+
+## Exception hierarchy (Python)
+
+All exceptions inherit from `eolas_data.exceptions.EolasError`, so you can catch broadly or narrowly:
+
+```
+from eolas_data import Client
+from eolas_data.exceptions import (
+    EolasError,            # base — catch-all for anything from the client
+    AuthenticationError,   # 401 / 403
+    RateLimitError,        # 429
+    NotFoundError,         # 404
+    APIError,              # everything else; has .status_code
+)
+
+client = Client()
+
+try:
+    df = client.oecd("nz_cpi", start="2020-01-01")
+except AuthenticationError:
+    print("API key isn't working — get one at https://eolas.nz/signup")
+except RateLimitError:
+    print("Trial request cap reached — upgrade or check the dashboard")
+except NotFoundError:
+    print("That dataset name doesn't exist — try client.list()")
+except APIError as e:
+    print(f"HTTP {e.status_code}: {e}")
+except EolasError as e:
+    print(f"Something else went wrong: {e}")
+```
+
+In R, all errors come through `stop()` with a message — wrap calls in `tryCatch()` if you need to handle them programmatically.
+
+______________________________________________________________________
+
+## Common errors
+
+### "No API key found"
+
+You called a function that needs auth without setting a key. Three ways to provide one (in precedence order):
+
+```
+# 1. Explicit argument
+client = Client(api_key="vs_...")
+
+# 2. Environment variable (most common)
+import os
+os.environ["EOLAS_API_KEY"] = "vs_..."   # or set in your shell / .env
+
+# 3. Config file (CLI users)
+# Set via: eolas auth set-key
+```
+
+```
+# R: explicit
+eolas_key("vs_...")
+
+# Or set EOLAS_API_KEY in .Renviron — picked up automatically
+```
+
+### "I'm getting fewer rows than I expected"
+
+You're probably hitting the **50,000 row cap** on the Pro trial. The response is truncated — no error is raised, but the cap is signalled in the `X-Plan-Row-Cap` and `X-Truncated` HTTP headers. Pro, Team, and Enterprise are uncapped.
+
+Options:
+
+1. **Narrow the query**: add `start` / `end` to filter by date, or filter by region / category in your own code.
+1. **Upgrade to Pro** (NZD $49 / mo) or **Team** (NZD $39 / seat / mo) — the row cap is removed.
+1. **Use the Snowflake share** (Enterprise) — zero-copy access to the full warehouse, no API in the loop.
+
+```
+# Check whether your result was truncated
+df = client.statsnz("nz_addresses")
+df.eolas_truncated  # True if you hit the cap
+df.eolas_row_cap    # 50000 on the Pro trial, None on Pro/Team/Enterprise
+```
+
+### "Geometry isn't returning as `sf` / `GeoDataFrame`"
+
+Both clients auto-detect spatial datasets and convert geometry when the optional dependency is installed:
+
+```
+# Python — install geopandas + shapely
+pip install eolas-data[geo]
+```
+
+```
+# R — install sf
+install.packages("sf")
+```
+
+If the package isn't installed, you'll get the raw WKT string in a `geometry_wkt` column instead. Force conversion with `force=True` (Python) or `as_sf = TRUE` (R) to raise a clear ImportError instead of silently falling back.
+
+### "My dataset name doesn't autocomplete"
+
+The Python client ships a `_dataset_names.py` stub for IDE autocomplete, but it's a snapshot from the last release date. If you added a dataset to your warehouse after that, autocomplete won't see it yet. The runtime call still works:
+
+```
+df = client.get("some_new_name")   # works at runtime
+df = client.get(DatasetName.some_new_name)   # autocomplete may not see it
+```
+
+Check the snapshot date:
+
+```
+from eolas_data._dataset_names import CATALOG_SNAPSHOT_DATE
+print(CATALOG_SNAPSHOT_DATE)  # "2026-05-12"
+```
+
+We refresh the stub on every release.
+
+### "Schedule isn't running" (CLI)
+
+Check whether the schedule was actually installed:
+
+```
+eolas schedule list
+```
+
+If empty, the `eolas schedule add ...` command registers the schedule with the OS's cron-equivalent. On macOS / Linux it uses `cron`; on Windows it uses Task Scheduler. The schedule won't fire if your machine is asleep at the scheduled time — for always-on scheduling, run it on a server.
+
+### "I'm getting different counts than Stats NZ / RBNZ / [agency]'s own site"
+
+eolas data is sourced directly from the agency's public API or published files, then loaded into our warehouse on a weekly cadence (most pipelines). If the agency has published an update since our last refresh, you'll see the older numbers until our next run.
+
+Each dataset's `last_refreshed_at` and `source_last_modified_at` (if available) are surfaced in the metadata response:
+
+```
+meta = client.info("nz_cpi")
+meta["last_refreshed_at"]       # when we last loaded it
+meta["source_last_modified_at"] # when the agency last touched the source (where capturable)
+```
+
+If `source_last_modified_at` is newer than `last_refreshed_at`, the source has changed and our refresh is pending — usually next Wednesday morning NZ time. If both look fine but your number still doesn't match, double-check that you're querying the same vintage / breakdown / units as the agency's own report.
+
+### "Tests fail in CI but work locally"
+
+Most likely: missing `EOLAS_API_KEY` in CI. We don't bundle keys, and the env-var lookup is the only auth path that works in headless environments (no OS keyring on a server).
+
+```
+# GitHub Actions example
+- name: Run tests
+  env:
+    EOLAS_API_KEY: ${{ secrets.EOLAS_API_KEY }}
+  run: pytest
+```
+
+______________________________________________________________________
+
+## Debugging tips
+
+### See the raw HTTP request
+
+The Python client uses `requests` under the hood. To inspect:
+
+```
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
+# requests + urllib3 will log every request / response
+df = client.oecd("nz_cpi")
+```
+
+### Check what columns a dataset has before fetching
+
+```
+meta = client.info("nz_meshblock_2023")
+print(meta["columns"])     # list of column names + types
+print(meta["row_count"])   # so you know whether you'll hit the cap
+```
+
+### Verify your key + plan
+
+```
+client = Client()
+client.info("nz_cpi")  # any successful call confirms the key works
+```
+
+Or from the dashboard at [eolas.nz/dashboard](https://eolas.nz/dashboard) — usage counter + plan tier are visible there.
+
+______________________________________________________________________
+
+## Still stuck?
+
+- [GitHub issues — eolas-data](https://github.com/phildonovan/eolas-data/issues) for Python client bugs
+- [GitHub issues — eolas-r](https://github.com/phildonovan/eolas-r/issues) for R client bugs
+- **Email**: phil@virtus-solutions.io for billing, plan changes, or anything sensitive
+- **Status page**: [eolas.nz/status](https://eolas.nz/status) to check if an outage explains what you're seeing

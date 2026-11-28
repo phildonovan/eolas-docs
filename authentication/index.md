@@ -1,0 +1,330 @@
+# Authentication
+
+Send your API key in the `X-API-Key` header to fetch data, change feeds, or bulk downloads. Listing datasets, reading metadata, and the dataset preview do not need a key. Requests are allowed from any origin.
+
+This page covers how to get a key, where to store it, and how the clients find it at runtime.
+
+______________________________________________________________________
+
+## Get a key
+
+[**Sign up at eolas.nz/signup**](https://eolas.nz/signup) — 14-day Pro trial, no credit card. You get an API key (starts with `vs_`) immediately on confirmation.
+
+Your dashboard at [eolas.nz/dashboard](https://eolas.nz/dashboard) shows the key, your current plan, this month's usage, and lets you rotate the key if you need to.
+
+______________________________________________________________________
+
+## Where to put the key
+
+In precedence order — whichever the client finds first, wins:
+
+| Method                                      | When to use                                                                | Setup                                                                       |
+| ------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| **1. Explicit argument**                    | Quick scripts, notebooks where the key is a placeholder you'll fill in     | `Client(api_key="vs_...")` (Python) / `eolas_key("vs_...")` (R)             |
+| **2. `EOLAS_API_KEY` environment variable** | Production code, CI, anything you don't want hard-coded                    | `export EOLAS_API_KEY=vs_...` (or set in `.env` / `.Renviron`)              |
+| **3. OS keyring (workstation)**             | Persistent, encrypted-at-rest — one-shot setup, never paste your key again | `eolas auth save-key` (Python CLI) / `eolas_key_save()` (R)                 |
+| **4. Config file**                          | Plaintext fallback when the OS keyring is unavailable                      | `eolas auth set-key` writes `api_key` to `~/.eolas/config.json` (mode 0600) |
+
+Below, more on each.
+
+______________________________________________________________________
+
+## Method 1 — Explicit argument
+
+The most direct path. Useful for one-off scripts, exploratory notebooks, or when you want to swap keys per call.
+
+**Python**
+
+```
+from eolas_data import Client
+
+client = Client(api_key="vs_your_key_here")
+df = client.oecd("nz_cpi")
+```
+
+**R**
+
+```
+library(eolas)
+
+eolas_key("vs_your_key_here")
+df <- eolas_get_oecd("nz_cpi")
+```
+
+**Don't commit the literal key to git.** If your script lives in a repo, prefer Method 2.
+
+______________________________________________________________________
+
+## Method 2 — Environment variable
+
+The recommended path for anything that runs more than once. Set `EOLAS_API_KEY` once and the clients find it automatically.
+
+### Local shell (macOS / Linux)
+
+```
+# Set for this terminal session
+export EOLAS_API_KEY=vs_your_key_here
+
+# Or make it persistent — add to ~/.zshrc or ~/.bashrc:
+echo 'export EOLAS_API_KEY=vs_your_key_here' >> ~/.zshrc
+```
+
+### Windows PowerShell
+
+```
+$Env:EOLAS_API_KEY = "vs_your_key_here"
+
+# Persistent across sessions:
+[Environment]::SetEnvironmentVariable("EOLAS_API_KEY", "vs_your_key_here", "User")
+```
+
+### R: use `.Renviron`
+
+R doesn't see shell env vars in all setups (RStudio especially). The reliable home is `~/.Renviron`:
+
+```
+echo 'EOLAS_API_KEY=vs_your_key_here' >> ~/.Renviron
+```
+
+Restart R / RStudio after editing.
+
+### Python: use `.env`
+
+Many Python projects keep a `.env` file alongside the code (in `.gitignore`). Load it with `python-dotenv` before instantiating the client:
+
+```
+from dotenv import load_dotenv
+load_dotenv()  # picks up .env from cwd
+
+from eolas_data import Client
+client = Client()  # finds EOLAS_API_KEY automatically
+```
+
+### Verify it worked
+
+```
+import os
+print(os.getenv("EOLAS_API_KEY")[:8] + "…")  # "vs_abcdef…"
+
+client = Client()
+client.info("nz_cpi")  # any successful call confirms auth
+```
+
+______________________________________________________________________
+
+## Method 3 — OS keyring (workstation)
+
+The most convenient workstation option: stores the key in the OS-native encrypted credential vault (macOS Keychain, Windows Credential Manager, Linux Secret Service). Set once and every Python and R session finds it automatically — no environment variable, no config file.
+
+The Python CLI and R package share the same keyring slot (`service="eolas"`, `username="api-key"`), so saving from one language makes it available in the other.
+
+**Python CLI**
+
+```
+pip install 'eolas-data[secure]'   # adds the keyring package
+eolas auth save-key                # interactive prompt
+eolas auth save-key vs_mykey       # non-interactive (e.g. from a script)
+
+eolas auth status                  # shows which source is supplying the key
+eolas auth clear-key               # remove from keyring
+```
+
+After `save-key`, `Client()` works without any further setup in new sessions:
+
+```
+from eolas_data import Client
+client = Client()  # finds key from OS keyring automatically
+```
+
+**R**
+
+```
+install.packages("keyring")   # or: pak::pak("keyring")
+# On Linux, you may need: sudo apt install libsecret-1-dev first
+
+eolas_key_save()        # interactive prompt (masked input)
+eolas_key_save("vs_...") # non-interactive
+
+eolas_key_status()      # show which source is supplying the key
+eolas_key_clear()       # remove from keyring
+```
+
+After `eolas_key_save()`, `eolas_get_*()` works without any further setup:
+
+```
+library(eolas)
+df <- eolas_get("nz_cpi")  # key found from OS keyring automatically
+```
+
+**Headless / CI environments:** the keyring backend is typically unavailable in Docker containers, GitHub Actions, and cron jobs. A key in `EOLAS_API_KEY` or `~/.eolas/config.json` is still used. Method 2 is the usual choice for those environments.
+
+______________________________________________________________________
+
+## Method 4 — Config file
+
+`eolas auth set-key` writes the key to `~/.eolas/config.json` as plaintext (mode 0600). Use this when the OS keyring is unavailable.
+
+```
+pip install eolas-data[cli]
+eolas auth set-key
+# Paste your key when prompted; CLI persists it.
+
+eolas auth status   # confirm — masks the key for safety
+eolas datasets list # any successful call confirms auth
+```
+
+Python, R, and the CLI all read `api_key` from that file. It is the last place they look.
+
+| Client            | Order                                                                                                                                                                                     |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Python `Client()` | `api_key=` argument, then `EOLAS_API_KEY`, then the OS keyring, then `~/.eolas/config.json`. If none of those is set, the next request is sent with an empty key and the API returns 401. |
+| Python CLI        | `--api-key`, then `EOLAS_API_KEY`, then the OS keyring, then `~/.eolas/config.json`.                                                                                                      |
+| R                 | `eolas_key()` for this session, then `EOLAS_API_KEY`, then the OS keyring, then `~/.eolas/config.json`. If none of those is set, the call stops with "No API key found".                  |
+
+The keyring slot is the same in both languages: service `eolas`, username `api-key`.
+
+R reads `api_key` from the file. Only `eolas auth set-key` writes it, and that command replaces the whole file with a JSON object that contains only `api_key`. If you had already set `library_dir` in that file, run `eolas library set` again afterwards.
+
+The library directory is a different key, `library_dir`, in the same file. Both languages read and write that key. See below.
+
+______________________________________________________________________
+
+## CI / production environments
+
+Headless environments (Docker containers, GitHub Actions, CI runners, cron jobs) won't have an OS keyring or an interactive shell. Set `EOLAS_API_KEY`. A copy of `~/.eolas/config.json` on the machine is also read.
+
+**GitHub Actions**
+
+```
+- name: Run my eolas-using job
+  env:
+    EOLAS_API_KEY: ${{ secrets.EOLAS_API_KEY }}
+  run: python my_script.py
+```
+
+**Docker**
+
+```
+# Don't bake the key into the image. Pass at runtime:
+# docker run -e EOLAS_API_KEY=vs_... my-image
+```
+
+**Systemd**
+
+```
+[Service]
+Environment="EOLAS_API_KEY=vs_..."
+ExecStart=/usr/bin/python3 /opt/myapp/main.py
+```
+
+For long-running production apps, rotate the key periodically (see below) and update the secret store. The clients don't cache the key beyond the lifetime of one `Client` instance, so a redeploy with a new key value picks it up cleanly.
+
+______________________________________________________________________
+
+## Rotating your key
+
+If a key is compromised — or you just want to cycle it on a schedule — rotate it from the dashboard:
+
+1. Visit [eolas.nz/dashboard](https://eolas.nz/dashboard)
+1. Click **Rotate key**
+1. Your old key stops working immediately; the new key is shown once
+1. Update `EOLAS_API_KEY` everywhere it's set (local `.env`, CI secrets, server env files)
+
+There's no per-plan limit on rotations. Rotate as often as your security posture warrants.
+
+______________________________________________________________________
+
+## Multiple keys (dev / prod separation)
+
+Each eolas account has one active API key at a time. To isolate dev from prod, use separate **accounts** (not separate keys on one account):
+
+- Production account on Pro: `vs_prod_...`
+- Personal / dev account on the Pro trial: `vs_dev_...`
+
+Then your dev environment sets `EOLAS_API_KEY=vs_dev_...` and your prod env sets `EOLAS_API_KEY=vs_prod_...`. Quotas are per-account, so dev experiments don't draw on the production account.
+
+(Multi-key-per-account is on the roadmap. If you're an Enterprise customer needing this now, get in touch.)
+
+______________________________________________________________________
+
+## Security best practices
+
+- **Never commit `EOLAS_API_KEY` to a public repo.** Add `.env`, `.Renviron`, and any local config file to `.gitignore`. If you do accidentally commit a key, rotate it before pushing the fix — git history is forever.
+- **Use a secret store in CI.** GitHub Actions Secrets, GitLab CI variables, AWS Secrets Manager, etc. — never paste keys into pipeline YAML directly.
+- **Limit logging.** The Python / R clients mask the key in their `repr`, but `logging.basicConfig(level=logging.DEBUG)` will log the request headers including `X-API-Key`. Don't run debug-level logging in production.
+- **One key per agent.** If you're running eolas from a shared box (a workstation used by multiple people), give each user their own account + key rather than sharing. Usage shows up cleanly per-account in the dashboard.
+
+______________________________________________________________________
+
+## Library: where your data files live
+
+The API key tells eolas *who you are*. The library directory tells eolas *where to put your data files* when you download bulk datasets via `client.get_local()` / `eolas_get_local()` or the smart-routing in `client.get()` / `eolas_get()`.
+
+### Precedence chain
+
+When the client needs a local cache directory it resolves it in this order — whichever source wins first:
+
+| Priority                       | Source                                        | How to set                                                                              |
+| ------------------------------ | --------------------------------------------- | --------------------------------------------------------------------------------------- |
+| **1. Explicit arg**            | `cache_dir=` passed directly to `get_local()` | `client.get_local("nz_cpi", cache_dir="/data/eolas")`                                   |
+| **2. `EOLAS_LIBRARY` env var** | Persistent across shells                      | `export EOLAS_LIBRARY=~/eolas-library`                                                  |
+| **3. Config file**             | `library_dir` in `~/.eolas/config.json`       | `eolas library set ~/eolas-library` (CLI) or `eolas_library_set("~/eolas-library")` (R) |
+| **4. `~/.cache/eolas/`**       | Transient OS cache fallback                   | Used automatically when nothing else is configured                                      |
+
+The config file is the **same** `~/.eolas/config.json` that stores your API key. Both languages share it, so a library path set from Python is immediately honoured in R and vice versa.
+
+In a TTY session (interactive terminal, not CI/piped), the first call that would fall through to the `~/.cache/eolas/` fallback will prompt you to choose a location — this works in **both Python and R**. Python gates on `sys.stdin.isatty()`; R gates on `interactive()`, the standard stdlib function used by `usethis`, `gitcreds`, `keyring`, and similar packages for exactly this purpose. On non-interactive hosts (CI, Docker, Rscript batch, Rmd render, Shiny Server) the fallback is used silently with a one-time `INFO` log/message nudge.
+
+### Setting a persistent library
+
+**Python CLI**
+
+```
+eolas library set ~/eolas-library        # writes to ~/.eolas/config.json
+eolas library set                        # interactive prompt if no arg
+eolas library status                     # show source + resolved path
+eolas library clear                      # revert to ~/.cache/eolas/ fallback
+```
+
+**Python (programmatic)**
+
+```
+from eolas_data.library import library_set, library_status, library_clear
+
+library_set("~/eolas-library")   # writes to config
+library_status()                  # returns dict with source + path
+library_clear()                   # removes library_dir from config
+```
+
+**R**
+
+```
+eolas_library_set("~/eolas-library")    # writes to ~/.eolas/config.json
+eolas_library_status()                  # show source + resolved path
+eolas_library_clear()                   # revert to ~/.cache/eolas/ fallback
+```
+
+### The library vs the OS keyring
+
+Think of these as a pair:
+
+- **OS keyring** (`eolas auth save-key` / `eolas_key_save()`) — stores your *secret* so you never paste it again.
+- **Library** (`eolas library set` / `eolas_library_set()`) — stores your *data location* so cached files land somewhere permanent.
+
+Set both once on a workstation and every future session "just works" — no arguments, no env vars.
+
+### CI / headless environments
+
+In CI, Docker, or cron jobs you rarely want the interactive prompt. Use an env var instead — it takes priority over the config file and works the same way in both languages:
+
+```
+export EOLAS_LIBRARY=/data/eolas-cache   # in Dockerfile, GH Actions env, systemd unit, etc.
+```
+
+Or pass `cache_dir=` explicitly in every `get_local()` call if you need per-script control.
+
+______________________________________________________________________
+
+## Troubleshooting auth issues
+
+See the [Troubleshooting page](https://docs.eolas.nz/troubleshooting/index.md) — sections on **"No API key found"**, **HTTP 401**, and **HTTP 403** cover the common failure modes.
