@@ -97,6 +97,34 @@ plugins:
   - search
   - macros:
       module_name: macros
+  # Writes /llms.txt, /llms-full.txt and a .md copy of each listed page
+  # (for example /quickstart/index.md). There is no llms-full.txt: all the pages together
+  # come to about 180 KB, and AGENTS.md is the short version. Replaces the old hand-written docs/llms.txt,
+  # whose AGENTS.md link was a 404.
+  - llmstxt:
+      autoclean: false
+      preprocess: llmstxt_preprocess.py
+      markdown_description: |
+        eolas serves cleaned, versioned New Zealand and OECD public data (1,500+ datasets) as JSON, CSV, Arrow or Parquet. The API is read-only. The base URL is https://api.eolas.nz, data routes are under /v1, and every data request needs an X-API-Key header. The official clients are eolas-data for Python and eolas for R. Both read the EOLAS_BASE_URL environment variable. The main website is https://eolas.nz, and it has its own summary at https://eolas.nz/llms.txt.
+      sections:
+        Start here:
+          - AGENTS.md: Endpoints, query parameters, plan limits, the large-dataset guard, provenance headers and the mistakes that cost a retry. Read this first.
+          - quickstart.md: Install a client and make a first query
+          - authentication.md: API keys and request headers
+        Clients and downloads:
+          - python/index.md: Python client, eolas-data
+          - python/reference.md: Python client reference
+          - r/index.md: R client, eolas
+          - r/reference.md: R client reference
+          - cli/index.md: Command line tool
+          - bulk-downloads.md: Whole-dataset files for paid plans
+        Data and sharing:
+          - sources/index.md: Which agencies we cover, and the licence for each
+          - snowflake.md: Snowflake share for Enterprise customers
+        Optional:
+          - examples/index.md: Worked examples
+          - troubleshooting.md: Common errors and fixes
+          - sla.md: Enterprise service levels
 
 extra:
   social:
